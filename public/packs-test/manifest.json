@@ -1,0 +1,8 @@
+{
+  "application.js": "/packs-test/application.js",
+  "components/App.js": "/packs-test/components/App.js",
+  "hello_react.css": "/packs-test/hello_react.css",
+  "hello_react.js": "/packs-test/hello_react.js",
+  "styles/hello-react.css": "/packs-test/styles/hello-react.css",
+  "styles/hello-react.js": "/packs-test/styles/hello-react.js"
+}
