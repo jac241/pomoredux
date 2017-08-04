@@ -1,7 +1,9 @@
 import React from 'react'
 
+import HomePage from './HomePage'
+
 const App = props => (
-  <div> Welcome to Pomoredux!</div>
+  <HomePage />
 )
 
 export default App
