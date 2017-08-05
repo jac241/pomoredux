@@ -6,7 +6,7 @@ import {
 } from 'semantic-ui-react'
 
 import NavBar from './NavBar'
-import Timer from './Timer'
+import TickingTimer from '../containers/TickingTimer'
 
 const HomePage = () => (
   <div>
@@ -25,7 +25,7 @@ const HomePage = () => (
         />
       </Container>
     </Segment>
-    <Timer time_remaining='25:00' />
+    <TickingTimer />
   </div>
 )
 

@@ -2,8 +2,8 @@ import React from 'react'
 import {
   Segment,
   Header,
-  Button
 } from 'semantic-ui-react'
+import TimerButton from '../containers/TimerButton'
 
 const Timer = ({time_remaining}) => (
   <div>
@@ -20,9 +20,9 @@ const Timer = ({time_remaining}) => (
       textAlign='center'
       basic
     >
-      <Button>
+      <TimerButton>
         Start
-      </Button>
+      </TimerButton>
     </Segment>
   </div>
 )

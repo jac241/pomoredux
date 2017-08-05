@@ -9,13 +9,17 @@
 import React from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
-import { createStore } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
+import thunk from 'redux-thunk'
 import 'semantic-ui-css/semantic.min.css'
 
 import App from './components/App'
-import pomoApp from './reducers'
+import pomoApp from './reducers/index'
 
-let store = createStore(pomoApp)
+let store = createStore(
+  pomoApp,
+  applyMiddleware(thunk)
+)
 
 document.addEventListener('DOMContentLoaded', () => {
   render(
