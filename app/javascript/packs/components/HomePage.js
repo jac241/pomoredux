@@ -6,14 +6,16 @@ import {
 } from 'semantic-ui-react'
 
 import NavBar from './NavBar'
+import Timer from './Timer'
 
 const HomePage = () => (
   <div>
     <NavBar />
     <Segment
       textAlign='center'
-      style={{ minHeight: 700, padding: '1em 0em'}}
+      style={{ padding: '1em 0em'}}
       vertical
+      basic
     >
       <Container text>
         <Header
@@ -23,6 +25,7 @@ const HomePage = () => (
         />
       </Container>
     </Segment>
+    <Timer time_remaining='25:00' />
   </div>
 )
 

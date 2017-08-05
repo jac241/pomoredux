@@ -7,14 +7,21 @@
 // To reference this file, add <%= javascript_pack_tag 'application' %> to the appropriate
 // layout file, like app/views/layouts/application.html.erb
 import React from 'react'
-import ReactDOM from 'react-dom'
+import { render } from 'react-dom'
+import { Provider } from 'react-redux'
+import { createStore } from 'redux'
 import 'semantic-ui-css/semantic.min.css'
 
 import App from './components/App'
+import pomoApp from './reducers'
+
+let store = createStore(pomoApp)
 
 document.addEventListener('DOMContentLoaded', () => {
-  ReactDOM.render(
-    <App />,
-    document.body.appendChild(document.createElement('div')),
+  render(
+    <Provider store={store}>
+      <App />
+    </Provider>,
+    document.getElementById('root'),
   )
 })
