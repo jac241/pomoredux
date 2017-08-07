@@ -1,21 +1,40 @@
 import { TIMER_LENGTH_MS } from '../settings'
+import {
+  TIMER_TICK,
+  TIMER_START,
+  TIMER_STOP,
+  TIMER_RESET
+} from '../actions/index'
 
-const timerState = {
-  time_remaining_ms: TIMER_LENGTH_MS
+const updateObject = (oldObject, newValues) => {
+    return Object.assign({}, oldObject, newValues)
 }
 
-function timer(state=timerState, action) {
+const initialState = {
+  time_remaining_ms: TIMER_LENGTH_MS,
+  active: false
+}
+
+function timer(state=initialState, action) {
   switch(action.type) {
-    case 'TIMER_TICK':
-      return Object.assign({}, state, {
+    case TIMER_TICK:
+      return updateObject(state, {
         time_remaining_ms: action.time_remaining_ms
       })
-    case 'TIMER_START':
-      return Object.assign({}, state, {
+    case TIMER_START:
+      return updateObject(state, {
+        active: true,
         time_remaining_ms: TIMER_LENGTH_MS
       })
-    case 'TIMER_STOP':
-      return state
+    case TIMER_STOP:
+      return updateObject(state, {
+        active: false
+      })
+    case TIMER_RESET:
+      return updateObject(state, {
+        active:false,
+        time_remaining_ms: TIMER_LENGTH_MS
+      })
   }
   return state
 }

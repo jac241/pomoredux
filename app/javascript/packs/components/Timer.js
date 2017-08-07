@@ -20,9 +20,7 @@ const Timer = ({time_remaining}) => (
       textAlign='center'
       basic
     >
-      <TimerButton>
-        Start
-      </TimerButton>
+      <TimerButton />
     </Segment>
   </div>
 )

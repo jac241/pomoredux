@@ -1,7 +1,8 @@
 import { TIMER_LENGTH_MS } from '../settings'
-const TIMER_START = 'TIMER_START'
-const TIMER_TICK = 'TIMER_TICK'
-const TIMER_STOP = 'TIMER_STOP'
+export const TIMER_START = 'TIMER_START'
+export const TIMER_TICK = 'TIMER_TICK'
+export const TIMER_STOP = 'TIMER_STOP'
+export const TIMER_RESET = 'TIMER_RESET'
 
 const TICK_INTERVAL_MS = 1000;
 
@@ -29,6 +30,11 @@ const tickTimer = () => {
 
 const stopTimer = () => {
   clearInterval(timer)
-  time_remaining_ms = TIMER_LENGTH_MS
   return { type: TIMER_STOP }
+}
+
+export const resetTimer = () => {
+  clearInterval(timer)
+  time_remaining_ms = TIMER_LENGTH_MS
+  return { type: TIMER_RESET }
 }
