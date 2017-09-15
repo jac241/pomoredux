@@ -4,28 +4,31 @@ import { Button } from 'semantic-ui-react'
 
 const mapStateToProps = (state, ownProps) => {
   const isTimerActive = state.timer.active
-  let result = {
+  return {
     timer_active: isTimerActive,
-    content: isTimerActive ? 'Reset' : 'Start'
+    content: isTimerActive ? 'Reset' : 'Start',
+    mode: state.timer.mode
   }
-  return result
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return { dispatch: dispatch }
+  return {
+    dispatchStartTimer: (mode) => { dispatch(startTimer(mode)) },
+    dispatchResetTimer: () => { dispatch(resetTimer()) }
+  }
 }
 
 const mergeProps = (propsFromState, propsFromDispatch, ownProps) => {
-  const { timer_active, content } = propsFromState
-  const { dispatch } = propsFromDispatch
+  const { timer_active, content, mode } = propsFromState
+  const { dispatchStartTimer, dispatchResetTimer } = propsFromDispatch
 
   return {
     content: content,
     onClick: () => {
       if (!timer_active) {
-        dispatch(startTimer())
+        dispatchStartTimer(mode)
       } else {
-        dispatch(resetTimer())
+        dispatchResetTimer()
       }
     }
   }

@@ -7,6 +7,7 @@ import {
 
 import NavBar from './NavBar'
 import TickingTimer from '../containers/TickingTimer'
+import SelectablePomodoroModeButtons from '../containers/SelectablePomodoroModeButtons'
 
 const HomePage = () => (
   <div>
@@ -25,6 +26,7 @@ const HomePage = () => (
         />
       </Container>
     </Segment>
+    <SelectablePomodoroModeButtons />
     <TickingTimer />
   </div>
 )

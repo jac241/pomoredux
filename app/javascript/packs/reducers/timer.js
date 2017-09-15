@@ -1,9 +1,10 @@
-import { TIMER_LENGTH_MS } from '../settings'
+import { TIMER_LENGTH_MS, TIMER_LENGTHS_MS } from '../settings'
 import {
   TIMER_TICK,
   TIMER_START,
   TIMER_STOP,
-  TIMER_RESET
+  TIMER_RESET,
+  TIMER_MODE_CHANGE
 } from '../actions/index'
 
 const updateObject = (oldObject, newValues) => {
@@ -11,7 +12,8 @@ const updateObject = (oldObject, newValues) => {
 }
 
 const initialState = {
-  time_remaining_ms: TIMER_LENGTH_MS,
+  time_remaining_ms: TIMER_LENGTHS_MS['pomodoro'],
+  mode: 'pomodoro',
   active: false
 }
 
@@ -24,7 +26,7 @@ function timer(state=initialState, action) {
     case TIMER_START:
       return updateObject(state, {
         active: true,
-        time_remaining_ms: TIMER_LENGTH_MS
+        time_remaining_ms: TIMER_LENGTHS_MS[state.mode]
       })
     case TIMER_STOP:
       return updateObject(state, {
@@ -32,8 +34,14 @@ function timer(state=initialState, action) {
       })
     case TIMER_RESET:
       return updateObject(state, {
-        active:false,
-        time_remaining_ms: TIMER_LENGTH_MS
+        active: false,
+        time_remaining_ms: TIMER_LENGTHS_MS[state.mode]
+      })
+    case TIMER_MODE_CHANGE:
+      return updateObject(state, {
+        mode: action.newMode,
+        active: false,
+        time_remaining_ms: TIMER_LENGTHS_MS[action.newMode]
       })
   }
   return state
