@@ -1,4 +1,6 @@
 import { TIMER_LENGTH_MS, TIMER_LENGTHS_MS } from '../settings'
+import plucks from '../assets/audio/plucks.mp3'
+
 export const TIMER_START = 'TIMER_START'
 export const TIMER_TICK = 'TIMER_TICK'
 export const TIMER_STOP = 'TIMER_STOP'
@@ -38,7 +40,13 @@ const tickTimer = () => {
 
 const stopTimer = () => {
   clearInterval(timer)
+  playFinishedAudio()
   return { type: TIMER_STOP }
+}
+
+const playFinishedAudio = () => {
+  let audio = new Audio(plucks)
+  audio.play()
 }
 
 export const resetTimer = () => {
