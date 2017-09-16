@@ -12,8 +12,15 @@ import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import 'semantic-ui-css/semantic.min.css'
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch
+} from 'react-router-dom'
 
-import App from './components/App'
+import HomePage from './components/HomePage'
+import NavBar from './components/NavBar'
+import Registration from './components/Registration'
 import pomoApp from './reducers/index'
 
 let store = createStore(
@@ -24,7 +31,15 @@ let store = createStore(
 document.addEventListener('DOMContentLoaded', () => {
   render(
     <Provider store={store}>
-      <App />
+      <Router>
+        <div>
+          <NavBar />
+          <Switch>
+            <Route exact path="/" component={HomePage}/>
+            <Route exact path="/signup" component={Registration}/>
+          </Switch>
+        </div>
+      </Router>
     </Provider>,
     document.getElementById('root'),
   )

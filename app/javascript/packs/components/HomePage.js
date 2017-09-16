@@ -11,7 +11,6 @@ import SelectablePomodoroModeButtons from '../containers/SelectablePomodoroModeB
 
 const HomePage = () => (
   <div>
-    <NavBar />
     <Segment
       textAlign='center'
       style={{ padding: '1em 0em'}}

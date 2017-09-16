@@ -3,12 +3,16 @@ import {
   Menu,
   Container
 } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
 
 const NavBar = () => (
   <Menu fixed='top' size='large'>
-    <Container>
-      <Menu.Item as='a' active>Home</Menu.Item>
-    </Container>
+    <Menu.Item as={Link} to='/'>Home</Menu.Item>
+    <Menu.Menu position='right'>
+      <Menu.Item as={Link} to='/signup' name='signup'>
+        Sign Up
+      </Menu.Item>
+    </Menu.Menu>
   </Menu>
 )
 
