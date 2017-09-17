@@ -6,7 +6,7 @@ import {
 import { Link } from 'react-router-dom'
 
 const NavBar = () => (
-  <Menu fixed='top' size='large'>
+  <Menu size='large' style={{marginBottom: '1em'}}>
     <Menu.Item as={Link} to='/'>Home</Menu.Item>
     <Menu.Menu position='right'>
       <Menu.Item as={Link} to='/signup' name='signup'>

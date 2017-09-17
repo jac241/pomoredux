@@ -8,8 +8,6 @@ import {
   Input,
   Button
 } from 'semantic-ui-react'
-import { connect } from 'react-redux'
-import { createUser } from '../actions'
 
 class RegistrationForm extends React.Component {
   state = {
@@ -81,4 +79,4 @@ class RegistrationForm extends React.Component {
   }
 }
 
-export default connect(null, { createUser })(RegistrationForm)
+export default RegistrationForm

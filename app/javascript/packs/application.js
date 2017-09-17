@@ -20,7 +20,7 @@ import {
 
 import HomePage from './components/HomePage'
 import NavBar from './components/NavBar'
-import RegistrationForm from './components/RegistrationForm'
+import RegistrationFormPage from './containers/RegistrationFormPage'
 import pomoApp from './reducers/index'
 import { composeWithDevTools } from 'redux-devtools-extension';
 
@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <NavBar />
           <Switch>
             <Route exact path="/" component={HomePage}/>
-            <Route exact path="/signup" component={RegistrationForm}/>
+            <Route exact path="/signup" component={RegistrationFormPage}/>
           </Switch>
         </div>
       </Router>

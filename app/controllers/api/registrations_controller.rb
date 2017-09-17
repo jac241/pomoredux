@@ -18,14 +18,14 @@ class Api::RegistrationsController < Devise::RegistrationsController
       if resource.persisted?
         if resource.active_for_authentication?
           sign_up(resource_name, resource)
-          format.json { render json: resource.to_json }
+          format.json { render json: resource }
         else
           expire_data_after_sign_in!
-          format.json { render json: resource.to_json }
+          format.json { render json: resource }
         end
       else
         clean_up_passwords resource
-        format.json { render json: resource.to_json, status: :unprocessible_entity }
+        format.json { render json: resource.errors, status: :unprocessible_entity }
       end
     end
   end
