@@ -21,6 +21,7 @@ import {
 import HomePage from './components/HomePage'
 import NavBar from './components/NavBar'
 import RegistrationFormPage from './containers/RegistrationFormPage'
+import LoginPage from './containers/LoginPage'
 import pomoApp from './reducers/index'
 import { composeWithDevTools } from 'redux-devtools-extension';
 
@@ -39,6 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <Switch>
             <Route exact path="/" component={HomePage}/>
             <Route exact path="/signup" component={RegistrationFormPage}/>
+            <Route exact path="/login" component={LoginPage}/>
           </Switch>
         </div>
       </Router>

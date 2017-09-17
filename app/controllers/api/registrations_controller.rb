@@ -7,6 +7,12 @@ class Api::RegistrationsController < Devise::RegistrationsController
   #   super
   # end
 
+  undef_method :new
+  undef_method :update
+  undef_method :destroy
+  undef_method :cancel
+  undef_method :edit
+
   # POST /resource
   def create
     build_resource(sign_up_params)

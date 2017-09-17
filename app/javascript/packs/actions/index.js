@@ -84,6 +84,19 @@ export const createUser = (user_attributes) => {
   }
 }
 
+const post = (endpoint, data) => {
+  return fetch(endpoint, {
+    method: 'post',
+    body: JSON.stringify(data),
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': csrfToken(),
+      'X-Requested-With': 'XMLHttpRequest'
+    },
+    credentials: 'same-origin'
+  })
+}
+
 const handleResponse = (response) => {
   if (response.ok) {
     return response.json()
@@ -91,5 +104,11 @@ const handleResponse = (response) => {
     let error = new Error(response.statusText)
     error.response = response
     throw error
+  }
+}
+
+export const createUserSession = (user_attributes) => {
+  return dispatch => {
+    return post('/api/users/sign_in', user_attributes).then(handleResponse)
   }
 }
