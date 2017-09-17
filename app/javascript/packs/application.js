@@ -9,7 +9,7 @@
 import React from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
-import { createStore, applyMiddleware } from 'redux'
+import { createStore, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
 import 'semantic-ui-css/semantic.min.css'
 import {
@@ -20,12 +20,14 @@ import {
 
 import HomePage from './components/HomePage'
 import NavBar from './components/NavBar'
-import Registration from './components/Registration'
+import RegistrationForm from './components/RegistrationForm'
 import pomoApp from './reducers/index'
+import { composeWithDevTools } from 'redux-devtools-extension';
 
-let store = createStore(
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+const store = createStore(
   pomoApp,
-  applyMiddleware(thunk)
+  composeEnhancers(applyMiddleware(thunk))
 )
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -36,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <NavBar />
           <Switch>
             <Route exact path="/" component={HomePage}/>
-            <Route exact path="/signup" component={Registration}/>
+            <Route exact path="/signup" component={RegistrationForm}/>
           </Switch>
         </div>
       </Router>

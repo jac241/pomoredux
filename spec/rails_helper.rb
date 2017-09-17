@@ -73,6 +73,7 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
   config.before(type: :feature) do
-    WebpackTestBuild.run_webpack_if_necessary
+    #WebpackTestBuild.run_webpack_if_necessary
+    Webpacker.compile
   end
 end

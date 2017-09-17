@@ -21,7 +21,6 @@ const msTimeToString = (time_ms) => {
 }
 
 const mapStateToProps = state => {
-  console.log(state.timer.time_remaining_ms)
   return {
     time_remaining: msTimeToString(state.timer.time_remaining_ms)
   }

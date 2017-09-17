@@ -63,3 +63,33 @@ export const changeTimerMode = (newMode) => {
   clearTimerFields()
   return { type: TIMER_MODE_CHANGE, newMode: newMode }
 }
+
+const csrfToken = () => {
+  const meta_tag = document.querySelector('meta[name="csrf-token"]')
+  return meta_tag ? meta_tag.content : ''
+}
+
+export const createUser = (user_attributes) => {
+  return dispatch => {
+    return fetch('/api/users', {
+      method: 'post',
+      body: JSON.stringify(user_attributes),
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-Token': csrfToken(),
+        'X-Requested-With': 'XMLHttpRequest'
+      },
+      credentials: 'same-origin'
+    }).then(handleResponse)
+  }
+}
+
+const handleResponse = (response) => {
+  if (response.ok) {
+    return response.json()
+  } else {
+    let error = new Error(response.statusText)
+    error.response = response
+    throw error
+  }
+}

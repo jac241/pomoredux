@@ -21,7 +21,10 @@ const HomePage = () => (
         <Header
           as='h1'
           content='Welcome to Pomoredux!'
-          style={{marginTop: '3em'}}
+          style={{
+            marginTop: '3em',
+            marginBottom: '1.5em'
+          }}
         />
       </Container>
     </Segment>
