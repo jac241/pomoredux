@@ -26,7 +26,7 @@ class RegistrationFormPage extends React.Component {
                 pathname: '/',
                 state: {
                   flash: {
-                    message: 'Your registration was successful'
+                    message: 'Your have successfully registered!'
                   }
                 }
               }}

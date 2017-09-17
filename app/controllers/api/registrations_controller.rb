@@ -25,7 +25,12 @@ class Api::RegistrationsController < Devise::RegistrationsController
         end
       else
         clean_up_passwords resource
-        format.json { render json: resource.errors, status: :unprocessible_entity }
+        format.json do
+          render(json: {
+            errors: resource.errors,
+            full_messages: resource.errors.full_messages
+          }, status: :unprocessable_entity)
+        end
       end
     end
   end

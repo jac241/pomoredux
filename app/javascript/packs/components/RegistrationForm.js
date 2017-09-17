@@ -6,14 +6,17 @@ import {
   Header,
   Form,
   Input,
-  Button
+  Button,
+  Message
 } from 'semantic-ui-react'
 
 class RegistrationForm extends React.Component {
   state = {
     email: '',
     password: '',
-    password_confirmation: ''
+    password_confirmation: '',
+    errors: {},
+    full_messages: []
   }
 
   handleChange = (e) => {
@@ -24,10 +27,13 @@ class RegistrationForm extends React.Component {
     e.preventDefault()
 
     const { email, password, password_confirmation } = this.state
-    this.props.createUser({ email, password, password_confirmation }).then(
-      () => {},
-      () => {}
-    )
+    this.props.createUser({ email, password, password_confirmation })
+      .catch((err) => err.response.json())
+      .then((data) => {
+        const { errors, full_messages } = data
+        this.setState({ errors, full_messages })
+        console.log(data)
+      })
   }
 
   render() {
@@ -43,7 +49,7 @@ class RegistrationForm extends React.Component {
             style={{marginTop: '3em'}}
           />
         </Segment>
-        <Form id='new_user' onSubmit={this.handleSubmit}>
+        <Form id='new_user' onSubmit={this.handleSubmit} error={this.state.full_messages.length > 0}>
           <Segment>
             <Form.Field
               id='user_email'
@@ -52,6 +58,7 @@ class RegistrationForm extends React.Component {
               onChange={this.handleChange}
               control={Input}
               placeholder='Email'
+              error={!!this.state.errors.email}
             />
             <Form.Field
               id='user_password'
@@ -61,6 +68,7 @@ class RegistrationForm extends React.Component {
               control={Input}
               placeholder='Password'
               type='password'
+              error={!!this.state.errors.password}
             />
             <Form.Field
               id='user_password_confirmation'
@@ -70,8 +78,19 @@ class RegistrationForm extends React.Component {
               control={Input}
               placeholder='Confirm Password'
               type='password'
+              error={!!this.state.errors.password_confirmation}
             />
             <Button fluid size='large'>Sign Up</Button>
+            <Message
+              error
+            >
+              <Message.Header content='There were errors creating your account.' />
+              <Container textAlign='left'>
+                <ul>
+                  { this.state.full_messages.map((message, i) => <li key={i}>{message}</li>)}
+                </ul>
+              </Container>
+            </Message>
           </Segment>
         </Form>
       </Container>
