@@ -18,6 +18,7 @@ import {
   Switch
 } from 'react-router-dom'
 
+import App from './components/App'
 import HomePage from './components/HomePage'
 import NavBar from './components/NavBar'
 import RegistrationFormPage from './containers/RegistrationFormPage'
@@ -35,14 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
   render(
     <Provider store={store}>
       <Router>
-        <div>
-          <NavBar />
-          <Switch>
-            <Route exact path="/" component={HomePage}/>
-            <Route exact path="/signup" component={RegistrationFormPage}/>
-            <Route exact path="/login" component={LoginPage}/>
-          </Switch>
-        </div>
+        <App />
       </Router>
     </Provider>,
     document.getElementById('root'),
