@@ -22,15 +22,6 @@ feature 'Logging in to my account' do
     there_should_be_an_error_message
   end
 
-  def fill_in_new_user_session_form
-    within "#new_user_session" do
-      fill_in('Email', with: user.email)
-      fill_in('Password', with: user.password)
-
-      click_on('Log In')
-    end
-  end
-
   def there_should_be_an_error_message
     expect(page).to have_content('Incorrect email or password.')
   end

@@ -71,35 +71,37 @@ const csrfToken = () => {
 
 export const createUser = (user_attributes) => {
   return dispatch => {
-    return fetch('/api/users', {
-      method: 'post',
-      body: JSON.stringify(user_attributes),
-      headers: {
-        'Content-Type': 'application/json',
-        'X-CSRF-Token': csrfToken(),
-        'X-Requested-With': 'XMLHttpRequest'
-      },
-      credentials: 'same-origin'
-    }).then(handleResponse)
+    return fetchWithCSRF('/api/users', 'post', user_attributes)
+      .then(handleResponse)
   }
 }
 
-const post = (endpoint, data) => {
-  return fetch(endpoint, {
-    method: 'post',
-    body: JSON.stringify(data),
+const fetchWithCSRF = (endpoint, method, data) => {
+  let options = {
+    method: method,
     headers: {
       'Content-Type': 'application/json',
       'X-CSRF-Token': csrfToken(),
       'X-Requested-With': 'XMLHttpRequest'
     },
     credentials: 'same-origin'
-  })
+  }
+
+  if (data) {
+    options['body'] = JSON.stringify(data)
+  }
+
+  return fetch(endpoint, options)
 }
 
 const handleResponse = (response) => {
   if (response.ok) {
-    return response.json()
+    if (!(response.status === 204)) { // has content
+      return response.json()
+    }
+    else {
+      return
+    }
   } else {
     let error = new Error(response.statusText)
     error.response = response
@@ -109,6 +111,22 @@ const handleResponse = (response) => {
 
 export const createUserSession = (user_attributes) => {
   return dispatch => {
-    return post('/api/users/sign_in', user_attributes).then(handleResponse)
+    return fetchWithCSRF('/api/users/sign_in', 'post', user_attributes)
+      .then(handleResponse)
+  }
+}
+
+export const destroyUserSession = () => {
+  return dispatch => {
+    return fetchWithCSRF('/api/users/sign_out', 'delete')
+      .then(handleResponse)
+      .then(embedNewCSRFTokenIfPresent)
+  }
+}
+
+const embedNewCSRFTokenIfPresent = (data) => {
+  const csrf_tag = document.querySelector('meta[name="csrf-token"]')
+  if (data && csrf_tag) {
+    csrf_tag.content = data['csrf_token']
   }
 }

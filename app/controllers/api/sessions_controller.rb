@@ -13,6 +13,24 @@ class Api::SessionsController < Devise::SessionsController
     end
   end
 
+  def destroy
+    signed_out = (Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name))
+    set_flash_message! :notice, :signed_out if signed_out
+    yield if block_given?
+
+    # return the new CSRF token because session that contains token destroy
+    # https://stackoverflow.com/questions/11845500/rails-devise-authentication-csrf-issue
+
+    respond_to do |format|
+      format.json do
+        render json: {
+          csrf_param: request_forgery_protection_token,
+          csrf_token: form_authenticity_token
+        }
+      end
+    end
+  end
+
   private
 
   def sign_in_params
