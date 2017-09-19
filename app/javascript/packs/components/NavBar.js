@@ -19,7 +19,20 @@ class NavBar extends React.Component {
         <Menu.Menu position='right'>
           <Menu.Item as={Link} to='/signup' name='signup'>Sign Up</Menu.Item>
           <Menu.Item as={Link} to='/login' name='login'>Log In</Menu.Item>
-          <Menu.Item as={Link} to='/' onClick={this.handleLogOut}> Log Out</Menu.Item>
+          <Menu.Item
+            as={Link}
+            onClick={this.handleLogOut}
+            to={{
+              pathname: '/',
+              state: {
+                flash: {
+                  message: 'You have logged out successfully!'
+                }
+              }
+            }}
+          >
+            Log Out
+          </Menu.Item>
         </Menu.Menu>
       </Menu>
     )
