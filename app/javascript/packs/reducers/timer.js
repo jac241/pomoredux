@@ -6,10 +6,7 @@ import {
   TIMER_RESET,
   TIMER_MODE_CHANGE
 } from '../actions/index'
-
-const updateObject = (oldObject, newValues) => {
-    return Object.assign({}, oldObject, newValues)
-}
+import { updateObject } from '../util'
 
 const initialState = {
   time_remaining_ms: TIMER_LENGTHS_MS['pomodoro'],

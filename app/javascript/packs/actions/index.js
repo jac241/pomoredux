@@ -6,6 +6,7 @@ export const TIMER_TICK = 'TIMER_TICK'
 export const TIMER_STOP = 'TIMER_STOP'
 export const TIMER_RESET = 'TIMER_RESET'
 export const TIMER_MODE_CHANGE = 'TIMER_MODE_CHANGE'
+export const SESSION_CHANGED = 'SESSION_CHANGED'
 
 const TICK_INTERVAL_MS = 1000
 
@@ -113,6 +114,7 @@ export const createUserSession = (user_attributes) => {
   return dispatch => {
     return fetchWithCSRF('/api/users/sign_in', 'post', user_attributes)
       .then(handleResponse)
+      .then(dispatch(sessionChanged({ active: true })))
   }
 }
 
@@ -121,6 +123,7 @@ export const destroyUserSession = () => {
     return fetchWithCSRF('/api/users/sign_out', 'delete')
       .then(handleResponse)
       .then(embedNewCSRFTokenIfPresent)
+      .then(dispatch(sessionChanged({ active: false })))
   }
 }
 
@@ -128,5 +131,12 @@ const embedNewCSRFTokenIfPresent = (data) => {
   const csrf_tag = document.querySelector('meta[name="csrf-token"]')
   if (data && csrf_tag) {
     csrf_tag.content = data['csrf_token']
+  }
+}
+
+export const sessionChanged = ({ active }) => {
+  return {
+    type: SESSION_CHANGED,
+    active: active
   }
 }

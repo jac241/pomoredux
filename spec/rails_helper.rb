@@ -78,4 +78,7 @@ RSpec.configure do |config|
   config.before(type: :feature) do
     Webpacker.compile
   end
+
+  config.before(:each) { Warden.test_mode! }
+  config.after(:each) { Warden.test_reset! }
 end

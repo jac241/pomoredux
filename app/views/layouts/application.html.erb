@@ -10,8 +10,9 @@
   </head>
 
   <body>
+    <div id='session' data-session-active='<%= current_api_user.present? %>'></div>
     <div id='root'>
       <%= yield %>
-    <div>
+    </div>
   </body>
 </html>

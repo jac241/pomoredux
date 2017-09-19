@@ -12,6 +12,8 @@ feature 'Logging in to my account' do
 
     expect(page).to have_current_path('/')
 
+    expect(page).to_not have_content('Log In')
+    expect(page).to_not have_content('Sign Up')
   end
 
   scenario 'Trying to log in with the wrong password' do
@@ -20,6 +22,15 @@ feature 'Logging in to my account' do
     user.password = 'wrongpassword'
     fill_in_new_user_session_form
     there_should_be_an_error_message
+  end
+
+  scenario 'Hiding log in and sign up links when already logged in' do
+    sign_in(user)
+
+    visit '/'
+
+    expect(page).to_not have_content('Log In')
+    expect(page).to_not have_content('Sign Up')
   end
 
   def there_should_be_an_error_message
