@@ -5,7 +5,9 @@ import {
   Segment,
   Message
 } from 'semantic-ui-react'
+import { connect } from 'react-redux'
 
+import { fetchTimerSettingsIfLoggedIn } from '../actions'
 import TickingTimer from '../containers/TickingTimer'
 import SelectablePomodoroModeButtons from '../containers/SelectablePomodoroModeButtons'
 
@@ -29,32 +31,53 @@ class FlashMessageContainer extends React.Component {
 }
 
 class HomePage extends React.Component {
+  getStyle() {
+    return this.props.userLoggedIn ? { marginTop: '3em'} : {}
+  }
+
+  componentDidMount() {
+    this.props.dispatch(fetchTimerSettingsIfLoggedIn())
+  }
+
   render() {
     return (
       <div >
         <FlashMessageContainer redirectionState={this.props.location.state} />
+        { this.props.userLoggedIn ||
+          <Segment
+            textAlign='center'
+            style={{ padding: '1em 0em'}}
+            vertical
+            basic
+          >
+            <Container text>
+              <Header
+                as='h1'
+                content='Welcome to Pomoredux!'
+                style={{
+                  marginTop: '3em',
+                  marginBottom: '1.5em'
+                }}
+              />
+            </Container>
+          </Segment>
+        }
         <Segment
-          textAlign='center'
-          style={{ padding: '1em 0em'}}
-          vertical
           basic
+          style={this.getStyle()}
         >
-          <Container text>
-            <Header
-              as='h1'
-              content='Welcome to Pomoredux!'
-              style={{
-                marginTop: '3em',
-                marginBottom: '1.5em'
-              }}
-            />
-          </Container>
+          <SelectablePomodoroModeButtons />
+          <TickingTimer />
         </Segment>
-        <SelectablePomodoroModeButtons />
-        <TickingTimer />
       </div>
     )
   }
 }
 
-export default HomePage
+const mapStateToProps = (state) => {
+  return {
+    userLoggedIn: state.session.active
+  }
+}
+
+export default connect(mapStateToProps)(HomePage)

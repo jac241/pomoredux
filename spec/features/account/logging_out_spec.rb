@@ -25,4 +25,14 @@ feature 'Logging out' do
 
     expect(page).to have_current_path('/')
   end
+
+  scenario 'Stopping the timer automatically when user logs out' do
+    visit '/'
+
+    click_on('Start')
+
+    find('a', text: 'Log Out').click
+
+    expect_timer_to_not_be_running(expected_time: default_pomodoro_length_text)
+  end
 end

@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
     devise_for :users
+
+    resource :timer_settings
   end
   root 'dashboard#index'
   get '*path', to: 'dashboard#index'

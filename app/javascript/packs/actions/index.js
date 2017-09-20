@@ -7,6 +7,8 @@ export const TIMER_STOP = 'TIMER_STOP'
 export const TIMER_RESET = 'TIMER_RESET'
 export const TIMER_MODE_CHANGE = 'TIMER_MODE_CHANGE'
 export const SESSION_CHANGED = 'SESSION_CHANGED'
+export const REQUEST_TIMER_SETTINGS = 'REQUEST_TIMER_SETTINGS'
+export const RECEIVE_TIMER_SETTINGS = 'RECEIVE_TIMER_SETTINGS'
 
 const TICK_INTERVAL_MS = 1000
 
@@ -110,9 +112,9 @@ const handleResponse = (response) => {
   }
 }
 
-export const createUserSession = (user_attributes) => {
+export const createUserSession = (userAttributes) => {
   return dispatch => {
-    return fetchWithCSRF('/api/users/sign_in', 'post', user_attributes)
+    return fetchWithCSRF('/api/users/sign_in', 'post', userAttributes)
       .then(handleResponse)
       .then(dispatch(sessionChanged({ active: true })))
   }
@@ -124,6 +126,7 @@ export const destroyUserSession = () => {
       .then(handleResponse)
       .then(embedNewCSRFTokenIfPresent)
       .then(dispatch(sessionChanged({ active: false })))
+      .then(dispatch(resetTimer()))
   }
 }
 
@@ -138,5 +141,40 @@ export const sessionChanged = ({ active }) => {
   return {
     type: SESSION_CHANGED,
     active: active
+  }
+}
+
+export const updateTimerSettings = (timerSettings) => {
+  return dispatch => {
+    return fetchWithCSRF('/api/timer_settings', 'put', timerSettings)
+      .then(handleResponse)
+  }
+}
+
+const requestTimerSettings = () => {
+  return {
+    type: REQUEST_TIMER_SETTINGS
+  }
+}
+
+const receiveTimerSettings = (settings) => {
+  return {
+    type: RECEIVE_TIMER_SETTINGS,
+    settings: settings
+  }
+}
+
+const userIsLoggedIn = (state) => {
+  return state.session.active
+}
+
+export const fetchTimerSettingsIfLoggedIn = () => {
+  return (dispatch, getState) => {
+    if (userIsLoggedIn(getState())) {
+      dispatch(requestTimerSettings)
+      return fetchWithCSRF('/api/timer_settings', 'get')
+        .then(handleResponse)
+        .then((data) => dispatch(receiveTimerSettings(data)))
+    }
   }
 }

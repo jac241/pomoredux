@@ -31,6 +31,7 @@ feature 'Logging in to my account' do
 
     expect(page).to_not have_content('Log In')
     expect(page).to_not have_content('Sign Up')
+    expect(page).to_not have_content('Welcome to')
   end
 
   def there_should_be_an_error_message

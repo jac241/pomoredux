@@ -11,6 +11,7 @@ import HomePage from './HomePage'
 import NavBar from './NavBar'
 import RegistrationFormPage from '../containers/RegistrationFormPage'
 import LoginPage from '../containers/LoginPage'
+import SettingsPage from '../components/SettingsPage'
 
 class App extends React.Component {
 
@@ -31,6 +32,7 @@ class App extends React.Component {
           <Route exact path="/" component={HomePage}/>
           <Route exact path="/signup" component={RegistrationFormPage}/>
           <Route exact path="/login" component={LoginPage}/>
+          <Route exact path="/settings" component={SettingsPage}/>
         </Switch>
       </div>
     )

@@ -44,6 +44,7 @@ class LoginForm extends React.Component {
           <Header
             as='h1'
             content='Log In'
+            style={{ marginTop: '3em'}}
           />
         </Segment>
         <Form
