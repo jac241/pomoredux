@@ -1,5 +1,4 @@
 import {
-  TIMER_LENGTH_MS,
   TIMER_LENGTHS_MS,
   BUFFER_SO_THAT_59_ALWAYS_SHOWN
 } from '../settings'

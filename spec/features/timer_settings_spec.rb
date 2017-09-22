@@ -1,22 +1,45 @@
 require 'rails_helper'
 
+class SettingsPage
+  include Capybara::DSL
+
+  def visit_page
+    visit '/settings'
+  end
+
+  def change_settings(pomodoro: nil, short_break: nil, long_break: nil)
+    within('#edit_timer_settings') do
+      fill_in('Pomodoro Length', with: '50') if pomodoro
+      fill_in('Short Break Length', with: '3') if short_break
+      fill_in('Long Break Length', with: '15') if long_break
+
+      click_on('Save Changes')
+    end
+  end
+
+  def has_success_message?
+    has_text?('Changes saved!')
+  end
+end
+
 feature 'Timer settings' do
   let(:user) { create(:user) }
+  let(:settings_page) { SettingsPage.new }
+
   scenario 'Changing timer settings from default' do
     sign_in(user)
+
     visit '/'
 
     find('a', text: 'Settings').click
 
-    within('#edit_timer_settings') do
-      fill_in('Pomodoro Length', with: '50')
-      fill_in('Short Break Length', with: '3')
-      fill_in('Long Break Length', with: '15')
+    settings_page.change_settings(
+      pomodoro: '50',
+      short_break: '3',
+      long_break: '15'
+    )
 
-      click_on('Save Changes')
-    end
-
-    expect(page).to have_content('Changes saved!')
+    expect(settings_page).to have_success_message
 
     visit('/')
 

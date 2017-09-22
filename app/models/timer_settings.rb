@@ -1,10 +1,9 @@
 class TimerSettings < ApplicationRecord
-  BUFFER_SO_THAT_59_ALWAYS_SHOWN = 100
 
   DEFAULTS = {
-    pomodoro_length_ms: 1500 * 1000 + BUFFER_SO_THAT_59_ALWAYS_SHOWN,
-    short_break_length_ms: 300 * 1000 + BUFFER_SO_THAT_59_ALWAYS_SHOWN,
-    long_break_length_ms: 600 * 1000 + BUFFER_SO_THAT_59_ALWAYS_SHOWN
+    pomodoro_length_ms: 1500 * 1000,
+    short_break_length_ms: 300 * 1000,
+    long_break_length_ms: 600 * 1000
   }
 
   belongs_to :user

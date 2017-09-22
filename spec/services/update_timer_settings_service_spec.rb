@@ -6,7 +6,7 @@ describe UpdateTimerSettingsService do
     {
       pomodoro_length_in_min: '40',
       short_break_length_in_min: '2',
-      long_break_length_in_min: '10'
+      long_break_length_in_min: '20'
     }
   end
 

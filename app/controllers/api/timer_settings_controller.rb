@@ -1,8 +1,6 @@
 class Api::TimerSettingsController < ApplicationController
   before_action :authenticate_api_user!
 
-  BUFFER_SO_THAT_59_ALWAYS_SHOWN = 100
-
   def update
     results =
       UpdateTimerSettingsService.new.call(
@@ -14,11 +12,7 @@ class Api::TimerSettingsController < ApplicationController
   def show
     timer_settings = current_api_user.timer_settings
 
-    render json: {
-      pomodoro: timer_settings.pomodoro_length_ms,
-      short_break: timer_settings.short_break_length_ms,
-      long_break: timer_settings.long_break_length_ms
-    }
+    render json: timer_settings
   end
 
   private
