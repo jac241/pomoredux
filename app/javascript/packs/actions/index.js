@@ -1,4 +1,8 @@
-import { TIMER_LENGTH_MS, TIMER_LENGTHS_MS } from '../settings'
+import {
+  TIMER_LENGTH_MS,
+  TIMER_LENGTHS_MS,
+  BUFFER_SO_THAT_59_ALWAYS_SHOWN
+} from '../settings'
 import plucks from '../assets/audio/plucks.mp3'
 
 export const TIMER_START = 'TIMER_START'
@@ -15,11 +19,15 @@ const TICK_INTERVAL_MS = 1000
 let timer = null
 let end_time = null
 
-export const startTimer = (mode) => (dispatch) => {
+export const startTimer = (mode) => (dispatch, getState) => {
   clearInterval(timer)
-  end_time = currentTimeInMs() + TIMER_LENGTHS_MS[mode]
+  end_time = currentTimeInMs() + getTimerLengthFromState(getState(), mode)
   timer = setInterval(() => dispatch(tickOrStopTimer()), TICK_INTERVAL_MS)
   dispatch({ type: TIMER_START })
+}
+
+const getTimerLengthFromState = (state, mode) => {
+  return state.timer.lengths_by_mode_ms[mode]
 }
 
 const tickOrStopTimer = () => {
@@ -76,6 +84,7 @@ export const createUser = (user_attributes) => {
   return dispatch => {
     return fetchWithCSRF('/api/users', 'post', user_attributes)
       .then(handleResponse)
+      .then(dispatch(sessionChanged({ active: true })))
   }
 }
 
@@ -160,8 +169,15 @@ const requestTimerSettings = () => {
 const receiveTimerSettings = (settings) => {
   return {
     type: RECEIVE_TIMER_SETTINGS,
-    settings: settings
+    settings: addTimerBuffer(settings)
   }
+}
+
+const addTimerBuffer = (settings) => {
+  const result = {}
+  Object.keys(settings)
+    .forEach((key) => result[key] = settings[key] + BUFFER_SO_THAT_59_ALWAYS_SHOWN)
+  return result
 }
 
 const userIsLoggedIn = (state) => {

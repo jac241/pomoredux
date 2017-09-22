@@ -21,6 +21,7 @@ feature 'Signing Up' do
     i_should_be_on_the_home_page
     there_should_be_a_new_user_created_message
     a_new_user_should_have_been_created
+    i_should_be_logged_in
   end
 
   scenario 'Signing up for a new account with an in-use email address' do
@@ -55,6 +56,12 @@ feature 'Signing Up' do
 
   def a_new_user_should_have_been_created
     expect(User.count).to eq 1
+  end
+
+  def i_should_be_logged_in
+    expect(page).to have_content('Log Out')
+    expect(page).to_not have_content('Sign Up')
+    expect(page).to_not have_content('Log In')
   end
 
   def given_a_user_exists

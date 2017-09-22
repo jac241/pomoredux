@@ -20,15 +20,17 @@ feature 'Timer settings' do
 
     visit('/')
 
-    expect(find_by_id('time_remaining').text).to eq '50:00'
+    click_on('Pomodoro')
+
+    expect_timer_to_be_running(timer_length: '50:00')
 
     click_on('Short Break')
 
-    expect(find_by_id('time_remaining').text).to eq '03:00'
+    expect_timer_to_be_running(timer_length: '03:00')
 
     click_on('Long Break')
 
-    expect(find_by_id('time_remaining').text).to eq '15:00'
+    expect_timer_to_be_running(timer_length: '15:00')
   end
 
   scenario 'Timer goes to default settings on log out'
