@@ -122,7 +122,7 @@ const handleResponse = (response) => {
 
 export const createUserSession = (userAttributes) => {
   return dispatch => {
-    return fetchWithCSRF('/api/users/sign_in', 'post', userAttributes)
+    return fetchWithCSRF('/api/users/sign_in', 'POST', userAttributes)
       .then(handleResponse)
       .then(dispatch(sessionChanged({ active: true })))
   }
@@ -130,7 +130,7 @@ export const createUserSession = (userAttributes) => {
 
 export const destroyUserSession = () => {
   return dispatch => {
-    return fetchWithCSRF('/api/users/sign_out', 'delete')
+    return fetchWithCSRF('/api/users/sign_out', 'DELETE')
       .then(handleResponse)
       .then(embedNewCSRFTokenIfPresent)
       .then(dispatch(sessionChanged({ active: false })))
@@ -154,8 +154,9 @@ export const sessionChanged = ({ active }) => {
 
 export const updateTimerSettings = (timerSettings) => {
   return dispatch => {
-    return fetchWithCSRF('/api/timer_settings', 'put', timerSettings)
+    return fetchWithCSRF('/api/timer_settings', 'PUT', timerSettings)
       .then(handleResponse)
+      .then((data) => dispatch(receiveTimerSettings(data)))
   }
 }
 
@@ -187,7 +188,7 @@ export const fetchTimerSettingsIfLoggedIn = () => {
   return (dispatch, getState) => {
     if (userIsLoggedIn(getState())) {
       dispatch(requestTimerSettings)
-      return fetchWithCSRF('/api/timer_settings', 'get')
+      return fetchWithCSRF('/api/timer_settings', 'GET')
         .then(handleResponse)
         .then((data) => dispatch(receiveTimerSettings(data)))
     }
