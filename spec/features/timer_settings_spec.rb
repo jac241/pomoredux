@@ -20,6 +20,12 @@ class SettingsPage
   def has_success_message?
     has_text?('Changes saved!')
   end
+
+  def has_correct_values?(expected_values)
+    expected_values.all? do |setting, value|
+      find_field(setting).value == value
+    end
+  end
 end
 
 feature 'Timer settings' do
@@ -56,9 +62,21 @@ feature 'Timer settings' do
     expect_timer_to_be_running(timer_length: '15:00')
   end
 
+  scenario 'Viewing current settings on settings form' do
+    sign_in(user)
+    user.timer_settings.update(attributes_for(:non_default_timer_settings))
+
+    settings_page.visit_page
+
+    expect(settings_page).to have_correct_values({
+      'Pomodoro Length' => '50',
+      'Short Break Length' => '3',
+      'Long Break Length' => '15'
+    })
+  end
+
   scenario 'Timer goes to default settings on log out'
   scenario 'Trying to set blank times'
-  scenario 'Viewing current settings on settings form'
   scenario 'Resetting success message with new changes'
   scenario 'Trying to update timer settings when logged out'
 end

@@ -9,14 +9,18 @@ import {
   Message
 } from 'semantic-ui-react'
 import pick from 'lodash/pick'
+import { updateObject } from '../util'
 
 class SettingsForm extends React.Component {
-
   state = {
     pomodoro_length_in_min: '',
     short_break_length_in_min: '',
     long_break_length_in_min: '',
     changesSaved: false
+  }
+
+  componentWillReceiveProps = (nextProps) => {
+    this.setState(updateObject({}, nextProps.timerSettingsInMin))
   }
 
   handleChange = (e) => {
@@ -45,6 +49,7 @@ class SettingsForm extends React.Component {
           id='edit_timer_settings'
           onSubmit={this.handleSubmit}
           success={this.state.changesSaved}
+          loading={this.props.loading}
         >
           <Segment textAlign='left'>
             <Form.Field
@@ -53,7 +58,7 @@ class SettingsForm extends React.Component {
               label='Pomodoro Length'
               control='input'
               type='number'
-              value={this.state.email}
+              value={this.state.pomodoro_length_in_min}
               onChange={this.handleChange}
             />
             <Form.Field
@@ -62,7 +67,7 @@ class SettingsForm extends React.Component {
               label='Short Break Length'
               control='input'
               type='number'
-              value={this.state.email}
+              value={this.state.short_break_length_in_min}
               onChange={this.handleChange}
             />
             <Form.Field
@@ -71,7 +76,7 @@ class SettingsForm extends React.Component {
               label='Long Break Length'
               control='input'
               type='number'
-              value={this.state.email}
+              value={this.state.long_break_length_in_min}
               onChange={this.handleChange}
             />
             <Button fluid size='large'>Save Changes</Button>
