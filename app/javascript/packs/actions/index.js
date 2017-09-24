@@ -104,7 +104,7 @@ const fetchWithCSRF = (endpoint, method, data) => {
     options['body'] = JSON.stringify(data)
   }
 
-  return fetch(endpoint, options).then(handleResponse)
+  return fetch(endpoint, options).then(handleResponse).catch(parseErrorBody)
 }
 
 const handleResponse = (response) => {
@@ -118,6 +118,16 @@ const handleResponse = (response) => {
     error.response = response
     throw error
   }
+}
+
+const parseErrorBody = (err) => {
+  return err.response.text()
+    .then((text) => {
+      if (text.length > 0) {
+        err.body = JSON.parse(text)
+      }
+      throw err
+    })
 }
 
 export const createUserSession = (userAttributes) => {
@@ -159,24 +169,16 @@ export const updateTimerSettings = (timerSettings) => {
 
 const fetchAuthenticatedResource = (dispatch, endpoint, method, data) => {
   return fetchWithCSRF(endpoint, method, data)
-    .catch((err) => refreshIfInvalidAuthenticityToken(err))
+    .catch(refreshIfInvalidAuthenticityToken)
     .catch((err) => updateSessionIfUnauthenticated(err, dispatch))
 }
 
 const refreshIfInvalidAuthenticityToken = (err) => {
-  const response = err.response
-  if (response.status == 422) {
-    return response.json()
-      .then((data) => {
-        if (data.invalid_authenticity_token) {
-          location.reload()
-          return
-        }
-        else {
-          throw err
-        }
-      })
-  } else {
+  if (err.response.status == 422 && err.body.invalid_authenticity_token) {
+    location.reload()
+    return
+  }
+  else {
     throw err
   }
 }

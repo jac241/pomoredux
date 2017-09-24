@@ -28,11 +28,9 @@ class RegistrationForm extends React.Component {
 
     const { email, password, password_confirmation } = this.state
     this.props.createUser({ email, password, password_confirmation })
-      .catch((err) => err.response.json())
-      .then((data) => {
-        const { errors, full_messages } = data
+      .catch((err) => {
+        const { errors, full_messages } = err.body
         this.setState({ errors, full_messages })
-        console.log(data)
       })
   }
 

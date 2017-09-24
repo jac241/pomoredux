@@ -30,4 +30,9 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  activerecord:
+    attributes:
+      timer_settings:
+        pomodoro_length_ms: 'Pomodoro length'
+        short_break_length_ms: 'Short Break length'
+        long_break_length_ms: 'Long Break length'

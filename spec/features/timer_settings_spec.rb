@@ -9,9 +9,9 @@ class SettingsPage
 
   def change_settings(pomodoro: nil, short_break: nil, long_break: nil)
     within('#edit_timer_settings') do
-      fill_in('Pomodoro Length', with: '50') if pomodoro
-      fill_in('Short Break Length', with: '3') if short_break
-      fill_in('Long Break Length', with: '15') if long_break
+      fill_in('Pomodoro Length', with: pomodoro) if pomodoro
+      fill_in('Short Break Length', with: short_break) if short_break
+      fill_in('Long Break Length', with: long_break) if long_break
 
       click_on('Save Changes')
     end
@@ -25,6 +25,10 @@ class SettingsPage
     expected_values.all? do |setting, value|
       find_field(setting).value == value
     end
+  end
+
+  def has_settings_error_messages?
+    has_text?('There were errors saving your settings.')
   end
 end
 
@@ -87,7 +91,19 @@ feature 'Timer settings' do
     expect(user.timer_settings.pomodoro_length_ms).to_not eq(50 * 60 * 1000)
   end
 
+  scenario 'Trying to set invalid times' do
+    sign_in(user)
+    settings_page.visit_page
+
+    settings_page.change_settings(
+      pomodoro: '-1',
+      short_break: '-1',
+      long_break: '-1'
+    )
+
+    expect(settings_page).to have_settings_error_messages
+  end
+
   scenario 'Timer goes to default settings on log out'
-  scenario 'Trying to set blank times'
   scenario 'Resetting success message with new changes'
 end

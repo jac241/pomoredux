@@ -11,12 +11,15 @@ import {
 import pick from 'lodash/pick'
 import { updateObject } from '../util'
 
+
 class SettingsForm extends React.Component {
   state = {
     pomodoro_length_in_min: '',
     short_break_length_in_min: '',
     long_break_length_in_min: '',
-    changesSaved: false
+    changesSaved: false,
+    errors: {},
+    full_messages: []
   }
 
   componentWillReceiveProps = (nextProps) => {
@@ -35,8 +38,12 @@ class SettingsForm extends React.Component {
         'pomodoro_length_in_min',
         'short_break_length_in_min',
         'long_break_length_in_min'
-      ])
-    ).then(() => this.setState({ changesSaved: true }))
+      ]))
+      .then(() => this.setState({ changesSaved: true, errors: {}, full_messages: [] }))
+      .catch((err) => {
+        const { errors, full_messages } = err.body
+        this.setState({ changesSaved: false, errors, full_messages })
+      })
   }
 
   render() {
@@ -50,6 +57,7 @@ class SettingsForm extends React.Component {
           onSubmit={this.handleSubmit}
           success={this.state.changesSaved}
           loading={this.props.loading}
+          error={this.state.full_messages.length > 0}
         >
           <Segment textAlign='left'>
             <Form.Field
@@ -60,6 +68,7 @@ class SettingsForm extends React.Component {
               type='number'
               value={this.state.pomodoro_length_in_min}
               onChange={this.handleChange}
+              error={!!this.state.errors.pomodoro_length_ms}
             />
             <Form.Field
               id='timer_settings_short_break_length_in_min'
@@ -69,6 +78,7 @@ class SettingsForm extends React.Component {
               type='number'
               value={this.state.short_break_length_in_min}
               onChange={this.handleChange}
+              error={!!this.state.errors.short_break_length_ms}
             />
             <Form.Field
               id='timer_settings_long_break_length_in_min'
@@ -78,6 +88,7 @@ class SettingsForm extends React.Component {
               type='number'
               value={this.state.long_break_length_in_min}
               onChange={this.handleChange}
+              error={!!this.state.errors.long_break_length_ms}
             />
             <Button fluid size='large'>Save Changes</Button>
             <Message
@@ -85,6 +96,14 @@ class SettingsForm extends React.Component {
               header='Changes saved!'
               content='Your settings have been updated.'
             />
+            <Message error>
+              <Message.Header content='There were errors saving your settings.' />
+              <Container textAlign='left'>
+                <ul>
+                  { this.state.full_messages.map((message, i) => <li key={i}>{message}</li>)}
+                </ul>
+              </Container>
+            </Message>
           </Segment>
         </Form>
       </Container>

@@ -1,6 +1,13 @@
 require 'rails_helper'
 
 describe TimerSettings do
+  [:pomodoro_length_ms, :short_break_length_ms, :long_break_length_ms].each do |mode|
+    it { should validate_presence_of(mode)}
+    it do
+      should validate_numericality_of(mode).only_integer.is_greater_than(0)
+    end
+  end
+
   describe '#pomodoro_length_in_min=' do
     it 'should set pomodoro_length_ms converted from minutes to ms' do
       min = '30'
