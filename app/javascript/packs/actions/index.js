@@ -2,7 +2,10 @@ import {
   TIMER_LENGTHS_MS,
   BUFFER_SO_THAT_59_ALWAYS_SHOWN
 } from '../settings'
-import plucks from '../assets/audio/plucks.mp3'
+import plucksMp3 from '../assets/audio/plucks.mp3'
+import plucksOgg from '../assets/audio/plucks.ogg'
+
+import { Howl } from 'howler'
 
 export const TIMER_START = 'TIMER_START'
 export const TIMER_TICK = 'TIMER_TICK'
@@ -55,7 +58,7 @@ const stopTimer = () => {
 }
 
 const playFinishedAudio = () => {
-  let audio = new Audio(plucks)
+  let audio = new Howl({ src: [plucksMp3, plucksOgg] })
   audio.play()
 }
 
