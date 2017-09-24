@@ -85,7 +85,9 @@ const csrfToken = () => {
 export const createUser = (user_attributes) => {
   return dispatch => {
     return fetchWithCSRF('/api/users', 'post', user_attributes)
-      .then(dispatch(sessionChanged({ active: true })))
+      .then(() => {
+        dispatch(sessionChanged({ active: true }))
+      })
   }
 }
 
@@ -133,7 +135,9 @@ const parseErrorBody = (err) => {
 export const createUserSession = (userAttributes) => {
   return dispatch => {
     return fetchWithCSRF('/api/users/sign_in', 'POST', userAttributes)
-      .then(dispatch(sessionChanged({ active: true })))
+      .then(() => {
+        dispatch(sessionChanged({ active: true }))
+      })
   }
 }
 
@@ -141,8 +145,8 @@ export const destroyUserSession = () => {
   return dispatch => {
     return fetchWithCSRF('/api/users/sign_out', 'DELETE')
       .then(embedNewCSRFTokenIfPresent)
-      .then(dispatch(sessionChanged({ active: false })))
-      .then(dispatch(resetTimer()))
+      .then(() => dispatch(sessionChanged({ active: false })))
+      .then(() => dispatch(resetTimer()))
   }
 }
 
