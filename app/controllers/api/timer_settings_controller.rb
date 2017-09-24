@@ -1,4 +1,4 @@
-class Api::TimerSettingsController < ApplicationController
+class Api::TimerSettingsController < ApiController
   before_action :authenticate_api_user!
 
   def update

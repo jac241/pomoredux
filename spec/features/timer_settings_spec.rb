@@ -50,15 +50,12 @@ feature 'Timer settings' do
     visit('/')
 
     click_on('Pomodoro')
-
     expect_timer_to_be_running(timer_length: '50:00')
 
     click_on('Short Break')
-
     expect_timer_to_be_running(timer_length: '03:00')
 
     click_on('Long Break')
-
     expect_timer_to_be_running(timer_length: '15:00')
   end
 
@@ -75,8 +72,22 @@ feature 'Timer settings' do
     })
   end
 
+  scenario 'Redirecting to login if visit settings page when logged out' do
+    settings_page.visit_page
+    expect(page).to have_current_path('/login')
+  end
+
+  scenario 'Redirecting to login if logged out while filling in form' do
+    sign_in(user)
+    settings_page.visit_page
+    sign_out(user)
+
+    settings_page.change_settings(pomodoro: '50')
+    expect(page).to have_current_path('/login')
+    expect(user.timer_settings.pomodoro_length_ms).to_not eq(50 * 60 * 1000)
+  end
+
   scenario 'Timer goes to default settings on log out'
   scenario 'Trying to set blank times'
   scenario 'Resetting success message with new changes'
-  scenario 'Trying to update timer settings when logged out'
 end

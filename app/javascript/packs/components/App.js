@@ -12,6 +12,7 @@ import NavBar from './NavBar'
 import RegistrationFormPage from '../containers/RegistrationFormPage'
 import LoginPage from '../containers/LoginPage'
 import SettingsPage from '../components/SettingsPage'
+import AuthenticatedComponentContainer from '../containers/AuthenticatedComponentContainer'
 
 class App extends React.Component {
 
@@ -30,9 +31,11 @@ class App extends React.Component {
         <NavBar />
         <Switch>
           <Route exact path="/" component={HomePage}/>
-          <Route exact path="/signup" component={RegistrationFormPage}/>
-          <Route exact path="/login" component={LoginPage}/>
-          <Route exact path="/settings" component={SettingsPage}/>
+          <Route path="/signup" component={RegistrationFormPage}/>
+          <Route path="/login" component={LoginPage}/>
+          <AuthenticatedComponentContainer>
+            <Route path="/settings" component={SettingsPage}/>
+          </AuthenticatedComponentContainer>
         </Switch>
       </div>
     )

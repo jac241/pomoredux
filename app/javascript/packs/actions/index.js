@@ -82,7 +82,6 @@ const csrfToken = () => {
 export const createUser = (user_attributes) => {
   return dispatch => {
     return fetchWithCSRF('/api/users', 'post', user_attributes)
-      .then(handleResponse)
       .then(dispatch(sessionChanged({ active: true })))
   }
 }
@@ -102,17 +101,15 @@ const fetchWithCSRF = (endpoint, method, data) => {
     options['body'] = JSON.stringify(data)
   }
 
-  return fetch(endpoint, options)
+  return fetch(endpoint, options).then(handleResponse)
 }
 
 const handleResponse = (response) => {
   if (response.ok) {
-    if (!(response.status === 204)) { // has content
-      return response.json()
-    }
-    else {
+    if (response.status === 204) { // no content
       return
     }
+    return response.json()
   } else {
     let error = new Error(response.statusText)
     error.response = response
@@ -123,7 +120,6 @@ const handleResponse = (response) => {
 export const createUserSession = (userAttributes) => {
   return dispatch => {
     return fetchWithCSRF('/api/users/sign_in', 'POST', userAttributes)
-      .then(handleResponse)
       .then(dispatch(sessionChanged({ active: true })))
   }
 }
@@ -131,7 +127,6 @@ export const createUserSession = (userAttributes) => {
 export const destroyUserSession = () => {
   return dispatch => {
     return fetchWithCSRF('/api/users/sign_out', 'DELETE')
-      .then(handleResponse)
       .then(embedNewCSRFTokenIfPresent)
       .then(dispatch(sessionChanged({ active: false })))
       .then(dispatch(resetTimer()))
@@ -154,10 +149,41 @@ export const sessionChanged = ({ active }) => {
 
 export const updateTimerSettings = (timerSettings) => {
   return dispatch => {
-    return fetchWithCSRF('/api/timer_settings', 'PUT', timerSettings)
-      .then(handleResponse)
+    return fetchAuthenticatedResource(dispatch, '/api/timer_settings', 'PUT', timerSettings)
       .then((data) => dispatch(receiveTimerSettings(data)))
   }
+}
+
+const fetchAuthenticatedResource = (dispatch, endpoint, method, data) => {
+  return fetchWithCSRF(endpoint, method, data)
+    .catch((err) => refreshIfInvalidAuthenticityToken(err))
+    .catch((err) => updateSessionIfUnauthenticated(err, dispatch))
+}
+
+const refreshIfInvalidAuthenticityToken = (err) => {
+  const response = err.response
+  if (response.status == 422) {
+    return response.json()
+      .then((data) => {
+        if (data.invalid_authenticity_token) {
+          location.reload()
+          return
+        }
+        else {
+          throw err
+        }
+      })
+  } else {
+    throw err
+  }
+}
+
+const updateSessionIfUnauthenticated = (err, dispatch) => {
+  if (err.response.status == 401) {
+    dispatch(sessionChanged({ active: false }))
+  }
+
+  throw err
 }
 
 const requestTimerSettings = () => {
@@ -188,8 +214,7 @@ export const fetchTimerSettingsIfLoggedIn = () => {
   return (dispatch, getState) => {
     if (userIsLoggedIn(getState())) {
       dispatch(requestTimerSettings)
-      return fetchWithCSRF('/api/timer_settings', 'GET')
-        .then(handleResponse)
+      return fetchAuthenticatedResource(dispatch, '/api/timer_settings', 'GET')
         .then((data) => dispatch(receiveTimerSettings(data)))
     }
   }
