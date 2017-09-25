@@ -104,6 +104,22 @@ feature 'Timer settings' do
     expect(settings_page).to have_settings_error_messages
   end
 
+  scenario 'Bug - Settings should not reset during timer tick' do
+    sign_in(user)
+
+    visit '/'
+
+    click_on('Start')
+
+    find('a', text: 'Settings').click
+
+    fill_in('Pomodoro Length', with: '1')
+
+    sleep 1.1
+
+    expect(settings_page).to have_correct_values({ 'Pomodoro Length' => '1' })
+  end
+
   scenario 'Timer goes to default settings on log out'
   scenario 'Resetting success message with new changes'
 end

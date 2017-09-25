@@ -23,7 +23,9 @@ class SettingsForm extends React.Component {
   }
 
   componentWillReceiveProps = (nextProps) => {
-    this.setState(updateObject({}, nextProps.timerSettingsInMin))
+    if (this.props.loading) {
+      this.setState(updateObject({}, nextProps.timerSettingsInMin))
+    }
   }
 
   handleChange = (e) => {
