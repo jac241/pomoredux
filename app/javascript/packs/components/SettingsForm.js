@@ -52,7 +52,14 @@ class SettingsForm extends React.Component {
     return (
       <Container text textAlign='center'>
         <Segment vertical basic>
-          <Header as='h1' content='Timer Settings' style={{marginTop: '3em'}} />
+          <Header
+            as='h1'
+            content='Timer Settings'
+            style={{
+              marginTop: '2em',
+              marginBottom: '0.75em'
+            }}
+          />
         </Segment>
         <Form
           id='edit_timer_settings'

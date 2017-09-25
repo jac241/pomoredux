@@ -44,7 +44,10 @@ class RegistrationForm extends React.Component {
           <Header
             as='h1'
             content='Sign Up'
-            style={{marginTop: '3em'}}
+            style={{
+              marginTop: '2em',
+              marginBottom: '0.75em'
+            }}
           />
         </Segment>
         <Form id='new_user' onSubmit={this.handleSubmit} error={this.state.full_messages.length > 0}>

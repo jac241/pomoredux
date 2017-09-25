@@ -24,14 +24,7 @@ class NavBar extends React.Component {
               <Menu.Item
                 as={Link}
                 onClick={this.handleLogOut}
-                to={{
-                  pathname: '/',
-                  state: {
-                    flash: {
-                      message: 'You have logged out successfully!'
-                    }
-                  }
-                }}
+                to='/'
               >
                 Log Out
               </Menu.Item>

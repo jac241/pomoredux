@@ -31,8 +31,8 @@ class FlashMessageContainer extends React.Component {
 }
 
 class HomePage extends React.Component {
-  getStyle() {
-    return this.props.userLoggedIn ? { marginTop: '3em'} : {}
+  getTimerSegmentStyle() {
+    return this.props.userLoggedIn ? { marginTop: '5em'} : {}
   }
 
   componentDidMount() {
@@ -55,7 +55,7 @@ class HomePage extends React.Component {
                 as='h1'
                 content='Welcome to Pomoredux!'
                 style={{
-                  marginTop: '3em',
+                  marginTop: '2em',
                   marginBottom: '1.5em'
                 }}
               />
@@ -64,7 +64,7 @@ class HomePage extends React.Component {
         }
         <Segment
           basic
-          style={this.getStyle()}
+          style={this.getTimerSegmentStyle()}
         >
           <SelectablePomodoroModeButtons />
           <TickingTimer />
