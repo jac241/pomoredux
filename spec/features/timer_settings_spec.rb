@@ -13,7 +13,7 @@ feature 'Timer settings' do
 
     find('a', text: 'Settings').click
 
-    settings_page.change_settings(
+    settings_page.save_new_settings(
       pomodoro: '50',
       short_break: '3',
       long_break: '15'
@@ -56,7 +56,7 @@ feature 'Timer settings' do
     settings_page.visit_page
     sign_out(user)
 
-    settings_page.change_settings(pomodoro: '50')
+    settings_page.save_new_settings(pomodoro: '50')
     expect(page).to have_current_path('/login')
     expect(user.timer_settings.pomodoro_length_ms).to_not eq(50 * 60 * 1000)
   end
@@ -65,7 +65,7 @@ feature 'Timer settings' do
     sign_in(user)
     settings_page.visit_page
 
-    settings_page.change_settings(
+    settings_page.save_new_settings(
       pomodoro: '-1',
       short_break: '-1',
       long_break: '-1'
@@ -102,7 +102,17 @@ feature 'Timer settings' do
     expect(timer).to have_correct_settings(build(:timer_settings))
   end
 
-  scenario 'Resetting success message with new changes'
+  scenario 'Resetting success message with new changes' do
+    sign_in(user)
+    settings_page.visit_page
+
+    settings_page.save_new_settings(pomodoro: '1')
+    expect(settings_page).to have_success_message
+
+    settings_page.change_settings_values(pomodoro: '10')
+
+    expect(settings_page).to have_no_success_message
+  end
 
   def change_timer_settings(user)
     user.timer_settings.update(attributes_for(:non_default_timer_settings))
