@@ -27,11 +27,15 @@ module Components
       end
     end
 
-    private
-
     def switch_to_mode(mode)
       click_on(mode)
     end
+
+    def has_correct_setting?(ms)
+      has_timer_text(ms)
+    end
+
+    private
 
     def has_timer_text(ms)
       has_text?(ms_to_strtime(ms))

@@ -147,8 +147,8 @@ export const destroyUserSession = () => {
     return fetchWithCSRF('/api/users/sign_out', 'DELETE')
       .then(embedNewCSRFTokenIfPresent)
       .then(() => dispatch(sessionChanged({ active: false })))
-      .then(() => dispatch(resetTimer()))
       .then(() => dispatch(resetTimerSettings()))
+      .then(() => dispatch(resetTimer()))
   }
 }
 

@@ -97,9 +97,12 @@ feature 'Timer settings' do
 
     expect(timer).to have_correct_settings(user.timer_settings)
 
+    timer.switch_to_mode('Pomodoro')
     home_page.log_out
 
-    expect(timer).to have_correct_settings(build(:timer_settings))
+    default_settings = build(:timer_settings)
+    expect(timer).to have_correct_setting(default_settings.pomodoro_length_ms)
+    expect(timer).to have_correct_settings(default_settings)
   end
 
   scenario 'Resetting success message with new changes' do
