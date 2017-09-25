@@ -15,6 +15,7 @@ export const TIMER_MODE_CHANGE = 'TIMER_MODE_CHANGE'
 export const SESSION_CHANGED = 'SESSION_CHANGED'
 export const REQUEST_TIMER_SETTINGS = 'REQUEST_TIMER_SETTINGS'
 export const RECEIVE_TIMER_SETTINGS = 'RECEIVE_TIMER_SETTINGS'
+export const RESET_TIMER_SETTINGS = 'RESET_TIMER_SETTINGS'
 
 const TICK_INTERVAL_MS = 1000
 
@@ -147,6 +148,13 @@ export const destroyUserSession = () => {
       .then(embedNewCSRFTokenIfPresent)
       .then(() => dispatch(sessionChanged({ active: false })))
       .then(() => dispatch(resetTimer()))
+      .then(() => dispatch(resetTimerSettings()))
+  }
+}
+
+const resetTimerSettings = () => {
+  return {
+    type: RESET_TIMER_SETTINGS
   }
 }
 

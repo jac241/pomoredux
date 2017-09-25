@@ -3,6 +3,8 @@ require 'rails_helper'
 feature 'Timer settings' do
   let(:user) { create(:user) }
   let(:settings_page) { Pages::Settings.new }
+  let(:home_page) { Pages::Home.new }
+  let(:timer) { Components::Timer.new }
 
   scenario 'Changing timer settings from default' do
     sign_in(user)
@@ -33,7 +35,7 @@ feature 'Timer settings' do
 
   scenario 'Viewing current settings on settings form' do
     sign_in(user)
-    user.timer_settings.update(attributes_for(:non_default_timer_settings))
+    change_timer_settings(user)
 
     settings_page.visit_page
 
@@ -88,6 +90,21 @@ feature 'Timer settings' do
     expect(settings_page).to have_correct_values({ 'Pomodoro Length' => '1' })
   end
 
-  scenario 'Timer goes to default settings on log out'
+  scenario 'Timer goes to default settings on log out' do
+    sign_in(user)
+    change_timer_settings(user)
+    home_page.visit_page
+
+    expect(timer).to have_correct_settings(user.timer_settings)
+
+    home_page.log_out
+
+    expect(timer).to have_correct_settings(build(:timer_settings))
+  end
+
   scenario 'Resetting success message with new changes'
+
+  def change_timer_settings(user)
+    user.timer_settings.update(attributes_for(:non_default_timer_settings))
+  end
 end

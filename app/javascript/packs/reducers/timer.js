@@ -6,7 +6,8 @@ import {
   TIMER_RESET,
   TIMER_MODE_CHANGE,
   REQUEST_TIMER_SETTINGS,
-  RECEIVE_TIMER_SETTINGS
+  RECEIVE_TIMER_SETTINGS,
+  RESET_TIMER_SETTINGS
 } from '../actions/index'
 import { updateObject } from '../util'
 
@@ -59,6 +60,9 @@ function timer(state=initialState, action) {
       }
 
       return updateObject(state, updates)
+    case RESET_TIMER_SETTINGS:
+      return updateObject(state, { lengths_by_mode_ms: TIMER_LENGTHS_MS })
+
   }
   return state
 }
