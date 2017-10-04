@@ -230,7 +230,7 @@ const userIsLoggedIn = (state) => {
 export const fetchTimerSettingsIfLoggedIn = () => {
   return (dispatch, getState) => {
     if (userIsLoggedIn(getState())) {
-      dispatch(requestTimerSettings)
+      dispatch(requestTimerSettings())
       return fetchAuthenticatedResource(dispatch, '/api/timer_settings', 'GET')
         .then((data) => dispatch(receiveTimerSettings(data)))
     }

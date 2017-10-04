@@ -18,6 +18,7 @@ class SettingsForm extends React.Component {
     short_break_length_in_min: '',
     long_break_length_in_min: '',
     changesSaved: false,
+    saving: false,
     errors: {},
     full_messages: []
   }
@@ -35,6 +36,7 @@ class SettingsForm extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault()
 
+    this.setState({ saving: true })
     this.props.updateTimerSettings(
       pick(this.state, [
         'pomodoro_length_in_min',
@@ -46,6 +48,7 @@ class SettingsForm extends React.Component {
         const { errors, full_messages } = err.body
         this.setState({ changesSaved: false, errors, full_messages })
       })
+      .then(() => this.setState({ saving: false }))
   }
 
   render() {
@@ -99,7 +102,13 @@ class SettingsForm extends React.Component {
               onChange={this.handleChange}
               error={!!this.state.errors.long_break_length_ms}
             />
-            <Button fluid size='large'>Save Changes</Button>
+            <Button
+              fluid
+              size='large'
+              loading={this.state.saving}
+            >
+              Save Changes
+            </Button>
             <Message
               success
               header='Changes saved!'

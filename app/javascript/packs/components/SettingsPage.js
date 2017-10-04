@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 
 import SettingsForm from './SettingsForm'
 import { fetchTimerSettingsIfLoggedIn, updateTimerSettings } from '../actions'
@@ -7,19 +8,14 @@ import { msToMinsString } from '../util'
 
 
 class SettingsPage extends React.Component {
-  state = {
-    loading: true
-  }
-
   componentDidMount = () => {
     this.props.fetchTimerSettingsIfLoggedIn()
-      .then(() => this.setState({ loading: false }))
   }
 
   render() {
     return (
       <SettingsForm
-        loading={this.state.loading}
+        loading={this.props.loading}
         updateTimerSettings={this.props.updateTimerSettings}
         timerSettingsInMin={this.props.timerSettingsInMin}
       />
@@ -36,10 +32,12 @@ function mapStateToProps(state) {
   }
 
   return {
+    loading: state.timer.requestingSettings,
     timerSettingsInMin: timerSettingsInMin
   }
 }
 
 export default connect(
   mapStateToProps,
-  { fetchTimerSettingsIfLoggedIn, updateTimerSettings })(SettingsPage)
+  { fetchTimerSettingsIfLoggedIn, updateTimerSettings }
+)(SettingsPage)

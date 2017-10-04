@@ -19,7 +19,7 @@ const initialState = {
   settings: {
     lengths_by_mode_ms: TIMER_LENGTHS_MS,
   },
-  requestingTimerSettings: false
+  requestingSettings: false
 }
 
 function timer(state=initialState, action) {
@@ -50,11 +50,11 @@ function timer(state=initialState, action) {
       })
     case REQUEST_TIMER_SETTINGS:
       return updateObject(state, {
-        requestingTimerSettings: true
+        requestingSettings: true
       })
     case RECEIVE_TIMER_SETTINGS:
       let updates = {
-        requestingTimerSettings: false,
+        requestingSettings: false,
         settings: {
           id: action.settings.id,
           lengths_by_mode_ms: omit(action.settings, 'id')
