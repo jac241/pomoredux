@@ -30,7 +30,7 @@ export const startTimer = (mode) => (dispatch, getState) => {
 }
 
 const getTimerLengthFromState = (state, mode) => {
-  return state.timer.lengths_by_mode_ms[mode]
+  return state.timer.settings.lengths_by_mode_ms[mode]
 }
 
 const tickOrStopTimer = () => {
@@ -235,4 +235,16 @@ export const fetchTimerSettingsIfLoggedIn = () => {
         .then((data) => dispatch(receiveTimerSettings(data)))
     }
   }
+}
+
+export const fetchTimerSettingsIfNotCached = () => {
+  return (dispatch, getState) => {
+    if (!arePersistedTimerSettingsInState(getState())) {
+      return fetchTimerSettingsIfLoggedIn()(dispatch, getState)
+    }
+  }
+}
+
+const arePersistedTimerSettingsInState = (state) => {
+  return state.timer.settings.id
 }

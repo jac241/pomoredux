@@ -7,7 +7,7 @@ import {
 } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 
-import { fetchTimerSettingsIfLoggedIn } from '../actions'
+import { fetchTimerSettingsIfNotCached } from '../actions'
 import TickingTimer from '../containers/TickingTimer'
 import SelectablePomodoroModeButtons from '../containers/SelectablePomodoroModeButtons'
 
@@ -36,7 +36,7 @@ class HomePage extends React.Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(fetchTimerSettingsIfLoggedIn())
+    this.props.dispatch(fetchTimerSettingsIfNotCached())
   }
 
   render() {

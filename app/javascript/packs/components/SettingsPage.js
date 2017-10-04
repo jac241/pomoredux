@@ -28,7 +28,7 @@ class SettingsPage extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const timerSettingsInMs = state.timer.lengths_by_mode_ms
+  const timerSettingsInMs = state.timer.settings.lengths_by_mode_ms
   const timerSettingsInMin = {
     'pomodoro_length_in_min': msToMinsString(timerSettingsInMs['pomodoro']),
     'short_break_length_in_min': msToMinsString(timerSettingsInMs['short_break']),

@@ -1,5 +1,5 @@
 class TimerSettingsSerializer < ActiveModel::Serializer
-  attributes :pomodoro, :short_break, :long_break
+  attributes :id, :pomodoro, :short_break, :long_break
 
   def pomodoro
     object.pomodoro_length_ms

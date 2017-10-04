@@ -14,6 +14,7 @@ import LoginPage from '../containers/LoginPage'
 import SettingsPage from '../components/SettingsPage'
 import AuthenticatedComponentContainer from '../containers/AuthenticatedComponentContainer'
 
+
 class App extends React.Component {
 
   componentWillMount() {
