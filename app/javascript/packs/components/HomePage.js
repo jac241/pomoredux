@@ -2,33 +2,29 @@ import React from 'react'
 import {
   Container,
   Header,
-  Segment,
-  Message
+  Segment
 } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 
 import { fetchTimerSettingsIfNotCached } from '../actions'
 import TickingTimer from '../containers/TickingTimer'
 import SelectablePomodoroModeButtons from '../containers/SelectablePomodoroModeButtons'
+import TaskList from './TaskList'
 
-class FlashMessageContainer extends React.Component {
-  render() {
-    let flash = null;
-    let state = this.props.redirectionState;
-    if (state && state.flash) {
-      flash = (
-        <Message positive style={{marginTop:'1em'}}>
-          <Message.Header content={state.flash.message} />
-        </Message>
-      )
-    }
-    return (
-      <div>
-        { flash }
-      </div>
-    )
+
+const tasks = [
+  {
+    title: 'Finish pomoredux',
+    completed: 1,
+    estimated: 2
+  },
+  {
+    title: 'Finish power hour creator',
+    completed: 1,
+    estimated: 2
   }
-}
+]
+
 
 class HomePage extends React.Component {
   getTimerSegmentStyle() {
@@ -42,7 +38,6 @@ class HomePage extends React.Component {
   render() {
     return (
       <div >
-        <FlashMessageContainer redirectionState={this.props.location.state} />
         { this.props.userLoggedIn ||
           <Segment
             textAlign='center'
@@ -68,6 +63,9 @@ class HomePage extends React.Component {
         >
           <SelectablePomodoroModeButtons />
           <TickingTimer />
+        </Segment>
+        <Segment basic>
+          <TaskList tasks={tasks} pressDelay={250}/>
         </Segment>
       </div>
     )
