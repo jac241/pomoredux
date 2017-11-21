@@ -45,8 +45,8 @@ class SettingsForm extends React.Component {
       ]))
       .then(() => this.setState({ changesSaved: true, errors: {}, full_messages: [] }))
       .catch((err) => {
-        const { errors, full_messages } = err.body
-        this.setState({ changesSaved: false, errors, full_messages })
+        const {errors, full_messages} = err.body
+        this.setState({changesSaved: false, errors, full_messages})
       })
       .then(() => this.setState({ saving: false }))
   }
@@ -78,6 +78,7 @@ class SettingsForm extends React.Component {
               label='Pomodoro Length'
               control='input'
               type='number'
+              autoFocus
               value={this.state.pomodoro_length_in_min}
               onChange={this.handleChange}
               error={!!this.state.errors.pomodoro_length_ms}

@@ -19,7 +19,6 @@ feature 'Signing Up' do
     click_sign_up
     fill_out_and_submit_sign_in_form
     i_should_be_on_the_home_page
-    there_should_be_a_new_user_created_message
     a_new_user_should_have_been_created
     i_should_be_logged_in
   end
@@ -48,10 +47,6 @@ feature 'Signing Up' do
 
   def i_should_be_on_the_home_page
     expect(page).to have_current_path('/')
-  end
-
-  def there_should_be_a_new_user_created_message
-    expect(page).to have_content('Your have successfully registered!')
   end
 
   def a_new_user_should_have_been_created

@@ -10,21 +10,7 @@ import { fetchTimerSettingsIfNotCached } from '../actions'
 import TickingTimer from '../containers/TickingTimer'
 import SelectablePomodoroModeButtons from '../containers/SelectablePomodoroModeButtons'
 import TaskList from './TaskList'
-
-
-const tasks = [
-  {
-    title: 'Finish pomoredux',
-    completed: 1,
-    estimated: 2
-  },
-  {
-    title: 'Finish power hour creator',
-    completed: 1,
-    estimated: 2
-  }
-]
-
+import NewTaskModal from "./NewTaskModal"
 
 class HomePage extends React.Component {
   getTimerSegmentStyle() {
@@ -64,9 +50,14 @@ class HomePage extends React.Component {
           <SelectablePomodoroModeButtons />
           <TickingTimer />
         </Segment>
-        <Segment basic>
-          <TaskList tasks={tasks} pressDelay={250}/>
-        </Segment>
+        <Container text>
+          <Segment vertical>
+            <TaskList tasks={this.props.tasks} pressDelay={250}/>
+          </Segment>
+          <Segment vertical>
+            <NewTaskModal />
+          </Segment>
+        </Container>
       </div>
     )
   }
@@ -74,7 +65,8 @@ class HomePage extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    userLoggedIn: state.session.active
+    userLoggedIn: state.session.active,
+    tasks: state.tasks
   }
 }
 

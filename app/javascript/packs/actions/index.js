@@ -16,6 +16,9 @@ export const SESSION_CHANGED = 'SESSION_CHANGED'
 export const REQUEST_TIMER_SETTINGS = 'REQUEST_TIMER_SETTINGS'
 export const RECEIVE_TIMER_SETTINGS = 'RECEIVE_TIMER_SETTINGS'
 export const RESET_TIMER_SETTINGS = 'RESET_TIMER_SETTINGS'
+export const OPEN_NEW_TASK_MODAL = 'OPEN_NEW_TASK_MODAL'
+export const CLOSE_NEW_TASK_MODAL = 'CLOSE_NEW_TASK_MODAL'
+export const RECEIVE_TASK = 'RECEIVE_TASK'
 
 const TICK_INTERVAL_MS = 1000
 
@@ -127,7 +130,11 @@ const parseErrorBody = (err) => {
   return err.response.text()
     .then((text) => {
       if (text.length > 0) {
-        err.body = JSON.parse(text)
+        try {
+          err.body = JSON.parse(text)
+        } catch(parse_err) {
+          console.error(parse_err, parse_err.stack)
+        }
       }
       throw err
     })
@@ -186,7 +193,7 @@ const fetchAuthenticatedResource = (dispatch, endpoint, method, data) => {
 }
 
 const refreshIfInvalidAuthenticityToken = (err) => {
-  if (err.response.status == 422 && err.body.invalid_authenticity_token) {
+  if (err.response.status === 422 && err.body.invalid_authenticity_token) {
     location.reload()
     return
   }
@@ -196,7 +203,7 @@ const refreshIfInvalidAuthenticityToken = (err) => {
 }
 
 const updateSessionIfUnauthenticated = (err, dispatch) => {
-  if (err.response.status == 401) {
+  if (err.response.status === 401) {
     dispatch(sessionChanged({ active: false }))
   }
 
@@ -247,4 +254,24 @@ export const fetchTimerSettingsIfNotCached = () => {
 
 const arePersistedTimerSettingsInState = (state) => {
   return state.timer.settings.id
+}
+
+export const openNewTaskModal = () => (
+  { type: OPEN_NEW_TASK_MODAL }
+)
+
+export const closeNewTaskModal = () => (
+  { type: CLOSE_NEW_TASK_MODAL }
+)
+
+export const receiveTask = (task) => (
+  { type: RECEIVE_TASK, task: task }
+)
+
+export const createTask = (task) => {
+  return (dispatch) => {
+    return fetchAuthenticatedResource(dispatch, '/api/tasks', 'POST', task)
+      .then((task) => dispatch(receiveTask(task)))
+      .then(() => { dispatch(closeNewTaskModal())})
+  }
 }

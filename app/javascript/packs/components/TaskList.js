@@ -1,12 +1,16 @@
 import React from 'react'
 import {
   Card,
-  Container
+  Container,
+  Segment,
+  Button
 } from 'semantic-ui-react'
 import {
   SortableContainer,
   SortableElement
 } from 'react-sortable-hoc'
+
+import TaskForm from './TaskForm'
 
 const Task = SortableElement((props) => (
   <Card>
@@ -14,27 +18,29 @@ const Task = SortableElement((props) => (
       <Card.Header content={props.title} />
     </Card.Content>
     <Card.Content extra>
-      <span className='right floated'> {`Completed: ${props.completed}`} </span>
+      <span className='right floated'> {`Completed: 0`} </span>
       {`Estimated: ${props.estimated}`}
     </Card.Content>
   </Card>
 ))
 
+Task.defaultProps = {
+  creating: false
+}
+
 const TaskList = SortableContainer(({tasks}) => (
-  <Container>
-    <Card.Group itemsPerRow={1}>
-      { tasks.map((task, index) =>(
-        <Task
-          title={task.title}
-          completed={task.completed}
-          estimated={task.estimated}
-          key={index}
-          index={index}
-          sortIndex={index}
-        />
-      ))}
-    </Card.Group>
-  </Container>
+  <Card.Group id='tasks' itemsPerRow={1}>
+    { tasks.map((task, index) =>(
+      <Task
+        title={task.title}
+        completed={task.completed}
+        estimated={task.estimated_num_pomodoros}
+        key={index}
+        index={index}
+        sortIndex={index}
+      />
+    ))}
+  </Card.Group>
 ))
 
 export default TaskList

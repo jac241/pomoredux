@@ -6,12 +6,10 @@ class Api::TimerSettingsController < ApiController
       UpdateTimerSettingsService.new.call(
         user: current_api_user, update_params: update_params)
 
-    respond_to do |format|
-      if results.success
-        format.json { render json: results.timer_settings, status: :ok }
-      else
-        format.json { render json: results.errors, status: :unprocessable_entity }
-      end
+    if results.success
+      render json: results.timer_settings, status: :ok
+    else
+      render json: results.errors, status: :unprocessable_entity
     end
   end
 

@@ -1,8 +1,9 @@
 Rails.application.routes.draw do
-  namespace :api, defaults: { format: :json } do
+  namespace :api, constraint: { format: :json } do
     devise_for :users
 
     resource :timer_settings
+    resource :tasks
   end
   root 'dashboard#index'
   get '*path', to: 'dashboard#index'

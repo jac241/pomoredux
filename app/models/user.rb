@@ -5,6 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_one :timer_settings, dependent: :destroy
+  has_many :tasks, dependent: :destroy
 
   before_validation :build_associated_timer_settings
 
