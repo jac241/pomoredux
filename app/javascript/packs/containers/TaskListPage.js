@@ -12,7 +12,7 @@ class TaskListPage extends React.Component {
     const {tasks} = this.props
 
     return (
-      <TaskList tasks={tasks} />
+      <TaskList tasks={tasks} lockAxis='y' transitionDuration={0}/>
     )
   }
 }
