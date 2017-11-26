@@ -19,6 +19,9 @@ export const RESET_TIMER_SETTINGS = 'RESET_TIMER_SETTINGS'
 export const OPEN_NEW_TASK_MODAL = 'OPEN_NEW_TASK_MODAL'
 export const CLOSE_NEW_TASK_MODAL = 'CLOSE_NEW_TASK_MODAL'
 export const RECEIVE_TASK = 'RECEIVE_TASK'
+export const REQUEST_TASKS = 'REQUEST_TASKS'
+export const RECEIVE_TASKS = 'RECEIVE_TASKS'
+
 
 const TICK_INTERVAL_MS = 1000
 
@@ -273,5 +276,21 @@ export const createTask = (task) => {
     return fetchAuthenticatedResource(dispatch, '/api/tasks', 'POST', task)
       .then((task) => dispatch(receiveTask(task)))
       .then(() => { dispatch(closeNewTaskModal())})
+  }
+}
+
+export const requestTasks = () => (
+  { type: REQUEST_TASKS }
+)
+
+const receiveTasks = (tasks) => (
+  { type: RECEIVE_TASKS, tasks: tasks }
+)
+
+export const fetchTasks = () => {
+  return (dispatch) => {
+    dispatch(requestTasks())
+    return fetchAuthenticatedResource(dispatch, '/api/tasks', 'GET')
+      .then((tasks) => dispatch(receiveTasks(tasks)))
   }
 }

@@ -10,6 +10,12 @@ class Api::TasksController < ApiController
     result.on(:created) { |task| render json: task, status: :created }
   end
 
+  def index
+    tasks = current_api_user.tasks
+
+    render json: tasks
+  end
+
   private
 
   def create_params

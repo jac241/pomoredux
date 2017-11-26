@@ -9,7 +9,7 @@ import { connect } from 'react-redux'
 import { fetchTimerSettingsIfNotCached } from '../actions'
 import TickingTimer from '../containers/TickingTimer'
 import SelectablePomodoroModeButtons from '../containers/SelectablePomodoroModeButtons'
-import TaskList from './TaskList'
+import TaskListPage from '../containers/TaskListPage'
 import NewTaskModal from "./NewTaskModal"
 
 class HomePage extends React.Component {
@@ -22,9 +22,10 @@ class HomePage extends React.Component {
   }
 
   render() {
+    const { userLoggedIn, requestingTasks } = this.props
     return (
       <div >
-        { this.props.userLoggedIn ||
+        { userLoggedIn ||
           <Segment
             textAlign='center'
             style={{ padding: '1em 0em'}}
@@ -50,14 +51,16 @@ class HomePage extends React.Component {
           <SelectablePomodoroModeButtons />
           <TickingTimer />
         </Segment>
-        <Container text>
-          <Segment vertical>
-            <TaskList tasks={this.props.tasks} pressDelay={250}/>
-          </Segment>
-          <Segment vertical>
-            <NewTaskModal />
-          </Segment>
-        </Container>
+        { userLoggedIn &&
+          <Container id="task_section" text>
+            <Segment vertical loading={requestingTasks}>
+              <TaskListPage/>
+            </Segment>
+            <Segment vertical>
+              <NewTaskModal/>
+            </Segment>
+          </Container>
+        }
       </div>
     )
   }
@@ -66,7 +69,7 @@ class HomePage extends React.Component {
 const mapStateToProps = (state) => {
   return {
     userLoggedIn: state.session.active,
-    tasks: state.tasks
+    requestingTasks: state.tasks.requestingTasks,
   }
 }
 

@@ -27,6 +27,10 @@ module Pages
       @model ||= Modal.new
     end
 
+    def hidden?
+      has_no_selector?('#task_section')
+    end
+
     class Modal
       include Capybara::DSL
 
