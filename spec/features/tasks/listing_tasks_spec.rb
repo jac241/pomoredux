@@ -18,12 +18,4 @@ feature 'Listing Tasks' do
       expect(tasks_page).to have_task(task)
     end
   end
-
-  scenario 'Showing nothing task related if not logged in' do
-    task = create(:task, user: user)
-
-    tasks_page.visit_page
-
-    expect(tasks_page).to be_hidden
-  end
 end

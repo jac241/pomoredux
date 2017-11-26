@@ -287,10 +287,22 @@ const receiveTasks = (tasks) => (
   { type: RECEIVE_TASKS, tasks: tasks }
 )
 
-export const fetchTasks = () => {
+const fetchTasks = () => {
   return (dispatch) => {
     dispatch(requestTasks())
     return fetchAuthenticatedResource(dispatch, '/api/tasks', 'GET')
       .then((tasks) => dispatch(receiveTasks(tasks)))
+  }
+}
+
+function tasksAreInState(state) {
+  return state.tasks.tasks.length > 0
+}
+
+export const fetchTasksIfNotCached = () => {
+  return (dispatch, getState) => {
+    if (!tasksAreInState(getState())) {
+      dispatch(fetchTasks())
+    }
   }
 }

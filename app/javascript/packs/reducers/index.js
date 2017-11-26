@@ -5,9 +5,10 @@ import timer from './timer'
 import session from './session'
 import newTaskModal from "./newTaskModal"
 import tasks from './tasks'
+import {SESSION_CHANGED} from '../actions/index'
 
 
-const pomoApp = combineReducers({
+const appReducer = combineReducers({
   timer,
   session,
   newTaskModal,
@@ -15,4 +16,12 @@ const pomoApp = combineReducers({
   form: formReducer
 })
 
-export default pomoApp
+const rootReducer = (state, action) => {
+  if (action.type === SESSION_CHANGED) {
+    state = undefined
+  }
+
+  return appReducer(state, action)
+}
+
+export default rootReducer

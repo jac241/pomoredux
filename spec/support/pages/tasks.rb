@@ -23,6 +23,12 @@ module Pages
       end
     end
 
+    def has_no_task?(task)
+      return true if has_no_selector?('#tasks')
+
+      has_no_content?(task.title) && has_no_content?(task.estimated_num_pomodoros)
+    end
+
     def modal
       @model ||= Modal.new
     end
