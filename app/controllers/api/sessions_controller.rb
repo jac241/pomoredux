@@ -1,9 +1,11 @@
 class Api::SessionsController < Devise::SessionsController
+  include CustomInvalidCsrfResponse
+
   def create
-    self.resource = User.find_for_database_authentication(email: sign_in_params[:email])
+    self.resource = warden.authenticate(auth_options)
 
     respond_to do |format|
-      if resource && resource.valid_password?(sign_in_params[:password])
+      if resource
         sign_in(resource_name, resource)
         format.json { render json: resource, status: :created }
       else
@@ -29,11 +31,5 @@ class Api::SessionsController < Devise::SessionsController
         }
       end
     end
-  end
-
-  private
-
-  def sign_in_params
-    params.require(:session).permit(:email, :password)
   end
 end

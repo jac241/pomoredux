@@ -115,7 +115,7 @@ const fetchWithCSRF = (endpoint, method, data) => {
     options['body'] = JSON.stringify(data)
   }
 
-  return fetch(endpoint, options).then(handleResponse).catch(parseErrorBody)
+  return fetch(endpoint, options).then(handleResponse).catch(parseErrorBody).catch(refreshIfInvalidAuthenticityToken)
 }
 
 const handleResponse = (response) => {
@@ -138,6 +138,7 @@ const parseErrorBody = (err) => {
         try {
           err.body = JSON.parse(text)
         } catch(parse_err) {
+          console.error(text)
           console.error(parse_err, parse_err.stack)
         }
       }
@@ -145,9 +146,13 @@ const parseErrorBody = (err) => {
     })
 }
 
+const reformatForApi = (userParams) => (
+  { api_user: userParams }
+)
+
 export const createUserSession = (userAttributes) => {
   return dispatch => {
-    return fetchWithCSRF('/api/users/sign_in', 'POST', userAttributes)
+    return fetchWithCSRF('/api/users/sign_in', 'POST', reformatForApi(userAttributes))
       .then(() => {
         dispatch(sessionChanged({ active: true }))
       })

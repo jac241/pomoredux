@@ -13,6 +13,7 @@ class LoginForm extends React.Component {
   state = {
     email: '',
     password: '',
+    remember_me: false,
     error: ''
   }
 
@@ -23,8 +24,8 @@ class LoginForm extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault()
 
-    const { email, password } = this.state
-    this.props.createUserSession({ email, password })
+    const { email, password, remember_me } = this.state
+    this.props.createUserSession({ email, password, remember_me })
       .catch((err) => {
         if (err.response.status === 401) {
           this.setState({error: 'Incorrect email or password.'})
@@ -32,6 +33,10 @@ class LoginForm extends React.Component {
           this.setState({error: 'An error occurred.'})
         }
       })
+  }
+
+  toggle = (e) => {
+    this.setState({ remember_me: !this.state.remember_me })
   }
 
   render() {
@@ -73,6 +78,13 @@ class LoginForm extends React.Component {
               type='password'
               value={this.state.password}
               onChange={this.handleChange}
+            />
+            <Form.Checkbox
+              id='user_remember_me'
+              name='remember_me'
+              label='Keep me signed in'
+              checked={this.state.remember_me}
+              onChange={this.toggle}
             />
             <Button fluid size='large'>Log In</Button>
           </Segment>

@@ -6,6 +6,7 @@ class Api::RegistrationsController < Devise::RegistrationsController
   # def new
   #   super
   # end
+  include CustomInvalidCsrfResponse
 
   undef_method :new
   undef_method :update

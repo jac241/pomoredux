@@ -1,3 +1,5 @@
+require_relative 'log_in'
+
 module Pages
   class Home
     include Capybara::DSL
@@ -26,21 +28,25 @@ module Pages
     end
   end
 
-  class LogIn
-    include Capybara::DSL
+  #class LogIn
+    #include Capybara::DSL
 
-    def log_in(user)
-      within "#new_user_session" do
-        fill_in('Email', with: user.email)
-        fill_in('Password', with: user.password)
+    #def visit_page
+      #visit('/login')
+    #end
 
-        click_on('Log In')
-      end
-    end
+    #def log_in(user)
+      #within "#new_user_session" do
+        #fill_in('Email', with: user.email)
+        #fill_in('Password', with: user.password)
 
-    def has_no_error_message?
-      has_no_text?('Error')
-    end
-  end
+        #click_on('Log In')
+      #end
+    #end
+
+    #def has_no_error_message?
+      #has_no_text?('Error')
+    #end
+  #end
 end
 
