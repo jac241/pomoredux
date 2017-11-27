@@ -29,12 +29,21 @@ module Pages
       has_no_content?(task.title) && has_no_content?(task.estimated_num_pomodoros)
     end
 
-    def modal
-      @model ||= Modal.new
-    end
-
     def hidden?
       has_no_selector?('#task_section')
+    end
+
+    def has_new_task_error?(error_text)
+      within '#new_task' do
+        (
+          has_content?('There were errors creating your task') &&
+          has_content?(error_text)
+        )
+      end
+    end
+
+    def modal
+      @model ||= Modal.new
     end
 
     class Modal

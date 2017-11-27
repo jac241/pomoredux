@@ -1,21 +1,37 @@
 import React from 'react'
-//import compose from 'redux'
 import { Field, reduxForm } from 'redux-form'
-import { Form, Input, Button, Modal } from 'semantic-ui-react'
+import {Form, Input, Button, Message, Label} from 'semantic-ui-react'
 
+const renderField = ({ input, label, type, meta: { touched, error } }) => (
+  <Form.Field error={!!error}>
+    <label>{label}</label>
+    <Input {...input} type={type}/>
+    {touched && error &&
+      <Label basic pointing color='red'>{error}</Label>
+    }
+  </Form.Field>
+)
 class TaskForm extends React.Component {
   render() {
+    const { handleSubmit, error, submitting } = this.props
     return (
-      <Form onSubmit={this.props.handleSubmit} id='new_task'>
-        <Form.Field>
-          <label>Title</label>
-          <Field name="title" autoFocus component={Input} />
-        </Form.Field>
-        <Form.Field>
-          <label>Estimate</label>
-          <Field name="estimated_num_pomodoros" type="number" component={Input} />
-        </Form.Field>
-        <Button type="submit" positive loading={this.props.submitting}>Add</Button>
+      <Form onSubmit={handleSubmit} id='new_task' error={!!error}>
+        <Message error content={error} />
+        <Field
+          id='task_title'
+          name='title'
+          component={renderField}
+          label='Title'
+          autoFocus
+        />
+        <Field
+          id='task_estimated_num_pomodoros'
+          name='estimated_num_pomodoros'
+          component={renderField}
+          label='Estimated number of pomodoros to complete task'
+          type='number'
+        />
+        <Button type="submit" positive loading={submitting}>Add</Button>
       </Form>
     )
   }

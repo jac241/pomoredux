@@ -6,6 +6,8 @@ import plucksMp3 from '../assets/audio/plucks.mp3'
 import plucksOgg from '../assets/audio/plucks.ogg'
 
 import { Howl } from 'howler'
+import omit from 'lodash/omit'
+import {SubmissionError} from 'redux-form'
 
 export const TIMER_START = 'TIMER_START'
 export const TIMER_TICK = 'TIMER_TICK'
@@ -271,11 +273,31 @@ export const receiveTask = (task) => (
   { type: RECEIVE_TASK, task: task }
 )
 
+function buildSubmissionError(err) {
+  const {body} = err
+  const new_err = Object.assign({}, body.errors)
+
+  for (var key in new_err) {
+    new_err[key] = new_err[key].join(', ')
+  }
+
+  new_err['_error'] = 'There were errors creating your task.'
+
+  console.log(new_err)
+
+  return new SubmissionError(new_err)
+}
+
+function handleCreateTaskError(err) {
+  throw buildSubmissionError(err)
+}
+
 export const createTask = (task) => {
   return (dispatch) => {
     return fetchAuthenticatedResource(dispatch, '/api/tasks', 'POST', task)
       .then((task) => dispatch(receiveTask(task)))
       .then(() => { dispatch(closeNewTaskModal())})
+      .catch(handleCreateTaskError)
   }
 }
 

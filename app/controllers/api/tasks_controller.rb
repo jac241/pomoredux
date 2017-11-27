@@ -2,12 +2,13 @@ class Api::TasksController < ApiController
   before_action :authenticate_api_user!
 
   def create
-    result = CreateTaskService.call(
+    results = CreateTaskService.call(
       user: current_api_user,
       create_params: create_params
     )
 
-    result.on(:created) { |task| render json: task, status: :created }
+    results.on(:created) { |task| render json: task, status: :created }
+    results.on(:invalid_params) { |task| render json: task.errors, status: :unprocessable_entity}
   end
 
   def index

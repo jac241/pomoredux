@@ -3,9 +3,9 @@ import {
   Modal,
   Button
 } from 'semantic-ui-react'
-import TaskForm from './TaskForm'
 import {closeNewTaskModal, createTask, openNewTaskModal} from "../actions/index"
 import {connect} from "react-redux"
+import NewTaskForm from '../containers/NewTaskForm'
 
 const NewTaskModal = ({dispatch, open}) => (
   <Modal
@@ -15,7 +15,7 @@ const NewTaskModal = ({dispatch, open}) => (
   >
     <Modal.Header>New task</Modal.Header>
     <Modal.Content>
-      <TaskForm onSubmit={(task) => { dispatch(createTask(task)) }}/>
+      <NewTaskForm />
     </Modal.Content>
   </Modal>
 )
