@@ -1,12 +1,8 @@
-import {
-  TIMER_LENGTHS_MS,
-  BUFFER_SO_THAT_59_ALWAYS_SHOWN
-} from '../settings'
+import { BUFFER_SO_THAT_59_ALWAYS_SHOWN } from '../settings'
 import plucksMp3 from '../assets/audio/plucks.mp3'
 import plucksOgg from '../assets/audio/plucks.ogg'
 
 import { Howl } from 'howler'
-import omit from 'lodash/omit'
 import {SubmissionError} from 'redux-form'
 
 export const TIMER_START = 'TIMER_START'

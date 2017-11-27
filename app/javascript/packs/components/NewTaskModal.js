@@ -26,7 +26,7 @@ class NewTaskModal extends React.Component {
     )
   }
 
-  componetWillUnmount() {
+  componentWillUnmount() {
     this.props.dispatch(closeNewTaskModal())
   }
 }
