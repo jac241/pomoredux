@@ -3,22 +3,33 @@ import {
   Modal,
   Button
 } from 'semantic-ui-react'
-import {closeNewTaskModal, createTask, openNewTaskModal} from "../actions/index"
+import {closeNewTaskModal, openNewTaskModal} from "../actions/index"
 import {connect} from "react-redux"
 import NewTaskForm from '../containers/NewTaskForm'
 
-const NewTaskModal = ({dispatch, open}) => (
-  <Modal
-    trigger={<Button onClick={() => { dispatch(openNewTaskModal()) }}>Add a task</Button>}
-    open={open}
-    onClose={() => dispatch(closeNewTaskModal())}
-  >
-    <Modal.Header>New task</Modal.Header>
-    <Modal.Content>
-      <NewTaskForm />
-    </Modal.Content>
-  </Modal>
-)
+class NewTaskModal extends React.Component {
+  render() {
+    const {dispatch, open} = this.props
+    return (
+      <Modal
+        trigger={<Button onClick={() => {
+          dispatch(openNewTaskModal())
+        }}>Add a task</Button>}
+        open={open}
+        onClose={() => dispatch(closeNewTaskModal())}
+      >
+        <Modal.Header>New task</Modal.Header>
+        <Modal.Content>
+          <NewTaskForm/>
+        </Modal.Content>
+      </Modal>
+    )
+  }
+
+  componetWillUnmount() {
+    this.props.dispatch(closeNewTaskModal())
+  }
+}
 
 const mapStateToProps = (state) => {
   return {

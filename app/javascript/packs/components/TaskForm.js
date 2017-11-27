@@ -2,15 +2,16 @@ import React from 'react'
 import { Field, reduxForm } from 'redux-form'
 import {Form, Input, Button, Message, Label} from 'semantic-ui-react'
 
-const renderField = ({ input, label, type, meta: { touched, error } }) => (
-  <Form.Field error={!!error}>
+const renderField = ({ input, label, type, meta: { touched, error }, required, autoFocus }) => (
+  <Form.Field required={required} error={!!error}>
     <label>{label}</label>
-    <Input {...input} type={type}/>
+    <Input {...input} type={type} autoFocus={autoFocus}/>
     {touched && error &&
       <Label basic pointing color='red'>{error}</Label>
     }
   </Form.Field>
 )
+
 class TaskForm extends React.Component {
   render() {
     const { handleSubmit, error, submitting } = this.props
@@ -23,6 +24,7 @@ class TaskForm extends React.Component {
           component={renderField}
           label='Title'
           autoFocus
+          required
         />
         <Field
           id='task_estimated_num_pomodoros'
@@ -30,6 +32,7 @@ class TaskForm extends React.Component {
           component={renderField}
           label='Estimated number of pomodoros to complete task'
           type='number'
+          required
         />
         <Button type="submit" positive loading={submitting}>Add</Button>
       </Form>
