@@ -7,7 +7,7 @@ class Api::SessionsController < Devise::SessionsController
     respond_to do |format|
       if resource
         sign_in(resource_name, resource)
-        format.json { render json: resource, status: :created }
+        format.json { render json: csrf_response, status: :created }
       else
         warden.custom_failure!
         format.json { head :unauthorized }
@@ -25,11 +25,17 @@ class Api::SessionsController < Devise::SessionsController
 
     respond_to do |format|
       format.json do
-        render json: {
-          csrf_param: request_forgery_protection_token,
-          csrf_token: form_authenticity_token
-        }
+        render json: csrf_response
       end
     end
+  end
+
+  private
+
+  def csrf_response
+    {
+      csrf_param: request_forgery_protection_token,
+      csrf_token: form_authenticity_token
+    }
   end
 end

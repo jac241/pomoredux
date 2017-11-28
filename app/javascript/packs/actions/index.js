@@ -149,6 +149,7 @@ const reformatForApi = (userParams) => (
 export const createUserSession = (userAttributes) => {
   return dispatch => {
     return fetchWithCSRF('/api/users/sign_in', 'POST', reformatForApi(userAttributes))
+      .then(embedNewCSRFTokenIfPresent)
       .then(() => {
         dispatch(sessionChanged({ active: true }))
       })
