@@ -69,6 +69,7 @@ class LoginForm extends React.Component {
               placeholder='Email'
               value={this.state.email}
               onChange={this.handleChange}
+              autoFocus
             />
             <Form.Field
               id='user_password'

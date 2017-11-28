@@ -1,7 +1,7 @@
 import React from 'react'
 import {
   Menu,
-  Container, Button, Icon
+  Container, Button, Icon, Loader
 } from 'semantic-ui-react'
 import { Link, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
@@ -30,7 +30,7 @@ class NavBar extends React.Component {
               <Menu.Item
                 onClick={this.handleLogOut}
               >
-                { isLoggingOut ? <Icon loading name='spinner'/> : 'Log Out' }
+                { isLoggingOut ? <Loader active inline size='tiny'/> : 'Log Out' }
               </Menu.Item>
             </Menu.Menu>
           ) : (
