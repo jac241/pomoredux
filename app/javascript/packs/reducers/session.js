@@ -1,10 +1,11 @@
 import { SESSION_CHANGED } from '../actions'
 import { updateObject } from '../util'
-import {SESSION_VERIFIED} from '../actions/index'
+import {RECEIVE_LOG_OUT, REQUEST_LOG_OUT, SESSION_VERIFIED} from '../actions/index'
 
 const initialState = {
   active: false,
-  wasVerified: false
+  wasVerified: false,
+  isLoggingOut: false
 }
 
 function session(state=initialState, action) {
@@ -13,6 +14,10 @@ function session(state=initialState, action) {
       return updateObject(state, { active: action.active })
     case SESSION_VERIFIED:
       return Object.assign({}, state, { wasVerified: true }, action.session)
+    case REQUEST_LOG_OUT:
+      return updateObject(state, { isLoggingOut: true })
+    case RECEIVE_LOG_OUT:
+      return updateObject(state, { isLoggingOut: false })
   }
 
   return state

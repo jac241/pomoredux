@@ -21,7 +21,7 @@ class AuthenticatedComponentContainer extends React.Component {
         <Segment loading/>
       )
     } else if (!isLoggedIn && wasVerified) {
-      return (<Redirect to='login' />)
+      return (<Redirect to='/login' />)
     } else {
       return this.props.children
     }

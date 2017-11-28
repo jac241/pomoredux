@@ -1,32 +1,36 @@
 import React from 'react'
 import {
   Menu,
-  Container
+  Container, Button, Icon
 } from 'semantic-ui-react'
 import { Link, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import { destroyUserSession } from '../actions'
 
+const LogOutButton = ({loading, children}) => (
+    <Button loading={loading}>{children}</Button>
+)
+
 class NavBar extends React.Component {
   handleLogOut = () => {
-    this.props.destroyUserSession()
+    const { destroyUserSession, history } = this.props
+    destroyUserSession().then(() => history.push('/'))
   }
 
   render() {
+    const { userSignedIn, isLoggingOut } = this.props
     return (
       <Menu size='large' style={{marginBottom: '1em'}}>
         <Menu.Item as={Link} to='/'>Home</Menu.Item>
         {
-          this.props.userSignedIn ? (
+          userSignedIn ? (
             <Menu.Menu position='right'>
               <Menu.Item as={Link} to='/settings' name='settings'>Settings</Menu.Item>
               <Menu.Item
-                as={Link}
                 onClick={this.handleLogOut}
-                to='/'
               >
-                Log Out
+                { isLoggingOut ? <Icon loading name='spinner'/> : 'Log Out' }
               </Menu.Item>
             </Menu.Menu>
           ) : (
@@ -42,9 +46,11 @@ class NavBar extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+  const { active, isLoggingOut } = state.session
   return {
-    userSignedIn: state.session.active
+    userSignedIn: active,
+    isLoggingOut
   }
 }
 
-export default connect(mapStateToProps, { destroyUserSession })(NavBar)
+export default withRouter(connect(mapStateToProps, { destroyUserSession })(NavBar))

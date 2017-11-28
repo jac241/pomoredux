@@ -12,6 +12,8 @@ export const TIMER_RESET = 'TIMER_RESET'
 export const TIMER_MODE_CHANGE = 'TIMER_MODE_CHANGE'
 export const SESSION_CHANGED = 'SESSION_CHANGED'
 export const SESSION_VERIFIED = 'SESSION_VERIFIED'
+export const REQUEST_LOG_OUT = 'REQUEST_LOG_OUT'
+export const RECEIVE_LOG_OUT = 'RECEIVE_LOG_OUT'
 export const REQUEST_TIMER_SETTINGS = 'REQUEST_TIMER_SETTINGS'
 export const RECEIVE_TIMER_SETTINGS = 'RECEIVE_TIMER_SETTINGS'
 export const RESET_TIMER_SETTINGS = 'RESET_TIMER_SETTINGS'
@@ -157,13 +159,24 @@ export const createUserSession = (userAttributes) => {
   }
 }
 
+const requestLogOut = () => (
+  { type: REQUEST_LOG_OUT }
+)
+
+const receiveLogOut = () => (
+  { type: RECEIVE_LOG_OUT }
+)
+
 export const destroyUserSession = () => {
   return dispatch => {
+    dispatch(requestLogOut())
     return fetchWithCSRF('/api/users/sign_out', 'DELETE')
       .then(embedNewCSRFTokenIfPresent)
+      .then(() => dispatch(receiveLogOut()))
       .then(() => dispatch(sessionChanged({ active: false })))
       .then(() => dispatch(resetTimerSettings()))
       .then(() => dispatch(resetTimer()))
+      .catch(() => dispatch(receiveLogOut()))
   }
 }
 
@@ -216,7 +229,7 @@ const fetchAuthenticatedResource = (dispatch, endpoint, method, data) => {
 }
 
 const refreshIfInvalidAuthenticityToken = (err) => {
-  if (err.response.status === 422 && err.body.invalid_authenticity_token) {
+  if (err.response && err.response.status === 422 && err.body.invalid_authenticity_token) {
     location.reload()
     return
   }
