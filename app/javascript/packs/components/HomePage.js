@@ -51,13 +51,14 @@ class HomePage extends React.Component {
         </Segment>
         { userLoggedIn &&
           <Container id="task_section" text>
-            <Segment clearing vertical>
+            <div>
               <Header as='h1' floated='left' content='Tasks' />
-              <Header floated='right'>
+              <div style={{float: 'right'}}>
                 <NewTaskModal />
-              </Header>
-            </Segment>
-            <Segment vertical loading={requestingTasks}>
+              </div>
+              <div style={{clear: 'both'}} />
+            </div>
+            <Segment clearing vertical loading={requestingTasks}>
               <TaskListPage/>
             </Segment>
           </Container>

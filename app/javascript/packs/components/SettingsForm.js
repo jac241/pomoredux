@@ -72,6 +72,11 @@ class SettingsForm extends React.Component {
           error={this.state.full_messages.length > 0}
         >
           <Segment textAlign='left'>
+            <Message
+              success
+              header='Changes saved!'
+              content='Your settings have been updated.'
+            />
             <Form.Field
               id='timer_settings_pomodoro_length_in_min'
               name='pomodoro_length_in_min'
@@ -110,11 +115,6 @@ class SettingsForm extends React.Component {
             >
               Save Changes
             </Button>
-            <Message
-              success
-              header='Changes saved!'
-              content='Your settings have been updated.'
-            />
             <Message error>
               <Message.Header content='There were errors saving your settings.' />
               <Container textAlign='left'>
