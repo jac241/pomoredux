@@ -1,19 +1,8 @@
 import React from 'react'
-import {
-  Card,
-  Container,
-  Segment,
-  Button
-} from 'semantic-ui-react'
-import {
-  SortableContainer,
-  SortableElement
-} from 'react-sortable-hoc'
-
-import TaskForm from './TaskForm'
+import {Card} from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
 
-const Task = SortableElement((props) => {
+const Task = (props) => {
   const { id, title, estimated_num_pomodoros} = props.task
   return (
     <Card id={`task_${id}`} as={Link} to={`/tasks/${id}`}>
@@ -26,13 +15,13 @@ const Task = SortableElement((props) => {
       </Card.Content>
     </Card>
   )
-})
+}
 
 Task.defaultProps = {
   creating: false
 }
 
-const TaskList = SortableContainer(({tasks}) => (
+const TaskList = ({tasks}) => (
   <Card.Group id='tasks' itemsPerRow={1}>
     { tasks.map((task, index) =>(
       <Task
@@ -43,6 +32,6 @@ const TaskList = SortableContainer(({tasks}) => (
       />
     ))}
   </Card.Group>
-))
+)
 
 export default TaskList

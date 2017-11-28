@@ -27,26 +27,5 @@ module Pages
       has_current_path?('/')
     end
   end
-
-  #class LogIn
-    #include Capybara::DSL
-
-    #def visit_page
-      #visit('/login')
-    #end
-
-    #def log_in(user)
-      #within "#new_user_session" do
-        #fill_in('Email', with: user.email)
-        #fill_in('Password', with: user.password)
-
-        #click_on('Log In')
-      #end
-    #end
-
-    #def has_no_error_message?
-      #has_no_text?('Error')
-    #end
-  #end
 end
 
