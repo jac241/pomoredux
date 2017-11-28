@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   namespace :api, constraints: { format: :json }, defaults: { format: :json } do
+    get '/current_user', to: 'users#show'
+
     devise_for :users
 
     resource :timer_settings

@@ -11,6 +11,7 @@ export const TIMER_STOP = 'TIMER_STOP'
 export const TIMER_RESET = 'TIMER_RESET'
 export const TIMER_MODE_CHANGE = 'TIMER_MODE_CHANGE'
 export const SESSION_CHANGED = 'SESSION_CHANGED'
+export const SESSION_VERIFIED = 'SESSION_VERIFIED'
 export const REQUEST_TIMER_SETTINGS = 'REQUEST_TIMER_SETTINGS'
 export const RECEIVE_TIMER_SETTINGS = 'RECEIVE_TIMER_SETTINGS'
 export const RESET_TIMER_SETTINGS = 'RESET_TIMER_SETTINGS'
@@ -166,6 +167,21 @@ export const destroyUserSession = () => {
   }
 }
 
+const userSessionVerified = (session) => (
+  { type: SESSION_VERIFIED, session: session }
+)
+
+export const verifyUserSession = () => {
+  return dispatch => {
+    return fetchAuthenticatedResource(dispatch, '/api/current_user', 'GET')
+      .then(() => dispatch(userSessionVerified({ active: true })))
+      .catch((err) => {
+        dispatch(userSessionVerified())
+        throw err
+      })
+  }
+}
+
 const resetTimerSettings = () => {
   return {
     type: RESET_TIMER_SETTINGS
@@ -211,7 +227,7 @@ const refreshIfInvalidAuthenticityToken = (err) => {
 
 const updateSessionIfUnauthenticated = (err, dispatch) => {
   if (err.response.status === 401) {
-    dispatch(sessionChanged({ active: false }))
+    dispatch(userSessionVerified({ active: false }))
   }
 
   throw err
@@ -279,7 +295,7 @@ function buildSubmissionError(err) {
   const {body} = err
   const new_err = Object.assign({}, body.errors)
 
-  for (var key in new_err) {
+  for (let key in new_err) {
     new_err[key] = new_err[key].join(', ')
   }
 
