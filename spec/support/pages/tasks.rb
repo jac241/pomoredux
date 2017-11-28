@@ -1,3 +1,5 @@
+require_relative 'task'
+
 module Pages
   class Tasks
     include Capybara::DSL
@@ -40,6 +42,14 @@ module Pages
           has_content?(error_text)
         )
       end
+    end
+
+    def go_to_task(task)
+      within("#tasks") do
+        find("#task_#{task.id}").click
+      end
+
+      Pages::Task.new(task)
     end
 
     def modal

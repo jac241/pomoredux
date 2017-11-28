@@ -7,10 +7,9 @@ import {
 import { connect } from 'react-redux'
 
 import { fetchTimerSettingsIfNotCached } from '../actions'
-import TickingTimer from '../containers/TickingTimer'
-import SelectablePomodoroModeButtons from '../containers/SelectablePomodoroModeButtons'
 import TaskListPage from '../containers/TaskListPage'
 import NewTaskModal from "./NewTaskModal"
+import PomodoroTimer from './PomodoroTimer'
 
 class HomePage extends React.Component {
   getTimerSegmentStyle() {
@@ -48,8 +47,7 @@ class HomePage extends React.Component {
           basic
           style={this.getTimerSegmentStyle()}
         >
-          <SelectablePomodoroModeButtons />
-          <TickingTimer />
+          <PomodoroTimer />
         </Segment>
         { userLoggedIn &&
           <Container id="task_section" text>

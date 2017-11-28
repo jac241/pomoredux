@@ -13,6 +13,7 @@ import RegistrationFormPage from '../containers/RegistrationFormPage'
 import LoginPage from '../containers/LoginPage'
 import SettingsPage from '../components/SettingsPage'
 import AuthenticatedComponentContainer from '../containers/AuthenticatedComponentContainer'
+import TaskTimerPage from '../containers/TaskTimerPage'
 
 
 class App extends React.Component {
@@ -36,6 +37,7 @@ class App extends React.Component {
           <Route path="/login" component={LoginPage}/>
           <AuthenticatedComponentContainer>
             <Route path="/settings" component={SettingsPage}/>
+            <Route path="/tasks/:id" component={TaskTimerPage}/>
           </AuthenticatedComponentContainer>
         </Switch>
       </div>

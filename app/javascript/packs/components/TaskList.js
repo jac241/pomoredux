@@ -11,18 +11,22 @@ import {
 } from 'react-sortable-hoc'
 
 import TaskForm from './TaskForm'
+import {Link} from 'react-router-dom'
 
-const Task = SortableElement((props) => (
-  <Card>
-    <Card.Content>
-      <Card.Header content={props.title} />
-    </Card.Content>
-    <Card.Content extra>
-      <span className='right floated'> {`Completed: 0`} </span>
-      {`Estimated: ${props.estimated}`}
-    </Card.Content>
-  </Card>
-))
+const Task = SortableElement((props) => {
+  const { id, title, estimated_num_pomodoros} = props.task
+  return (
+    <Card id={`task_${id}`} as={Link} to={`/tasks/${id}`}>
+      <Card.Content>
+        <Card.Header content={title} />
+      </Card.Content>
+      <Card.Content extra>
+        <span className='right floated'> {`Completed: 0`} </span>
+        {`Estimated: ${estimated_num_pomodoros}`}
+      </Card.Content>
+    </Card>
+  )
+})
 
 Task.defaultProps = {
   creating: false
@@ -32,9 +36,7 @@ const TaskList = SortableContainer(({tasks}) => (
   <Card.Group id='tasks' itemsPerRow={1}>
     { tasks.map((task, index) =>(
       <Task
-        title={task.title}
-        completed={task.completed}
-        estimated={task.estimated_num_pomodoros}
+        task={task}
         key={index}
         index={index}
         sortIndex={index}
