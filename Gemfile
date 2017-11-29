@@ -33,6 +33,7 @@ gem 'active_model_serializers', '~> 0.10.2'
 # gem 'capistrano-rails', group: :development
 #
 gem 'devise'
+gem 'bootsnap', require: false
 
 group :test do
   gem 'capybara'
@@ -48,7 +49,6 @@ group :development, :test do
   gem 'pry-rails'
   gem 'rspec-rails'
   gem 'factory_girl_rails'
-  gem 'bootsnap', require: false
 end
 
 group :development do

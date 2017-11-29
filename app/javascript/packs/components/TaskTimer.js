@@ -22,7 +22,7 @@ class TaskTimer extends React.Component {
       completed = <Loader active inline size='mini'/>
     } else if (completedPomodoros) {
       completed = completedPomodoros.length
-    } else{
+    } else {
       completed = 0
     }
 
