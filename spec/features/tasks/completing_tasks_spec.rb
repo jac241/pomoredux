@@ -38,6 +38,15 @@ feature 'Completing Tasks' do
     expect(task_page).to have_completed_n_pomodoros(1)
   end
 
+  scenario 'Should show already completed pomodoros when I go to task page' do
+    task = create(:task, user: user)
+    create_list(:pomodoro, 3, task: task)
+
+    task_page = Pages::Task.new(task)
+    task_page.visit_page
+
+    expect(task_page).to have_completed_n_pomodoros(3)
+  end
+
   scenario 'Should not create pomodoro if I finished a short or long break'
-  scenario 'Should show already completed pomodoros when I go to task page'
 end

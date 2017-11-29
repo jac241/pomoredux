@@ -1,17 +1,31 @@
 import React from 'react'
-import {Header, Label} from 'semantic-ui-react'
+import {Header, Label, Loader} from 'semantic-ui-react'
 import PomodoroTimer from './PomodoroTimer'
-import {activateTask} from '../actions/index'
+import {activateTask, fetchPomodorosForTask} from '../actions/index'
 import {connect} from 'react-redux'
 
 class TaskTimer extends React.Component {
   componentDidMount() {
-    const { activateTask, task } = this.props
+    const { activateTask, task, completedPomodoros, fetchPomodorosForTask } = this.props
     activateTask(task)
+
+    if (completedPomodoros === undefined) {
+      fetchPomodorosForTask(task)
+    }
   }
 
   render() {
-    const { task, completedPomodoros } = this.props
+    const { task, completedPomodoros, requestingPomodoros } = this.props
+
+    let completed
+    if (requestingPomodoros) {
+      completed = <Loader active inline size='mini'/>
+    } else if (completedPomodoros) {
+      completed = completedPomodoros.length
+    } else{
+      completed = 0
+    }
+
     return (
       <div>
         <Header as='h1' content={task.title}/>
@@ -22,7 +36,7 @@ class TaskTimer extends React.Component {
           style={{float: 'left'}}
         >
           Completed
-          <Label.Detail>{completedPomodoros}</Label.Detail>
+          <Label.Detail>{completed}</Label.Detail>
         </Label>
         <Label
           size='big'
@@ -37,15 +51,15 @@ class TaskTimer extends React.Component {
   }
 }
 
-const getCompletedPomodorosCount = (state, task) => {
-  const pomodoros = state.pomodoros.byTaskId[task.id]
-  return pomodoros ? pomodoros.length : 0
-}
-
 const mapStateToProps = (state, { task }) => {
+  const { byTaskId, requestingPomodoros } = state.pomodoros
   return {
-    completedPomodoros: getCompletedPomodorosCount(state, task)
+    completedPomodoros: byTaskId[task.id],
+    requestingPomodoros
   }
 }
 
-export default connect(mapStateToProps, { activateTask })(TaskTimer)
+export default connect(
+  mapStateToProps,
+  { activateTask, fetchPomodorosForTask }
+)(TaskTimer)

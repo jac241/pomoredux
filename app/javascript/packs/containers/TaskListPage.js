@@ -9,16 +9,22 @@ class TaskListPage extends React.Component {
   }
 
   render() {
-    const {tasks} = this.props
+    const {tasks, pomodorosByTaskId} = this.props
 
     return (
-      <TaskList tasks={tasks} pressDelay={200} lockAxis='y' transitionDuration={0}/>
+      <TaskList
+        tasks={tasks}
+        pomodorosByTaskId={pomodorosByTaskId}
+      />
     )
   }
 }
 
 const mapStateToProps = (state) => (
-  {tasks: state.tasks.tasks}
+  {
+    tasks: state.tasks.tasks,
+    pomodorosByTaskId: state.pomodoros.byTaskId
+  }
 )
 
 export default connect(mapStateToProps)(TaskListPage)

@@ -26,6 +26,8 @@ export const REQUEST_TASK = 'REQUEST_TASK'
 export const ACTIVATE_TASK = 'ACTIVATE_TASK'
 export const REQUEST_POMODORO = 'REQUEST_POMODORO'
 export const RECEIVE_POMODORO = 'RECEIVE_POMODORO'
+export const REQUESTING_POMODOROS = 'REQUESTING_POMODOROS'
+export const RECEIVE_POMODOROS = 'RECEIVE_POMODOROS'
 
 
 const TICK_INTERVAL_MS = 1000
@@ -74,13 +76,18 @@ const stopTimer = () => {
 
 const createPomodoroIfActiveTask = (state) => {
   return dispatch => {
-    const {activeTaskId} = state.tasks
-    if (activeTaskId) {
+    const activeTask = getActiveTask(state)
+    if (activeTask) {
       dispatch(requestPomodoro())
-      return fetchAuthenticatedResource(dispatch, `/api/tasks/${activeTaskId}/pomodoros`, 'POST')
+      return fetchAuthenticatedResource(dispatch, activeTask.links.pomodoros, 'POST')
         .then((pomodoro) => dispatch(receivePomodoro(pomodoro)))
     }
   }
+}
+
+const getActiveTask = (state) => {
+  const {activeTaskId} = state.tasks
+  return state.tasks.tasks.find(t => t.id === activeTaskId)
 }
 
 const requestPomodoro = () => (
@@ -400,4 +407,20 @@ export const fetchTask = (id) => {
 
 export const activateTask = (task) => (
   { type: ACTIVATE_TASK, task }
+)
+
+export const fetchPomodorosForTask = (task) => {
+  return dispatch => {
+    dispatch(requestPomodoros())
+    return fetchAuthenticatedResource(dispatch, task.links.pomodoros, 'GET')
+      .then((pomodoros) => dispatch(receivePomodoros(pomodoros)))
+  }
+}
+
+const requestPomodoros = () => {
+  return {type: REQUESTING_POMODOROS}
+}
+
+const receivePomodoros = (pomodoros) => (
+  { type: RECEIVE_POMODOROS, pomodoros }
 )
