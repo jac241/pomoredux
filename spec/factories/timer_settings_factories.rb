@@ -11,5 +11,11 @@ FactoryGirl.define do
       short_break_length_ms ''
       long_break_length_ms ''
     end
+
+    factory :fast_timer_settings do
+      pomodoro_length_ms 500
+      short_break_length_ms 500
+      long_break_length_ms 500
+    end
   end
 end

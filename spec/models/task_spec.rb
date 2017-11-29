@@ -8,4 +8,7 @@ describe Task do
             .only_integer
             .is_greater_than(0)
   end
+
+  it { should have_many(:pomodoros) }
+  it { should belong_to(:user) }
 end

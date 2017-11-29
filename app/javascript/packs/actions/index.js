@@ -22,6 +22,10 @@ export const CLOSE_NEW_TASK_MODAL = 'CLOSE_NEW_TASK_MODAL'
 export const RECEIVE_TASK = 'RECEIVE_TASK'
 export const REQUEST_TASKS = 'REQUEST_TASKS'
 export const RECEIVE_TASKS = 'RECEIVE_TASKS'
+export const REQUEST_TASK = 'REQUEST_TASK'
+export const ACTIVATE_TASK = 'ACTIVATE_TASK'
+export const REQUEST_POMODORO = 'REQUEST_POMODORO'
+export const RECEIVE_POMODORO = 'RECEIVE_POMODORO'
 
 
 const TICK_INTERVAL_MS = 1000
@@ -62,8 +66,30 @@ const tickTimer = () => {
 const stopTimer = () => {
   clearInterval(timer)
   playFinishedAudio()
-  return { type: TIMER_STOP }
+  return (dispatch, getState) => {
+    dispatch({type: TIMER_STOP})
+    return dispatch(createPomodoroIfActiveTask(getState()))
+  }
 }
+
+const createPomodoroIfActiveTask = (state) => {
+  return dispatch => {
+    const {activeTaskId} = state.tasks
+    if (activeTaskId) {
+      dispatch(requestPomodoro())
+      return fetchAuthenticatedResource(dispatch, `/api/tasks/${activeTaskId}/pomodoros`, 'POST')
+        .then((pomodoro) => dispatch(receivePomodoro(pomodoro)))
+    }
+  }
+}
+
+const requestPomodoro = () => (
+  { type: REQUEST_POMODORO }
+)
+
+const receivePomodoro = (pomodoro) => (
+  { type: RECEIVE_POMODORO, pomodoro }
+)
 
 const playFinishedAudio = () => {
   let audio = new Howl({ src: [plucksMp3, plucksOgg] })
@@ -359,3 +385,19 @@ export const fetchTasksIfNotCached = () => {
     }
   }
 }
+
+const requestTask = () => (
+ { type: REQUEST_TASK }
+)
+
+export const fetchTask = (id) => {
+  return dispatch => {
+    dispatch(requestTask())
+    return fetchAuthenticatedResource(dispatch, `/api/tasks/${id}`, 'GET')
+      .then((task) => dispatch(receiveTask(task)))
+  }
+}
+
+export const activateTask = (task) => (
+  { type: ACTIVATE_TASK, task }
+)

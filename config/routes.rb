@@ -5,7 +5,9 @@ Rails.application.routes.draw do
     devise_for :users
 
     resource :timer_settings
-    resources :tasks
+    resources :tasks do
+      resources :pomodoros
+    end
   end
   root 'dashboard#index'
   get '*path', to: 'dashboard#index'

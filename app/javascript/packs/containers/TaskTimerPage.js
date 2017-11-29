@@ -1,36 +1,21 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {Container, Header, Label, Segment} from 'semantic-ui-react'
-import PomodoroTimer from '../components/PomodoroTimer'
-import {Redirect} from 'react-router-dom'
+import {Container, Loader} from 'semantic-ui-react'
+import {fetchTask} from '../actions/index'
+import TaskTimer from '../components/TaskTimer'
 
-const TaskTimer = ({task}) => (
-  <div>
-    <Header as='h1' content={task.title} />
-    <PomodoroTimer />
-    <Label
-      id='num_completed_pomodoros'
-      size='big'
-      style={{ float: 'left' }}
-    >
-      Completed
-      <Label.Detail>0</Label.Detail>
-    </Label>
-    <Label
-      size='big'
-      style={{ float: 'right' }}
-      id='estimated_num_pomodoros'
-    >
-      Estimated
-      <Label.Detail>{task.estimated_num_pomodoros}</Label.Detail>
-    </Label>
-  </div>
-)
 
 class TaskTimerPage extends React.Component {
+  componentDidMount() {
+    const { task, match, fetchTask } = this.props
+    if (!task) {
+      fetchTask(match.params.id)
+    }
+  }
+
   render() {
 
-    const { task } = this.props
+    const { task, requestingTask } = this.props
     return (
       <div>
         {
@@ -39,7 +24,7 @@ class TaskTimerPage extends React.Component {
               <TaskTimer task={task}/>
             </Container>
           ) : (
-            <Redirect to='/' />
+            <Loader active={requestingTask} inline='centered' />
           )
         }
       </div>
@@ -49,9 +34,11 @@ class TaskTimerPage extends React.Component {
 
 const mapStateToProps = (state, props) => {
   const { match } = props
+  const { tasks, requestingTask } = state.tasks
   return {
-    task: state.tasks.tasks.find(task => task.id === match.params.id)
+    task: tasks.find(task => task.id === match.params.id),
+    requestingTask
   }
 }
 
-export default connect(mapStateToProps)(TaskTimerPage)
+export default connect(mapStateToProps, { fetchTask })(TaskTimerPage)

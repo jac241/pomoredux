@@ -16,10 +16,6 @@ class HomePage extends React.Component {
     return this.props.userLoggedIn ? { marginTop: '5em'} : {}
   }
 
-  componentDidMount() {
-    this.props.dispatch(fetchTimerSettingsIfNotCached())
-  }
-
   render() {
     const { userLoggedIn, requestingTasks } = this.props
     return (

@@ -1,12 +1,22 @@
 import React from 'react'
 import SelectablePomodoroModeButtons from '../containers/SelectablePomodoroModeButtons'
 import TickingTimer from '../containers/TickingTimer'
+import {fetchTimerSettingsIfNotCached} from '../actions/index'
+import {connect} from 'react-redux'
 
-const PomodoroTimer = () => (
-  <div>
-    <SelectablePomodoroModeButtons />
-    <TickingTimer />
-  </div>
-)
+class PomodoroTimer extends React.Component {
+  componentDidMount() {
+    this.props.fetchTimerSettingsIfNotCached()
+  }
 
-export default PomodoroTimer
+  render() {
+    return(
+      <div>
+        <SelectablePomodoroModeButtons />
+        <TickingTimer />
+      </div>
+    )
+  }
+}
+
+export default connect(null, { fetchTimerSettingsIfNotCached })(PomodoroTimer)

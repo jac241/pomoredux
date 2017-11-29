@@ -4,10 +4,12 @@ import { Button } from 'semantic-ui-react'
 
 const mapStateToProps = (state, ownProps) => {
   const isTimerActive = state.timer.active
+  const loading = state.pomodoros.requestingPomodoro
   return {
     timer_active: isTimerActive,
     content: isTimerActive ? 'Reset' : 'Start',
-    mode: state.timer.mode
+    mode: state.timer.mode,
+    loading
   }
 }
 
@@ -19,7 +21,7 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const mergeProps = (propsFromState, propsFromDispatch, ownProps) => {
-  const { timer_active, content, mode } = propsFromState
+  const { timer_active, content, mode, loading } = propsFromState
   const { dispatchStartTimer, dispatchResetTimer } = propsFromDispatch
 
   return {
@@ -30,7 +32,8 @@ const mergeProps = (propsFromState, propsFromDispatch, ownProps) => {
       } else {
         dispatchResetTimer()
       }
-    }
+    },
+    loading
   }
 }
 

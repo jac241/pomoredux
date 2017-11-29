@@ -17,6 +17,12 @@ class Api::TasksController < ApiController
     render json: tasks
   end
 
+  def show
+    task = current_api_user.tasks.find(params[:id])
+
+    render json: task
+  end
+
   private
 
   def create_params

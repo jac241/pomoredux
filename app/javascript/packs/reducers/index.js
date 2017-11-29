@@ -5,6 +5,7 @@ import timer from './timer'
 import session from './session'
 import newTaskModal from "./newTaskModal"
 import tasks from './tasks'
+import pomodoros from './pomodoros'
 import {SESSION_CHANGED} from '../actions/index'
 
 
@@ -13,6 +14,7 @@ const appReducer = combineReducers({
   session,
   newTaskModal,
   tasks,
+  pomodoros,
   form: formReducer
 })
 
