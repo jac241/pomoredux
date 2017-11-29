@@ -41,5 +41,9 @@ module Pages
         return has_content?(n)
       end
     end
+
+    def go_to_tasks_page
+      click_on('Home')
+    end
   end
 end

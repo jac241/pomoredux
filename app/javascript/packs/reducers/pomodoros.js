@@ -16,9 +16,9 @@ const pomodoros = (state=initialState, action) => {
     case RECEIVE_POMODORO:
       return updateObject(state, {
         byId: updateObject(state.byId, { [action.pomodoro.id]: action.pomodoro }),
-        byTaskId: {
+        byTaskId: updateObject(state.byTaskId, {
           [action.pomodoro.task_id]: addPomodoroByTaskId(state.byTaskId, action.pomodoro)
-        },
+        }),
         requestingPomodoro: false
       })
     case REQUESTING_POMODOROS:

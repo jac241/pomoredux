@@ -56,6 +56,12 @@ module Pages
       @model ||= Modal.new
     end
 
+    def showing_n_completed_pomodoros_for_task?(n:, task:)
+      within("#task_#{task.id}") do
+        return has_content?("Completed: #{n}")
+      end
+    end
+
     class Modal
       include Capybara::DSL
 
