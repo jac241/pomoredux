@@ -9,6 +9,6 @@ describe Task do
             .is_greater_than(0)
   end
 
-  it { should have_many(:pomodoros) }
+  it { should have_many(:pomodoros).dependent(:destroy) }
   it { should belong_to(:user) }
 end

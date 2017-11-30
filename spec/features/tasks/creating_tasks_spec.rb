@@ -15,6 +15,8 @@ feature 'Creating Tasks' do
     tasks_page.add_task(new_task)
     tasks_page.save_new_task
 
+    new_task = user.tasks.first
+
     expect(tasks_page.modal).to be_hidden
     expect(tasks_page).to have_task(new_task)
   end

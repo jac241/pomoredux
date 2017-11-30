@@ -1,11 +1,11 @@
 import React from 'react'
 import TaskList from '../components/TaskList'
 import {connect} from 'react-redux'
-import {fetchTasksIfNotCached} from '../actions/index'
+import {fetchTasksIfNecessary} from '../actions/index'
 
 class TaskListPage extends React.Component {
   componentDidMount() {
-    this.props.dispatch(fetchTasksIfNotCached())
+    this.props.dispatch(fetchTasksIfNecessary())
   }
 
   render() {

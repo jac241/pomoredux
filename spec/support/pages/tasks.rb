@@ -20,7 +20,7 @@ module Pages
     end
 
     def has_task?(task)
-      within '#tasks' do
+      within "#task_#{task.id}" do
         return has_content?(task.title) && has_content?(task.estimated_num_pomodoros)
       end
     end

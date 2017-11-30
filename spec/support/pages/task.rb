@@ -44,6 +44,8 @@ module Pages
 
     def go_to_tasks_page
       click_on('Home')
+
+      Tasks.new
     end
   end
 end

@@ -381,17 +381,25 @@ const fetchTasks = () => {
   }
 }
 
-function tasksAreInState(state) {
-  return state.tasks.tasks.length > 0
-}
-
-export const fetchTasksIfNotCached = () => {
+export const fetchTasksIfNecessary = () => {
   return (dispatch, getState) => {
-    if (!tasksAreInState(getState())) {
+    if (!tasksAreInState(getState()) || onlyTaskIsActiveTask(getState())) {
       dispatch(fetchTasks())
     }
   }
 }
+
+const tasksAreInState = (state) => (
+  state.tasks.tasks.length > 0
+)
+
+const onlyTaskIsActiveTask = (state) => {
+  const { activeTaskId, tasks } = state.tasks
+  return tasks.length === 1 && activeTaskId === tasks[0].id
+}
+
+
+
 
 const requestTask = () => (
  { type: REQUEST_TASK }

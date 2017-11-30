@@ -4,13 +4,13 @@ feature 'Listing Tasks' do
   let(:user) { create(:user) }
   let(:tasks_page) { Pages::Tasks.new }
 
+  before(:each) { sign_in(user) }
+
   scenario 'Listing existing tasks' do
     tasks = [
       create(:task, title: 't1', estimated_num_pomodoros: 1, user: user),
       create(:task, title: 't2', estimated_num_pomodoros: 2, user: user)
     ]
-
-    sign_in(user)
 
     tasks_page.visit_page
 
@@ -20,7 +20,6 @@ feature 'Listing Tasks' do
   end
 
   scenario 'BUG: completed pomodoro overwrites pomodoros for other tasks' do
-    sign_in(user)
     user.timer_settings.destroy
     create(:fast_timer_settings, user: user)
 
@@ -38,5 +37,17 @@ feature 'Listing Tasks' do
     task2_page.go_to_tasks_page
 
     expect(tasks_page).to be_showing_n_completed_pomodoros_for_task(n: 2, task: task1)
+  end
+
+  scenario 'BUG: loading task page then going home does not show rest of tasks' do
+    tasks = create_list(:task, 2, user: user)
+    task_page = Pages::Task.new(tasks.first)
+
+    task_page.visit_page
+    tasks_page = task_page.go_to_tasks_page
+
+    tasks.each do |task|
+      expect(tasks_page).to have_task(task)
+    end
   end
 end
