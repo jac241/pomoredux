@@ -3,20 +3,30 @@ require 'rails_helper'
 feature 'Listing Tasks' do
   let(:user) { create(:user) }
   let(:tasks_page) { Pages::Tasks.new }
+  let(:tasks) do
+    [
+      build(:task, title: 't1', estimated_num_pomodoros: 1, user: user),
+      build(:task, title: 't2', estimated_num_pomodoros: 2, user: user)
+    ]
+  end
 
-  before(:each) { sign_in(user) }
+  before(:each) do
+    sign_in(user)
+    tasks.each { |t| t.save! }
+  end
 
   scenario 'Listing existing tasks' do
-    tasks = [
-      create(:task, title: 't1', estimated_num_pomodoros: 1, user: user),
-      create(:task, title: 't2', estimated_num_pomodoros: 2, user: user)
-    ]
+    tasks_page.visit_page
+
+    expect(tasks_page).to have_tasks(tasks)
+  end
+
+  scenario 'Listing tasks with completed pomodoros' do
+    create_list(:pomodoro, 2, task: tasks.first)
 
     tasks_page.visit_page
 
-    tasks.each do |task|
-      expect(tasks_page).to have_task(task)
-    end
+    expect(tasks_page).to have_tasks(tasks)
   end
 
   scenario 'BUG: completed pomodoro overwrites pomodoros for other tasks' do
@@ -46,8 +56,6 @@ feature 'Listing Tasks' do
     task_page.visit_page
     tasks_page = task_page.go_to_tasks_page
 
-    tasks.each do |task|
-      expect(tasks_page).to have_task(task)
-    end
+    expect(tasks_page).to have_tasks(tasks)
   end
 end

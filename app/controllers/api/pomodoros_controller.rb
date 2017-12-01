@@ -9,8 +9,15 @@ class Api::PomodorosController < ApiController
   end
 
   def index
-    task = current_api_user.tasks.find(params[:task_id])
+    sleep 1
+    pomodoros = current_api_user.pomodoros.where(index_params)
 
-    render json: task.pomodoros
+    render json: pomodoros
+  end
+
+  private
+
+  def index_params
+    params.permit(:task_id)
   end
 end

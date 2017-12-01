@@ -21,7 +21,11 @@ module Pages
 
     def has_task?(task)
       within "#task_#{task.id}" do
-        return has_content?(task.title) && has_content?(task.estimated_num_pomodoros)
+        return (
+          has_content?(task.title) &&
+          has_content?("Estimated: #{task.estimated_num_pomodoros}") &&
+          has_content?("Completed: #{task.pomodoros.count}")
+        )
       end
     end
 
@@ -29,6 +33,10 @@ module Pages
       return true if has_no_selector?('#tasks')
 
       has_no_content?(task.title) && has_no_content?(task.estimated_num_pomodoros)
+    end
+
+    def has_tasks?(tasks)
+      tasks.all? { |t| has_task?(t) }
     end
 
     def hidden?

@@ -54,7 +54,7 @@ class HomePage extends React.Component {
               </div>
               <div style={{clear: 'both'}} />
             </div>
-            <Segment clearing vertical loading={requestingTasks}>
+            <Segment clearing vertical>
               <TaskListPage/>
             </Segment>
           </Container>
@@ -67,7 +67,6 @@ class HomePage extends React.Component {
 const mapStateToProps = (state) => {
   return {
     userLoggedIn: state.session.active,
-    requestingTasks: state.tasks.requestingTasks,
   }
 }
 

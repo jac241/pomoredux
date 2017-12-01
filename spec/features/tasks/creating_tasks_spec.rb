@@ -21,7 +21,7 @@ feature 'Creating Tasks' do
     expect(tasks_page).to have_task(new_task)
   end
 
-  bad_tasks = [
+  [
     {
       task: Task.new(title: '', estimated_num_pomodoros: 3),
       error: "can't be blank",

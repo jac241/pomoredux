@@ -164,18 +164,22 @@ const handleResponse = (response) => {
 }
 
 const parseErrorBody = (err) => {
-  return err.response.text()
-    .then((text) => {
-      if (text.length > 0) {
-        try {
-          err.body = JSON.parse(text)
-        } catch(parse_err) {
-          console.error(text)
-          console.error(parse_err, parse_err.stack)
+  if (err.response) {
+    return err.response.text()
+      .then((text) => {
+        if (text.length > 0) {
+          try {
+            err.body = JSON.parse(text)
+          } catch (parse_err) {
+            console.error(text)
+            console.error(parse_err, parse_err.stack)
+          }
         }
-      }
-      throw err
-    })
+        throw err
+      })
+  } else {
+    throw err
+  }
 }
 
 const reformatForApi = (userParams) => (
@@ -272,7 +276,7 @@ const refreshIfInvalidAuthenticityToken = (err) => {
 }
 
 const updateSessionIfUnauthenticated = (err, dispatch) => {
-  if (err.response.status === 401) {
+  if (err.response && err.response.status === 401) {
     dispatch(userSessionVerified({ active: false }))
   }
 
@@ -398,9 +402,6 @@ const onlyTaskIsActiveTask = (state) => {
   return tasks.length === 1 && activeTaskId === tasks[0].id
 }
 
-
-
-
 const requestTask = () => (
  { type: REQUEST_TASK }
 )
@@ -432,3 +433,22 @@ const requestPomodoros = () => {
 const receivePomodoros = (pomodoros) => (
   { type: RECEIVE_POMODOROS, pomodoros }
 )
+
+export const fetchPomodorosIfNecessary = () => {
+  return (dispatch, getState) => {
+    const state = getState()
+    if (!pomodorosAreInState(state) || onlyPomodorosBelongToActiveTask(state)) {
+      console.log('Requesting all pomodoros')
+      dispatch(requestPomodoros())
+      return fetchAuthenticatedResource(dispatch, '/api/pomodoros', 'GET')
+        .then((pomodoros) => dispatch(receivePomodoros(pomodoros)))
+    }
+  }
+}
+
+const pomodorosAreInState = (state) => (Object.keys(state.pomodoros.byId).length > 0)
+
+const onlyPomodorosBelongToActiveTask = (state) => {
+  const owningTaskIds = Object.keys(state.pomodoros.byTaskId)
+  return owningTaskIds.length == 1 && owningTaskIds[0] === state.tasks.activeTaskId
+}
