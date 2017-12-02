@@ -9,7 +9,6 @@ class Api::PomodorosController < ApiController
   end
 
   def index
-    sleep 1
     pomodoros = current_api_user.pomodoros.where(index_params)
 
     render json: pomodoros
