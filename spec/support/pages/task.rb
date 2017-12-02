@@ -47,5 +47,9 @@ module Pages
 
       Tasks.new
     end
+
+    def switch_mode_to(mode)
+      click_on(mode)
+    end
   end
 end

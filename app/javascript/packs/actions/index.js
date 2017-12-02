@@ -77,7 +77,7 @@ const stopTimer = () => {
 const createPomodoroIfActiveTask = (state) => {
   return dispatch => {
     const activeTask = getActiveTask(state)
-    if (activeTask) {
+    if (activeTask && getActiveMode(state) === 'pomodoro') {
       dispatch(requestPomodoro())
       return fetchAuthenticatedResource(dispatch, activeTask.links.pomodoros, 'POST')
         .then((pomodoro) => dispatch(receivePomodoro(pomodoro)))
@@ -89,6 +89,8 @@ const getActiveTask = (state) => {
   const {activeTaskId} = state.tasks
   return state.tasks.tasks.find(t => t.id === activeTaskId)
 }
+
+const getActiveMode = (state) => state.timer.mode
 
 const requestPomodoro = () => (
   { type: REQUEST_POMODORO }
