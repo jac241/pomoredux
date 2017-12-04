@@ -54,4 +54,23 @@ feature 'Completing Tasks' do
 
     expect(task_page).to have_completed_n_pomodoros(0)
   end
+
+  scenario 'Marking a task complete should take me back to the tasks page' do
+    task_page.visit_page
+
+    task_page.mark_task_complete
+
+    expect(tasks_index).to be_current_page
+  end
+
+  scenario 'Marking a task complete should remove it from the task list' do
+    incomplete_task = create(:task, user: user)
+
+    tasks_index.visit_page
+    task_page = tasks_index.go_to_task(task)
+    task_page.mark_task_complete
+
+    expect(tasks_index).to have_task(incomplete_task)
+    expect(tasks_index).to have_no_task(task)
+  end
 end

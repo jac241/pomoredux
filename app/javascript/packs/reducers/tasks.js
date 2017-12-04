@@ -1,11 +1,15 @@
-import {ACTIVATE_TASK, RECEIVE_TASK, RECEIVE_TASKS, REQUEST_TASK, REQUEST_TASKS} from '../actions/index'
+import {
+  ACTIVATE_TASK, RECEIVE_TASK, RECEIVE_TASKS, RECEIVE_UPDATED_TASK, REQUEST_TASK, REQUEST_TASKS,
+  UPDATE_TASK
+} from '../actions/index'
 import {updateObject} from '../util'
 
 const initialState = {
   tasks: [],
   requestingTasks: false,
   requestingTask: false,
-  activeTaskId: null
+  activeTaskId: null,
+  updatingTask: false,
 }
 
 function tasks(state=initialState, action) {
@@ -26,8 +30,27 @@ function tasks(state=initialState, action) {
       return updateObject(state, { requestingTask: true })
     case ACTIVATE_TASK:
       return updateObject(state, { activeTaskId: action.task.id })
+    case UPDATE_TASK:
+      return updateObject(state, { updatingTask: true })
+    case RECEIVE_UPDATED_TASK:
+      return updateObject(state, {
+        tasks: updatedTasks(state.tasks, action.task),
+        updatingTask: false
+      })
   }
   return state
+}
+
+const updatedTasks = (tasks, updatedTask) => {
+  const taskIndex = tasks.findIndex(t => t.id === updatedTask.id)
+  const updatedTasks = tasks.map((t, index) => {
+    if (!(index === taskIndex)) {
+      return t
+    } else {
+      return updatedTask
+    }
+  })
+  return updatedTasks
 }
 
 export default tasks

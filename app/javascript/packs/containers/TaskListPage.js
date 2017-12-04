@@ -33,14 +33,16 @@ class TaskListPage extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  const { tasks, requestingTasks } = state.tasks
+  const { requestingTasks } = state.tasks
 
   return {
     pomodorosByTaskId: state.pomodoros.byTaskId,
-    tasks,
+    tasks: activeTasks(state),
     requestingTasks
   }
 }
+
+const activeTasks = (state) => state.tasks.tasks.filter(t => t.completed_at === null)
 
 export default connect(
   mapStateToProps,

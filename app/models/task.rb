@@ -5,4 +5,6 @@ class Task < ActiveRecord::Base
   validates :title, :estimated_num_pomodoros, presence: true
   validates :estimated_num_pomodoros, numericality: { only_integer: true,
                                                       greater_than: 0 }
+
+  scope :active, -> { where('completed_at IS NULL') }
 end

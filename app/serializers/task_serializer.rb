@@ -6,6 +6,7 @@ class TaskSerializer < ActiveModel::Serializer
 
   def links
     {
+      self: api_task_path(object),
       pomodoros: api_task_pomodoros_path(object)
     }
   end

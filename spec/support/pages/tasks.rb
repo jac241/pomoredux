@@ -30,9 +30,7 @@ module Pages
     end
 
     def has_no_task?(task)
-      return true if has_no_selector?('#tasks')
-
-      has_no_content?(task.title) && has_no_content?(task.estimated_num_pomodoros)
+      return true if has_no_selector?("#task_#{task.id}")
     end
 
     def has_tasks?(tasks)
@@ -58,6 +56,10 @@ module Pages
       end
 
       Pages::Task.new(task)
+    end
+
+    def current_page?
+      has_current_path?('/')
     end
 
     def modal

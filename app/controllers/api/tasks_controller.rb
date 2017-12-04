@@ -12,7 +12,7 @@ class Api::TasksController < ApiController
   end
 
   def index
-    tasks = current_api_user.tasks
+    tasks = current_api_user.tasks.active
 
     render json: tasks
   end
@@ -23,9 +23,22 @@ class Api::TasksController < ApiController
     render json: task
   end
 
+  def update
+    results = UpdateTaskService.call(
+      user: current_api_user,
+      params: update_params
+    )
+
+    results.on(:updated) { |task| render json: task, status: :ok}
+  end
+
   private
 
   def create_params
     params.permit(:title, :estimated_num_pomodoros)
+  end
+
+  def update_params
+    params.permit(:id, :completed)
   end
 end

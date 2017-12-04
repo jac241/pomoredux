@@ -58,4 +58,12 @@ feature 'Listing Tasks' do
 
     expect(tasks_page).to have_tasks(tasks)
   end
+
+  scenario 'Should not list completed tasks' do
+    task = create(:completed_task, user: user, title: 'not me')
+
+    tasks_page.visit_page
+
+    expect(tasks_page).to have_no_task(task)
+  end
 end

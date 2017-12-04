@@ -24,6 +24,8 @@ export const REQUEST_TASKS = 'REQUEST_TASKS'
 export const RECEIVE_TASKS = 'RECEIVE_TASKS'
 export const REQUEST_TASK = 'REQUEST_TASK'
 export const ACTIVATE_TASK = 'ACTIVATE_TASK'
+export const UPDATE_TASK = 'UPDATE_TASK'
+export const RECEIVE_UPDATED_TASK = 'RECEIVE_UPDATED_TASK'
 export const REQUEST_POMODORO = 'REQUEST_POMODORO'
 export const RECEIVE_POMODORO = 'RECEIVE_POMODORO'
 export const REQUESTING_POMODOROS = 'REQUESTING_POMODOROS'
@@ -419,6 +421,19 @@ export const fetchTask = (id) => {
 export const activateTask = (task) => (
   { type: ACTIVATE_TASK, task }
 )
+
+export const completeActiveTask = () => {
+  return (dispatch, getState) => {
+    const activeTask = getActiveTask(getState())
+    dispatch(updateTask())
+    return fetchAuthenticatedResource(dispatch, activeTask.links.self, 'PATCH', {
+      completed: true
+    }).then((task) => dispatch(receiveUpdatedTask(task)))
+  }
+}
+
+const updateTask = () => ({ type: UPDATE_TASK })
+const receiveUpdatedTask = (task) => ({ type: RECEIVE_UPDATED_TASK, task })
 
 export const fetchPomodorosForTask = (task) => {
   return dispatch => {

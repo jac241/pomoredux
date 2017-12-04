@@ -51,5 +51,9 @@ module Pages
     def switch_mode_to(mode)
       click_on(mode)
     end
+
+    def mark_task_complete
+      click_on('Complete')
+    end
   end
 end
