@@ -26,14 +26,4 @@ feature 'Logging out' do
     expect(log_in_page).to have_no_error_message
     expect(home_page).to be_current_page
   end
-
-  scenario 'Stopping the timer automatically when user logs out' do
-    home_page.visit_page
-
-    timer.start
-
-    home_page.log_out
-
-    expect(timer).to_not be_running(start_time: default_pomodoro_length_text)
-  end
 end

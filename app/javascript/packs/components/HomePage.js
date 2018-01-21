@@ -21,30 +21,32 @@ class HomePage extends React.Component {
     return (
       <div >
         { userLoggedIn ||
-          <Segment
-            textAlign='center'
-            style={{ padding: '1em 0em'}}
-            vertical
-            basic
-          >
-            <Container text>
-              <Header
-                as='h1'
-                content='Welcome to Pomoredux!'
-                style={{
-                  marginTop: '2em',
-                  marginBottom: '1.5em'
-                }}
-              />
-            </Container>
-          </Segment>
+          <React.Fragment>
+            <Segment
+              textAlign='center'
+              style={{ padding: '1em 0em'}}
+              vertical
+              basic
+            >
+              <Container text>
+                <Header
+                  as='h1'
+                  content='Welcome to Pomoredux!'
+                  style={{
+                    marginTop: '2em',
+                    marginBottom: '1.5em'
+                  }}
+                />
+              </Container>
+            </Segment>
+            <Segment
+              basic
+              style={this.getTimerSegmentStyle()}
+            >
+              <PomodoroTimer />
+            </Segment>
+          </React.Fragment>
         }
-        <Segment
-          basic
-          style={this.getTimerSegmentStyle()}
-        >
-          <PomodoroTimer />
-        </Segment>
         { userLoggedIn &&
           <Container id="task_section" text>
             <div>

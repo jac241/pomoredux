@@ -2,9 +2,11 @@ require 'rails_helper'
 
 feature 'Timer settings' do
   let(:user) { create(:user) }
+  let(:task) { create(:task, user: user) }
   let(:settings_page) { Pages::Settings.new }
   let(:home_page) { Pages::Home.new }
   let(:timer) { Components::Timer.new }
+  let(:task_page) { Pages::Task.new(task) }
 
   scenario 'Changing timer settings from default' do
     sign_in(user)
@@ -21,7 +23,7 @@ feature 'Timer settings' do
 
     expect(settings_page).to have_success_message
 
-    visit('/')
+    task_page.visit_page
 
     click_on('Pomodoro')
     expect_timer_to_be_running(timer_length: '50:00')
@@ -77,7 +79,7 @@ feature 'Timer settings' do
   scenario 'Bug - Settings should not reset during timer tick' do
     sign_in(user)
 
-    visit '/'
+    task_page.visit_page
 
     click_on('Start')
 
@@ -93,7 +95,7 @@ feature 'Timer settings' do
   scenario 'Timer goes to default settings on log out' do
     sign_in(user)
     change_timer_settings(user)
-    home_page.visit_page
+    task_page.visit_page
 
     expect(timer).to have_correct_settings(user.timer_settings)
 

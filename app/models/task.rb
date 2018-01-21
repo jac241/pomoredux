@@ -7,4 +7,8 @@ class Task < ActiveRecord::Base
                                                       greater_than: 0 }
 
   scope :active, -> { where('completed_at IS NULL') }
+
+  def complete
+    self.completed_at = Time.now
+  end
 end

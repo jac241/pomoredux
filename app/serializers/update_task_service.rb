@@ -5,7 +5,7 @@ class UpdateTaskService
     task = task(user: user, task_id: params[:id])
 
     if params[:completed]
-      task.completed_at = Time.now
+      task.complete
     end
 
     task.save

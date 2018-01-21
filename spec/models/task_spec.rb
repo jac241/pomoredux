@@ -21,4 +21,12 @@ describe Task do
       expect(described_class.active).to_not include(completed_task)
     end
   end
+
+  describe '#complete' do
+    it 'should set completed at to now' do
+      subject.complete
+
+      expect(subject.completed_at).to be > (Time.now - 1.second)
+    end
+  end
 end
