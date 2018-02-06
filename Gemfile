@@ -34,6 +34,10 @@ gem 'active_model_serializers', '~> 0.10.2'
 #
 gem 'devise'
 gem 'bootsnap', require: false
+gem 'haml-rails', '~> 1.0'
+gem 'jquery-rails'
+gem 'semantic-ui-sass'
+gem 'sassc-rails'
 
 group :test do
   gem 'capybara'

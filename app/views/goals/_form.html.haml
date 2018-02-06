@@ -1,0 +1,6 @@
+= form_for @goal, remote: true, html: { class: form_classes(@goal) } do |f|
+  - form_field(f, :title) do
+    = f.label :title
+    = f.text_field :title, class: 'ui input', data: { behavior: 'validated' }
+
+  = f.submit 'Create Goal', class: 'ui button'

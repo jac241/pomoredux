@@ -10,4 +10,12 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+//= require jquery
 //= require rails-ujs
+//= require semantic-ui
+//
+
+$(document).on('keyup', '[data-behavior~=validated]', function() {
+  $(this).parent().removeClass('error');
+  $(this).siblings('[data-behavior~=validated-label]').hide();
+});

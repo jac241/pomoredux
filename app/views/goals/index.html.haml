@@ -1,0 +1,10 @@
+.ui.container
+  .ui.stackable.two.column.grid
+    .column
+      %h2 Create new goal
+      = render 'form'
+    .column
+      %h2 Modify existing goals
+
+      %div#goals.ui.list
+        = render @goals

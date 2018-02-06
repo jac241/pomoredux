@@ -25,6 +25,7 @@ import RegistrationFormPage from './containers/RegistrationFormPage'
 import LoginPage from './containers/LoginPage'
 import pomoApp from './reducers/index'
 import { composeWithDevTools } from 'redux-devtools-extension';
+import Turbolinks from 'turbolinks'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 const store = createStore(

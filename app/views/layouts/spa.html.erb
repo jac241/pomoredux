@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Pomoredux</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_pack_tag 'spa' %>
+    <%= javascript_pack_tag 'spa', async: Rails.env.production? %>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+
+  <body>
+    <div id='session' data-session-active='<%= current_api_user.present? %>'></div>
+    <div id='root'>
+      <%= yield %>
+    </div>
+  </body>
+</html>

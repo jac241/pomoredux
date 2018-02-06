@@ -26,6 +26,7 @@ class NavBar extends React.Component {
         {
           userSignedIn ? (
             <Menu.Menu position='right'>
+              <Menu.Item as={'a'} content='Goals' href='/goals' />
               <Menu.Item as={Link} to='/settings' name='settings'>Settings</Menu.Item>
               <Menu.Item
                 onClick={this.handleLogOut}
