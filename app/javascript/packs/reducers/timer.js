@@ -9,7 +9,6 @@ import {
   RECEIVE_TIMER_SETTINGS,
   RESET_TIMER_SETTINGS
 } from '../actions/index'
-import { updateObject } from '../util'
 import omit from 'lodash/omit'
 
 const initialState = {
@@ -25,33 +24,39 @@ const initialState = {
 function timer(state=initialState, action) {
   switch(action.type) {
     case TIMER_TICK:
-      return updateObject(state, {
+      return {
+        ...state,
         time_remaining_ms: action.time_remaining_ms
-      })
+      }
     case TIMER_START:
-      return updateObject(state, {
+      return {
+        ...state,
         active: true,
         time_remaining_ms: state.settings.lengths_by_mode_ms[state.mode]
-      })
+      }
     case TIMER_STOP:
-      return updateObject(state, {
+      return {
+        ...state,
         active: false
-      })
+      }
     case TIMER_RESET:
-      return updateObject(state, {
+      return {
+        ...state,
         active: false,
         time_remaining_ms: state.settings.lengths_by_mode_ms[state.mode]
-      })
+      }
     case TIMER_MODE_CHANGE:
-      return updateObject(state, {
+      return {
+        ...state,
         mode: action.newMode,
         active: false,
         time_remaining_ms: state.settings.lengths_by_mode_ms[action.newMode]
-      })
+      }
     case REQUEST_TIMER_SETTINGS:
-      return updateObject(state, {
+      return {
+        ...state,
         requestingSettings: true
-      })
+      }
     case RECEIVE_TIMER_SETTINGS:
       let updates = {
         requestingSettings: false,
@@ -65,16 +70,17 @@ function timer(state=initialState, action) {
         updates['time_remaining_ms'] = updates.settings.lengths_by_mode_ms[state.mode]
       }
 
-      return updateObject(state, updates)
+      return {
+        ...state,
+        ...updates
+      }
     case RESET_TIMER_SETTINGS:
-      return updateObject(state,
-        {
-          settings: {
-            lengths_by_mode_ms: TIMER_LENGTHS_MS
-          }
+      return {
+        ...state,
+        settings: {
+          lengths_by_mode_ms: TIMER_LENGTHS_MS
         }
-      )
-
+      }
   }
   return state
 }

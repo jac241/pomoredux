@@ -1,5 +1,4 @@
 import {RECEIVE_POMODORO, RECEIVE_POMODOROS, REQUEST_POMODORO, REQUESTING_POMODOROS} from '../actions/index'
-import {updateObject} from '../util'
 import groupBy from 'lodash/groupBy'
 
 const initialState = {
@@ -12,23 +11,41 @@ const initialState = {
 const pomodoros = (state=initialState, action) => {
   switch(action.type) {
     case REQUEST_POMODORO:
-      return updateObject(state, { requestingPomodoro: true })
+      return {
+        ...state,
+        requestingPomodoro: true
+      }
     case RECEIVE_POMODORO:
-      return updateObject(state, {
-        byId: updateObject(state.byId, { [action.pomodoro.id]: action.pomodoro }),
-        byTaskId: updateObject(state.byTaskId, {
+      return {
+        ...state,
+        byId: {
+          ...state.byId,
+          [action.pomodoro.id]: action.pomodoro
+        },
+        byTaskId: {
+          ...state.byTaskId,
           [action.pomodoro.task_id]: addPomodoroByTaskId(state.byTaskId, action.pomodoro)
-        }),
+        },
         requestingPomodoro: false
-      })
+      }
     case REQUESTING_POMODOROS:
-      return updateObject(state, { requestingPomodoros: true })
+      return {
+        ...state,
+        requestingPomodoros: true
+      }
     case RECEIVE_POMODOROS:
-      return updateObject(state, {
-        byId: updateObject(state.byId, groupBy(action.pomodoros, 'id')),
-        byTaskId: updateObject(state.byTaskId, groupPomodorosByTaskId(action.pomodoros)),
+      return {
+        ...state,
+        byId: {
+          ...state.byId,
+          ...groupBy(action.pomodoros, 'id')
+        },
+        byTaskId: {
+          ...state.byTaskId,
+          ...groupPomodorosByTaskId(action.pomodoros)
+        },
         requestingPomodoros: false,
-      })
+      }
   }
 
   return state

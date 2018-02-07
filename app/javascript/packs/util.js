@@ -1,7 +1,3 @@
-export const updateObject = (oldObject, newValues) => {
-    return Object.assign({}, oldObject, newValues)
-}
-
 export const msTimeToString = (time_ms) => {
   let time_tmp = time_ms
   let ms = time_tmp % 1000

@@ -9,7 +9,6 @@ import {
   Message
 } from 'semantic-ui-react'
 import pick from 'lodash/pick'
-import { updateObject } from '../util'
 
 
 class SettingsForm extends React.Component {
@@ -25,7 +24,7 @@ class SettingsForm extends React.Component {
 
   componentWillReceiveProps = (nextProps) => {
     if (this.props.loading) {
-      this.setState(updateObject({}, nextProps.timerSettingsInMin))
+      this.setState({ ...nextProps.timerSettingsInMin })
     }
   }
 

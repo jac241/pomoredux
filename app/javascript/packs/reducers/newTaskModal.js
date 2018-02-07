@@ -1,5 +1,4 @@
 import {CLOSE_NEW_TASK_MODAL, OPEN_NEW_TASK_MODAL} from "../actions/index"
-import {updateObject} from "../util"
 
 const initialState = {
   open: false
@@ -8,9 +7,15 @@ const initialState = {
 function newTaskModal(state=initialState, action) {
   switch(action.type) {
     case OPEN_NEW_TASK_MODAL:
-      return updateObject(state, { open: true })
+      return {
+        ...state,
+        open: true
+      }
     case CLOSE_NEW_TASK_MODAL:
-      return updateObject(state, { open: false })
+      return {
+        ...state,
+        open: false
+      }
   }
 
   return state
