@@ -2,7 +2,7 @@ class GoalsController < ApplicationController
   before_action :authenticate_api_user!
 
   def index
-    @goals = Goal.all
+    @goals = current_api_user.goals
     @goal = @goals.new
   end
 

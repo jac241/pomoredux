@@ -7,6 +7,7 @@ class User < ApplicationRecord
   has_one :timer_settings, dependent: :destroy
   has_many :tasks, dependent: :destroy
   has_many :pomodoros, through: :tasks
+  has_many :goals, dependent: :destroy
 
   before_validation :build_associated_timer_settings
 

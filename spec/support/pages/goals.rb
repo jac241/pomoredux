@@ -23,6 +23,10 @@ module Pages
       end
     end
 
+    def has_no_goal?(goal)
+      has_no_selector?(selector_for(goal))
+    end
+
     def selector_for(record)
       "##{dom_id(record)}"
     end
