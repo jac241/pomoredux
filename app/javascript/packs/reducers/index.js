@@ -7,9 +7,11 @@ import newTaskModal from "./newTaskModal"
 import tasks from './tasks'
 import pomodoros from './pomodoros'
 import {SESSION_CHANGED} from '../actions/index'
+import {reducer as api} from 'redux-json-api'
 
 
 const appReducer = combineReducers({
+  api,
   timer,
   session,
   newTaskModal,

@@ -38,6 +38,7 @@ gem 'haml-rails', '~> 1.0'
 gem 'jquery-rails'
 gem 'semantic-ui-sass'
 gem 'sassc-rails'
+gem 'jsonapi-rails'
 
 group :test do
   gem 'capybara'

@@ -7,7 +7,7 @@ class GoalsController < ApplicationController
   end
 
   def create
-    @goal = Goal.new(create_params)
+    @goal = current_api_user.goals.new(create_params)
 
     respond_to do |format|
       if @goal.save

@@ -38,7 +38,7 @@ module Pages
     end
 
     def hidden?
-      has_no_selector?('#task_section')
+      has_no_selector?('#tasks')
     end
 
     def has_new_task_error?(error_text)

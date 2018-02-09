@@ -4,6 +4,12 @@ module Pages
   class Home
     include Capybara::DSL
 
+    attr_reader :goals_page
+
+    def initialize(goals_page: Goals.new)
+      @goals_page = goals_page
+    end
+
     def visit_page
       visit '/'
     end
@@ -26,6 +32,8 @@ module Pages
     def current_page?
       has_current_path?('/')
     end
+
+    delegate :has_goal?, to: :goals_page
   end
 end
 

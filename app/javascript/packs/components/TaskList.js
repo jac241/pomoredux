@@ -21,7 +21,7 @@ Task.defaultProps = {
 }
 
 const TaskList = ({tasks, pomodorosByTaskId}) => (
-  <Card.Group id='tasks' itemsPerRow={1}>
+  <Card.Group id='task_list' itemsPerRow={1}>
     { tasks.map((task, index) =>(
       <Task
         task={task}

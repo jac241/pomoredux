@@ -3,6 +3,7 @@ require 'rails_helper'
 feature 'Listing goals' do
   let(:user) { create(:user) }
   let(:goals_page) { Pages::Goals.new }
+  let(:home_page) { Pages::Home.new }
 
   before(:each) do
     sign_in(user)
@@ -17,5 +18,14 @@ feature 'Listing goals' do
 
     expect(goals_page).to have_goal(my_goal)
     expect(goals_page).to have_no_goal(their_goal)
+  end
+
+  scenario 'Seeing my goals on the home page' do
+    sign_in(user)
+    goal = create(:goal, user: user)
+
+    home_page.visit_page
+
+    expect(home_page).to have_goal(goal)
   end
 end

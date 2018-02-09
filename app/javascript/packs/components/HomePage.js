@@ -2,7 +2,8 @@ import React from 'react'
 import {
   Container,
   Header,
-  Segment
+  Segment,
+  Grid
 } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 
@@ -10,6 +11,7 @@ import { fetchTimerSettingsIfNotCached } from '../actions'
 import TaskListPage from '../containers/TaskListPage'
 import NewTaskModal from "./NewTaskModal"
 import PomodoroTimer from './PomodoroTimer'
+import DailyGoalsListPage from '../containers/DailyGoalsListPage'
 
 class HomePage extends React.Component {
   getTimerSegmentStyle() {
@@ -48,17 +50,27 @@ class HomePage extends React.Component {
           </React.Fragment>
         }
         { userLoggedIn &&
-          <Container id="task_section" text>
-            <div>
-              <Header as='h1' floated='left' content='Tasks' />
-              <div style={{float: 'right'}}>
-                <NewTaskModal />
-              </div>
-              <div style={{clear: 'both'}} />
-            </div>
-            <Segment clearing vertical>
-              <TaskListPage/>
-            </Segment>
+          <Container text>
+            <Grid stackable columns='2'>
+              <Grid.Column id='daily_goals'>
+                <Header as='h1' content='Daily Goals' />
+                <Segment clearing vertical>
+                  <DailyGoalsListPage />
+                </Segment>
+              </Grid.Column>
+              <Grid.Column id="tasks">
+                <div>
+                  <Header as='h1' floated='left' content='Tasks' />
+                  <div style={{float: 'right'}}>
+                    <NewTaskModal />
+                  </div>
+                  <div style={{clear: 'both'}} />
+                </div>
+                <Segment clearing vertical>
+                  <TaskListPage/>
+                </Segment>
+              </Grid.Column>
+            </Grid>
           </Container>
         }
       </div>

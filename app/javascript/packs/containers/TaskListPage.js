@@ -2,7 +2,7 @@ import React from 'react'
 import TaskList from '../components/TaskList'
 import {connect} from 'react-redux'
 import {fetchTasksIfNecessary, fetchPomodorosIfNecessary} from '../actions/index'
-import {Loader} from 'semantic-ui-react'
+import SpinWhileLoading from '../components/SpinWhileLoading'
 
 class TaskListPage extends React.Component {
   componentDidMount() {
@@ -16,18 +16,12 @@ class TaskListPage extends React.Component {
     const {tasks, pomodorosByTaskId, requestingTasks} = this.props
 
     return (
-      <React.Fragment>
-        {
-          requestingTasks ? (
-            <Loader active/>
-          ) : (
-            <TaskList
-              tasks={tasks}
-              pomodorosByTaskId={pomodorosByTaskId}
-            />
-          )
-        }
-      </React.Fragment>
+      <SpinWhileLoading loading={requestingTasks}>
+        <TaskList
+          tasks={tasks}
+          pomodorosByTaskId={pomodorosByTaskId}
+        />
+      </SpinWhileLoading>
     )
   }
 }

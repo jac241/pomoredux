@@ -11,6 +11,8 @@ Rails.application.routes.draw do
     end
 
     resources :pomodoros
+
+    resources :daily_goals
   end
 
   resources :goals
