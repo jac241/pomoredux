@@ -1,2 +1,5 @@
-%div.item
-  .goal{:id => dom_id(goal)}= goal.title
+%div.item.goal{:id => dom_id(goal)}
+  %div.left.floated.content
+    = link_to edit_goal_path(goal), remote: true, title: 'Edit goal' do
+      %i.icon.edit.floated.right
+    = goal.title

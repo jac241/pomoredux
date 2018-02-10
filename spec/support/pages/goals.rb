@@ -10,7 +10,16 @@ module Pages
 
     def create_goal(goal)
       fill_in_goal(goal)
-      click_on 'Create Goal'
+      click_on 'Save'
+    end
+
+    def edit_goal(goal)
+      within(selector_for(goal)) do
+        find('i.edit').click
+        fill_in_goal(goal)
+
+        click_on 'Save'
+      end
     end
 
     def fill_in_goal(goal)
@@ -33,7 +42,13 @@ module Pages
 
     def has_new_goal_errors?
       within('#new_goal') do
-        has_content?("can't be blank")
+        find('.error')
+      end
+    end
+
+    def has_edit_goal_errors_for?(goal)
+      within(selector_for(goal)) do
+        find('.error')
       end
     end
   end
