@@ -20,12 +20,15 @@ feature 'Listing goals' do
     expect(goals_page).to have_no_goal(their_goal)
   end
 
-  scenario 'Seeing my goals on the home page' do
+  scenario 'only Seeing my goals on the home page' do
     sign_in(user)
-    goal = create(:goal, user: user)
+    my_goal = create(:goal, user: user)
+    another_user = create(:user)
+    their_goal = create(:goal, user: another_user)
 
     home_page.visit_page
 
-    expect(home_page).to have_goal(goal)
+    expect(home_page).to have_goal(my_goal)
+    expect(goals_page).to have_no_goal(their_goal)
   end
 end

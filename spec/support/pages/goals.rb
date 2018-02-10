@@ -2,7 +2,7 @@ module Pages
   class Goals
     include Capybara::DSL
     include Rails.application.routes.url_helpers
-    include ActionView::Helpers
+    include Helpers
 
     def visit_page
       visit goals_path
@@ -25,10 +25,6 @@ module Pages
 
     def has_no_goal?(goal)
       has_no_selector?(selector_for(goal))
-    end
-
-    def selector_for(record)
-      "##{dom_id(record)}"
     end
 
     def has_cleared_form?

@@ -3,6 +3,7 @@ require_relative 'log_in'
 module Pages
   class Home
     include Capybara::DSL
+    include Pages::Helpers
 
     attr_reader :goals_page
 
@@ -34,6 +35,16 @@ module Pages
     end
 
     delegate :has_goal?, to: :goals_page
+
+    def mark_goal_met(goal)
+      within(selector_for(goal)) do
+        click_on 'Done'
+      end
+    end
+
+    def has_accomplished_goal?(goal)
+      find("#{selector_for(goal)} .content")[:class].include?('accomplished')
+    end
   end
 end
 

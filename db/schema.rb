@@ -10,11 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180207234543) do
+ActiveRecord::Schema.define(version: 20180209203615) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "pgcrypto"
+
+  create_table "accomplishments", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "goal_id"
+    t.index ["goal_id"], name: "index_accomplishments_on_goal_id"
+  end
 
   create_table "goals", force: :cascade do |t|
     t.string "title", null: false
@@ -61,6 +67,7 @@ ActiveRecord::Schema.define(version: 20180207234543) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "accomplishments", "goals"
   add_foreign_key "goals", "users"
   add_foreign_key "pomodoros", "tasks", on_delete: :cascade
   add_foreign_key "tasks", "users", on_delete: :cascade

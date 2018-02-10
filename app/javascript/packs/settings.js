@@ -5,3 +5,4 @@ export const TIMER_LENGTHS_MS = {
   short_break: 300 * 1000 + BUFFER_SO_THAT_59_ALWAYS_SHOWN, // 25 minutes in ms
   long_break: 600 * 1000 + BUFFER_SO_THAT_59_ALWAYS_SHOWN // 25 minutes in ms
 }
+

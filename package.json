@@ -21,7 +21,6 @@
     "howler": "^2.0.4",
     "jquery": "^3.3.1",
     "js-yaml": "^3.9.1",
-    "json-api-normalizer": "^0.4.8",
     "lodash": "^4.17.4",
     "node-sass": "^4.5.3",
     "path-complete-extname": "^0.1.0",

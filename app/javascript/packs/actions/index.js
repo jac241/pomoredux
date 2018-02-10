@@ -4,6 +4,7 @@ import plucksOgg from '../assets/audio/plucks.ogg'
 
 import { Howl } from 'howler'
 import {SubmissionError} from 'redux-form'
+import {setAxiosConfig} from 'redux-json-api'
 
 export const TIMER_START = 'TIMER_START'
 export const TIMER_TICK = 'TIMER_TICK'
@@ -122,7 +123,7 @@ export const changeTimerMode = (newMode) => {
   return { type: TIMER_MODE_CHANGE, newMode: newMode }
 }
 
-const csrfToken = () => {
+export const csrfToken = () => {
   const meta_tag = document.querySelector('meta[name="csrf-token"]')
   return meta_tag ? meta_tag.content : ''
 }
@@ -133,6 +134,7 @@ export const createUser = (user_attributes) => {
       .then(() => {
         dispatch(sessionChanged({ active: true }))
       })
+      .then(() => { dispatch(setAxiosConfig(buildAxiosAPIConfig()))})
   }
 }
 
@@ -197,8 +199,20 @@ export const createUserSession = (userAttributes) => {
       .then(() => {
         dispatch(sessionChanged({ active: true }))
       })
+      .then(() => { dispatch(setAxiosConfig(buildAxiosAPIConfig()))})
   }
 }
+
+export const buildAxiosAPIConfig = () => (
+  {
+    baseURL: '/api',
+    credentials: 'same-origin',
+    headers: {
+      'X-CSRF-Token': csrfToken(),
+      'X-Requested-With': 'XMLHttpRequest'
+    }
+  }
+)
 
 const requestLogOut = () => (
   { type: REQUEST_LOG_OUT }
@@ -217,6 +231,7 @@ export const destroyUserSession = () => {
       .then(() => dispatch(sessionChanged({ active: false })))
       .then(() => dispatch(resetTimerSettings()))
       .then(() => dispatch(resetTimer()))
+      .then(() => dispatch(setAxiosConfig(buildAxiosAPIConfig())))
       .catch(() => dispatch(receiveLogOut()))
   }
 }

@@ -14,6 +14,8 @@ import LoginPage from '../containers/LoginPage'
 import SettingsPage from '../components/SettingsPage'
 import AuthenticatedComponentContainer from '../containers/AuthenticatedComponentContainer'
 import TaskTimerPage from '../containers/TaskTimerPage'
+import { setAxiosConfig, setHeader } from 'redux-json-api'
+import {buildAxiosAPIConfig} from '../actions'
 
 
 class App extends React.Component {
@@ -24,7 +26,10 @@ class App extends React.Component {
         document.querySelector('#session').dataset.sessionActive
       )
 
-    this.props.dispatch(sessionChanged({ active: sessionActive }))
+    const { dispatch } = this.props
+
+    dispatch(sessionChanged({ active: sessionActive }))
+    dispatch(setAxiosConfig(buildAxiosAPIConfig()))
   }
 
   render() {
