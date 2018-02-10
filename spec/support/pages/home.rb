@@ -38,7 +38,7 @@ module Pages
 
     def mark_goal_met(goal)
       within(selector_for(goal)) do
-        click_on 'Done'
+        find('i').click
       end
     end
 

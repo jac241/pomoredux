@@ -1,6 +1,6 @@
 import React from 'react'
 import pluralize from 'pluralize'
-import {List, Button} from 'semantic-ui-react'
+import {List, Button, Icon} from 'semantic-ui-react'
 import '../css/daily_goals.scss'
 
 const domId = (record) => ( `${pluralize.singular(record.type)}_${record.id}` )
@@ -28,10 +28,11 @@ const DailyGoal = ({dailyGoal, markGoalAccomplished}) => {
     >
       { !accomplished_today &&
         <List.Content floated='right'>
-          <Button
-            content='Done'
+          <Icon
+            name='checkmark'
+            link
             onClick={() => markGoalAccomplished(dailyGoal)}
-            size='tiny'
+            title='Mark goal accomplished!'
           />
         </List.Content>
       }
