@@ -32,5 +32,7 @@ module Pomoredux
     config.action_view.field_error_proc = Proc.new do |html_tag, instance|
       html_tag
     end
+
+    config.time_zone = 'Eastern Time (US & Canada)'
   end
 end
