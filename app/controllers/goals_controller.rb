@@ -1,5 +1,6 @@
 class GoalsController < ApplicationController
   before_action :authenticate_api_user!
+  before_action :find_goal, only: [:edit, :update, :destroy]
 
   def index
     @goals = current_api_user.goals
@@ -19,12 +20,10 @@ class GoalsController < ApplicationController
   end
 
   def edit
-    @goal = current_api_user.goals.find(params[:id])
+
   end
 
   def update
-    @goal = current_api_user.goals.find(params[:id])
-
     respond_to do |format|
       if @goal.update(goal_params)
         format.js
@@ -34,9 +33,17 @@ class GoalsController < ApplicationController
     end
   end
 
+  def destroy
+    @goal.destroy
+  end
+
   private
 
   def goal_params
     params.require(:goal).permit(:title)
+  end
+
+  def find_goal
+    @goal = current_api_user.goals.find(params[:id])
   end
 end

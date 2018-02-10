@@ -22,6 +22,12 @@ module Pages
       end
     end
 
+    def delete_goal(goal)
+      within(selector_for(goal)) do
+        find('i.remove').click
+      end
+    end
+
     def fill_in_goal(goal)
       fill_in 'goal_title', with: goal.title
     end
