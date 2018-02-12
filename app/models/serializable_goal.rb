@@ -3,5 +3,5 @@ class SerializableGoal < JSONAPI::Serializable::Resource
 
   attributes :title, :accomplished_today
 
-  attribute :accomplished_today { @object.accomplished_today? }
+  attribute(:accomplished_today) { @object.accomplished_today? }
 end
