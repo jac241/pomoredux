@@ -1,8 +1,13 @@
 %div.item.goal{:id => dom_id(goal)}
-  %div.left.floated.content
-    = link_to edit_goal_path(goal), remote: true, title: 'Edit goal' do
-      %i.icon.edit
-    = goal.title
-  %div.right.floated.content
-    = link_to goal_path(goal), remote: true, method: :delete, title: 'Delete goal' do
-      %i.icon.remove
+  - present(goal) do |goal|
+    %div.left.floated.content
+      = link_to edit_goal_path(goal), remote: true, title: 'Edit goal' do
+        %i.icon.edit
+      = goal.title
+    %div.right.floated.content
+      = link_to goal_path(goal),
+        remote: true,
+        method: :delete,
+        title: 'Delete goal',
+        data: { confirm: goal.deletion_confirm_message } do
+        %i.icon.remove

@@ -24,7 +24,9 @@ module Pages
 
     def delete_goal(goal)
       within(selector_for(goal)) do
-        find('i.remove').click
+        accept_confirm do
+          find('i.remove').click
+        end
       end
     end
 
