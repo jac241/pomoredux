@@ -5,6 +5,10 @@ class Goal < ApplicationRecord
   validates :title, presence: true
 
   def accomplished_today?
-    accomplishments.created_today.any?
+    todays_accomplishment.present?
+  end
+
+  def todays_accomplishment
+    accomplishments.created_today.last
   end
 end

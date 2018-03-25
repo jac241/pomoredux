@@ -36,14 +36,22 @@ module Pages
 
     delegate :has_goal?, to: :goals_page
 
-    def mark_goal_met(goal)
+    def toggle_goal_met(goal)
       within(selector_for(goal)) do
-        find('i').click
+        find('.checkbox').click
       end
     end
 
     def has_accomplished_goal?(goal)
-      find("#{selector_for(goal)} .content")[:class].include?('accomplished')
+      within("#{selector_for(goal)}") do
+        has_selector?("#{selector_for(goal)}_title.accomplished")
+      end
+    end
+
+    def has_unaccomplished_goal?(goal)
+      within("#{selector_for(goal)}") do
+        has_no_selector?(".checkbox.checked")
+      end
     end
   end
 end

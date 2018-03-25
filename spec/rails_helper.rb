@@ -27,8 +27,14 @@ Capybara.register_driver :chrome do |app|
 end
 
 Capybara.register_driver :headless_chrome do |app|
+  options = {}
+
+  unless ENV['GUI'] == true
+    options.merge!({ args: %w(headless disable-gpu) })
+  end
+
   capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
-    #chromeOptions: { args: %w(headless disable-gpu) }
+    chromeOptions: options
   )
 
   Capybara::Selenium::Driver.new app,

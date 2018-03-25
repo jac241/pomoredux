@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import SpinWhileLoading from '../components/SpinWhileLoading'
-import {fetchDailyGoals, markGoalAccomplished } from '../actions/daily_goals'
+import {fetchDailyGoals, toggleGoalAccomplished } from '../actions/daily_goals'
 import DailyGoalsList from '../components/DailyGoalsList'
 
 class DailyGoalsListPage extends React.Component {
@@ -11,13 +11,13 @@ class DailyGoalsListPage extends React.Component {
   }
 
   render() {
-    const { requestingGoals, dailyGoals, markGoalAccomplished  } = this.props
+    const { requestingGoals, dailyGoals, toggleGoalAccomplished  } = this.props
 
     return (
       <SpinWhileLoading loading={requestingGoals}>
         <DailyGoalsList
           dailyGoals={dailyGoals}
-          markGoalAccomplished={markGoalAccomplished}
+          toggleGoalAccomplished={toggleGoalAccomplished}
         />
       </SpinWhileLoading>
     )
@@ -37,5 +37,5 @@ const dailyGoals = (state) => ( anyGoals(state) ? state.api.goals.data : [] )
 
 export default connect(
   mapStateToProps,
-  { fetchDailyGoals, markGoalAccomplished }
+  { fetchDailyGoals, toggleGoalAccomplished }
 )(DailyGoalsListPage)

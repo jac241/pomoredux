@@ -1,19 +1,35 @@
-import {readEndpoint, createResource} from 'redux-json-api'
+import {readEndpoint, createResource, deleteResource} from 'redux-json-api'
+import find from 'lodash/find'
+
+const DAILY_GOALS_ENDPOINT = '/daily_goals'
 
 export const fetchDailyGoals = () => {
   return dispatch => {
-    return dispatch(readEndpoint('/daily_goals'))
+    return dispatch(readEndpoint(DAILY_GOALS_ENDPOINT))
   }
 }
 
-export const markGoalAccomplished = (goal) => {
-  console.log(accomplishmentFor(goal))
-  return dispatch => {
-    return dispatch(createResource(accomplishmentFor(goal)))
+export const toggleGoalAccomplished = (goal) => {
+  return (dispatch, getState) => {
+    if (!goal.attributes.accomplished_today) {
+      return dispatch(createResource(newAccomplishmentFor(goal)))
+    } else {
+      return dispatch(deleteResource(todaysAccomplishmentFor(goal)))
+        .then(() => (dispatch(readEndpoint(DAILY_GOALS_ENDPOINT))))
+    }
   }
 }
 
-export const accomplishmentFor = (goal) => {
+const todaysAccomplishmentFor = (goal) => {
+  return goal.relationships.todays_accomplishment.data
+}
+
+const anyAccomplishments = (state) => (
+  state.api.accomplishments
+)
+
+
+export const newAccomplishmentFor = (goal) => {
   return {
     type: 'accomplishments',
     relationships: {

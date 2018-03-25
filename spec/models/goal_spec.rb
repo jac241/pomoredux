@@ -21,4 +21,14 @@ describe Goal do
       expect(subject.accomplished_today?).to be_falsy
     end
   end
+
+  describe '#todays_accomplishment' do
+    it 'should return an accomplishment if there was one created today' do
+      subject.save!
+      accomplishment = create(:accomplishment, goal: subject)
+      create(:accomplishment, created_at: Time.now - 1.day, goal: subject)
+
+      expect(subject.todays_accomplishment).to eq accomplishment
+    end
+  end
 end

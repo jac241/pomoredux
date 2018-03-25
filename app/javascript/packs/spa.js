@@ -29,10 +29,9 @@ import Turbolinks from 'turbolinks'
 import { setAxiosConfig, readEndpoint } from 'redux-json-api'
 import { setupReduxJSONAPI } from './boot'
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 const store = createStore(
   pomoApp,
-  composeEnhancers(applyMiddleware(thunk))
+  composeWithDevTools(applyMiddleware(thunk))
 )
 
 setupReduxJSONAPI(store)
