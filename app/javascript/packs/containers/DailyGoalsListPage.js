@@ -31,9 +31,9 @@ const mapStateToProps = (state) => {
   }
 }
 
-const anyGoals = (state) => ( state.api.goals !== undefined )
+const anyGoals = (state) => ( state.api.daily_goals !== undefined )
 const readingApi = (state) => ( state.api.isReading != 0 )
-const dailyGoals = (state) => ( anyGoals(state) ? state.api.goals.data : [] )
+const dailyGoals = (state) => ( anyGoals(state) ? state.api.daily_goals.data : [] )
 
 export default connect(
   mapStateToProps,

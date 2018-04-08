@@ -1,3 +1,5 @@
+require_relative 'helpers'
+
 module Pages
   class Goals
     include Capybara::DSL

@@ -37,21 +37,37 @@ module Pages
     delegate :has_goal?, to: :goals_page
 
     def toggle_goal_met(goal)
-      within(selector_for(goal)) do
+      within(daily_goal_selector_for(goal)) do
         find('.checkbox').click
       end
     end
 
     def has_accomplished_goal?(goal)
-      within("#{selector_for(goal)}") do
-        has_selector?("#{selector_for(goal)}_title.accomplished")
+      within("#{daily_goal_selector_for(goal)}") do
+        has_selector?("#{daily_goal_selector_for(goal)}_title.accomplished")
       end
     end
 
     def has_unaccomplished_goal?(goal)
-      within("#{selector_for(goal)}") do
+      within("#{daily_goal_selector_for(goal)}") do
         has_no_selector?(".checkbox.checked")
       end
+    end
+
+    def has_daily_goal?(goal)
+      has_selector?(daily_goal_selector_for(goal))
+    end
+
+    def has_no_daily_goal?(goal)
+      has_no_selector?(daily_goal_selector_for(goal))
+    end
+
+    def daily_goal_selector_for(goal)
+      selector_for(daily_goal(goal))
+    end
+
+    def daily_goal(goal)
+      DailyGoal.new(goal: goal, todays_accomplishment: nil)
     end
   end
 end

@@ -7,7 +7,9 @@ class Api::AccomplishmentsController < ApiController
     accomplishment = goal.accomplishments.new
 
     if accomplishment.save
-      render jsonapi: accomplishment, include: [goal: [:todays_accomplishment]]
+      render jsonapi: accomplishment, include: [
+        daily_goal: [:todays_accomplishment]
+      ]
     end
   end
 

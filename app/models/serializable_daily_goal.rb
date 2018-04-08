@@ -1,5 +1,5 @@
-class SerializableGoal < JSONAPI::Serializable::Resource
-  type 'goals'
+class SerializableDailyGoal < JSONAPI::Serializable::Resource
+  type 'daily_goals'
 
   attributes :title, :accomplished_today
 

@@ -28,7 +28,7 @@ feature 'Listing goals' do
 
     home_page.visit_page
 
-    expect(home_page).to have_goal(my_goal)
-    expect(goals_page).to have_no_goal(their_goal)
+    expect(home_page).to have_daily_goal(my_goal)
+    expect(home_page).to have_no_daily_goal(their_goal)
   end
 end
