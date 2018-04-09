@@ -17,6 +17,7 @@ class NewTaskModal extends React.Component {
         }}>Add a task</Button>}
         open={open}
         onClose={() => dispatch(closeNewTaskModal())}
+        closeIcon
       >
         <Modal.Header>New task</Modal.Header>
         <Modal.Content>
