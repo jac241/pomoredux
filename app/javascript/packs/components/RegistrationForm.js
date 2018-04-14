@@ -60,7 +60,6 @@ class RegistrationForm extends React.Component {
               control={Input}
               placeholder='Email'
               error={!!this.state.errors.email}
-              autoFocus
             />
             <Form.Field
               id='user_password'

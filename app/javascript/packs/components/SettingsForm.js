@@ -82,7 +82,6 @@ class SettingsForm extends React.Component {
               label='Pomodoro Length'
               control='input'
               type='number'
-              autoFocus
               value={this.state.pomodoro_length_in_min}
               onChange={this.handleChange}
               error={!!this.state.errors.pomodoro_length_ms}

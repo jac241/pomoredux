@@ -23,7 +23,6 @@ class TaskForm extends React.Component {
           name='title'
           component={renderField}
           label='Title'
-          autoFocus
           required
         />
         <Field
