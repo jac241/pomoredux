@@ -8,7 +8,11 @@ class Task < ActiveRecord::Base
 
   scope :active, -> { where('completed_at IS NULL') }
 
-  def complete
-    self.completed_at = Time.now
+  def completed=(was_completed)
+    if was_completed
+      self.completed_at = Time.now
+    else
+      self.completed_at = nil
+    end
   end
 end

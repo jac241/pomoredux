@@ -29,7 +29,7 @@ end
 Capybara.register_driver :headless_chrome do |app|
   options = {}
 
-  unless ENV['GUI'] == true
+  unless ENV['GUI']
     options.merge!({ args: %w(headless disable-gpu) })
   end
 
@@ -88,10 +88,6 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
-  config.before(type: :feature) do
-    Webpacker.compile
-  end
-
   config.before(:each) { Warden.test_mode! }
   config.after(:each) { Warden.test_reset! }
 end

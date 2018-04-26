@@ -22,11 +22,18 @@ describe Task do
     end
   end
 
-  describe '#complete' do
-    it 'should set completed at to now' do
-      subject.complete
+  describe '#completed=' do
+    it 'should set completed at to now if passed a truthy value' do
+      subject.completed = true
 
       expect(subject.completed_at).to be > (Time.now - 1.second)
+    end
+
+    it 'should reset completed_at if passed a falsey value' do
+      subject.completed_at = Time.now
+      subject.completed = false
+
+      expect(subject.completed_at).to be nil
     end
   end
 end

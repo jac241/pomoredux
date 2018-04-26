@@ -4,11 +4,8 @@ class UpdateTaskService
   def call(user:, params:)
     task = task(user: user, task_id: params[:id])
 
-    if params[:completed]
-      task.complete
-    end
+    task.update!(params)
 
-    task.save
     success(:updated, task)
   end
 

@@ -2,8 +2,7 @@ module FlexibleService
   class Result
     attr_reader :status, :body
 
-    def initialize(was_successful:, status:, body:)
-      @was_successful = was_successful
+    def initialize(status:, body:)
       @status = status
       @body = body
     end
@@ -11,26 +10,34 @@ module FlexibleService
     def on(status)
       yield body if status == self.status
     end
+  end
 
+  class Success < Result
     def success?
-      return @was_successful
+      return true
+    end
+  end
+
+  class Failure < Result
+    def success?
+      return false
     end
   end
 
   def success(status, body = nil)
-    Result.new(was_successful: true, status: status, body: body)
+    Success.new(status: status, body: body)
   end
 
   def failure(status, body = nil)
-    Result.new(was_successful: false, status: status, body: body)
-  end
-
-  def self.included(base)
-    base.extend(ClassMethods)
+    Failure.new(status: status, body: body)
   end
 
   def to_proc
     proc(&method(:call))
+  end
+
+  def self.included(base)
+    base.extend(ClassMethods)
   end
 
   module ClassMethods
