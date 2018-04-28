@@ -20,7 +20,8 @@ describe DailyGoal do
   end
 
   let(:goal) { build(:goal) }
-  let(:accomplishment) { build(:accomplishment) }
+  let(:accomplishment) { build(:accomplishment, goal: goal) }
+  let(:excuse) { build(:excuse, goal: goal) }
 
   subject do
     described_class.new(goal: goal, todays_accomplishment: accomplishment)
@@ -37,9 +38,21 @@ describe DailyGoal do
     end
   end
 
-  describe '#to_model' do
-    it 'should return the instance' do
-      expect(subject.to_model).to eq subject
+  describe '#excused_today?' do
+    context 'has an excuse' do
+      subject do
+        described_class.new(goal: goal, todays_excuse: excuse)
+      end
+
+      it 'should return true' do
+        expect(subject.excused_today?).to be_truthy
+      end
+    end
+
+    context 'has no excuse' do
+      it 'shold return falsey' do
+        expect(subject.excused_today?).to be_falsey
+      end
     end
   end
 

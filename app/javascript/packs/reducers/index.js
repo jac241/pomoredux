@@ -8,6 +8,7 @@ import tasks from './tasks'
 import pomodoros from './pomodoros'
 import {SESSION_CHANGED} from '../actions/index'
 import {reducer as api} from 'redux-json-api'
+import excuseModal from '../ducks/excuseModal.js'
 
 
 const appReducer = combineReducers({
@@ -17,6 +18,7 @@ const appReducer = combineReducers({
   newTaskModal,
   tasks,
   pomodoros,
+  excuseModal,
   form: formReducer
 })
 

@@ -1,13 +1,7 @@
 class DailyGoal
-  extend ActiveModel::Naming
-  include ActiveModel::Conversion
+  include ActiveModel::Model
 
-  attr_reader :goal, :todays_accomplishment
-
-  def initialize(goal:, todays_accomplishment:)
-    @goal = goal
-    @todays_accomplishment = todays_accomplishment
-  end
+  attr_accessor :goal, :todays_accomplishment, :todays_excuse
 
   def self.all_for_user(user)
     goals = user.goals
@@ -29,7 +23,7 @@ class DailyGoal
     todays_accomplishment.present?
   end
 
-  def to_model
-    self
+  def excused_today?
+    todays_excuse.present?
   end
 end

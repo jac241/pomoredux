@@ -1,9 +1,10 @@
 class SerializableDailyGoal < JSONAPI::Serializable::Resource
   type 'daily_goals'
 
-  attributes :title, :accomplished_today
+  attributes :title, :accomplished_today, :excused_today
 
   attribute(:accomplished_today) { @object.accomplished_today? }
+  attribute(:excused_today) { @object.excused_today? }
 
   has_one :todays_accomplishment do
     data do

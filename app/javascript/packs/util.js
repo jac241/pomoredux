@@ -1,3 +1,5 @@
+import pluralize from 'pluralize'
+
 export const msTimeToString = (time_ms) => {
   let time_tmp = time_ms
   let ms = time_tmp % 1000
@@ -20,3 +22,5 @@ export const msTimeToString = (time_ms) => {
 export const msToMinsString = (time_ms) => {
   return Math.floor(time_ms / 60000).toString()
 }
+
+export const domId = (record) => ( `${pluralize.singular(record.type)}_${record.id}` )

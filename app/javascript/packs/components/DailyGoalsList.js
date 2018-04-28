@@ -1,9 +1,14 @@
 import React from 'react'
-import pluralize from 'pluralize'
-import {List, Button, Icon, Checkbox} from 'semantic-ui-react'
+import {
+  List,
+  Button,
+  Icon,
+  Checkbox,
+  Modal
+} from 'semantic-ui-react'
+import ExcuseModal from '../containers/ExcuseModal'
+import {domId} from '../util'
 import '../css/daily_goals.scss'
-
-const domId = (record) => ( `${pluralize.singular(record.type)}_${record.id}` )
 
 const DailyGoalsList = ({dailyGoals, toggleGoalAccomplished}) => (
   <List divided size='huge'>
@@ -33,6 +38,7 @@ const DailyGoal = ({dailyGoal, toggleGoalAccomplished}) => {
           title='Mark goal accomplished!'
           checked={accomplished_today}
         />
+        <ExcuseModal excusable={dailyGoal} />
       </List.Content>
       <List.Content
         floated='left'

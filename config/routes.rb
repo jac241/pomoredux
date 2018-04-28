@@ -14,6 +14,7 @@ Rails.application.routes.draw do
 
     resources :daily_goals
     resources :accomplishments
+    resources :excuses
   end
 
   resources :goals

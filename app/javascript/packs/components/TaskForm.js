@@ -2,15 +2,7 @@ import React from 'react'
 import { Field, reduxForm } from 'redux-form'
 import {Form, Input, Button, Message, Label} from 'semantic-ui-react'
 
-const renderField = ({ input, label, type, meta: { touched, error }, required, autoFocus }) => (
-  <Form.Field required={required} error={!!error}>
-    <label>{label}</label>
-    <Input {...input} type={type} autoFocus={autoFocus}/>
-    {touched && error &&
-      <Label basic pointing color='red'>{error}</Label>
-    }
-  </Form.Field>
-)
+import FormInput from './FormInput'
 
 class TaskForm extends React.Component {
   render() {
@@ -21,14 +13,14 @@ class TaskForm extends React.Component {
         <Field
           id='task_title'
           name='title'
-          component={renderField}
+          component={FormInput}
           label='Title'
           required
         />
         <Field
           id='task_estimated_num_pomodoros'
           name='estimated_num_pomodoros'
-          component={renderField}
+          component={FormInput}
           label='Estimated number of pomodoros to complete task'
           type='number'
           required

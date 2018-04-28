@@ -28,4 +28,6 @@ feature 'Accomplishing goals - ' do
     expect(home_page).to have_unaccomplished_goal(goal)
     expect(Accomplishment.count).to eq 0
   end
+
+  scenario 'Trying to create an accomplishment when the goal has already been excused'
 end

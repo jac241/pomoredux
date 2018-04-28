@@ -31,4 +31,6 @@ feature 'Listing goals' do
     expect(home_page).to have_daily_goal(my_goal)
     expect(home_page).to have_no_daily_goal(their_goal)
   end
+
+  scenario 'I should see if my goals have been accomplished or excused'
 end

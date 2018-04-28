@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180210135954) do
+ActiveRecord::Schema.define(version: 20180426224253) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,6 +21,15 @@ ActiveRecord::Schema.define(version: 20180210135954) do
     t.bigint "goal_id"
     t.index ["created_at"], name: "index_accomplishments_on_created_at"
     t.index ["goal_id"], name: "index_accomplishments_on_goal_id"
+  end
+
+  create_table "excuses", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "description", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "goal_id"
+    t.index ["created_at"], name: "index_excuses_on_created_at"
+    t.index ["goal_id"], name: "index_excuses_on_goal_id"
   end
 
   create_table "goals", force: :cascade do |t|
@@ -69,6 +78,7 @@ ActiveRecord::Schema.define(version: 20180210135954) do
   end
 
   add_foreign_key "accomplishments", "goals"
+  add_foreign_key "excuses", "goals", on_delete: :cascade
   add_foreign_key "goals", "users"
   add_foreign_key "pomodoros", "tasks", on_delete: :cascade
   add_foreign_key "tasks", "users", on_delete: :cascade

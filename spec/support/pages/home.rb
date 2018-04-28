@@ -69,6 +69,32 @@ module Pages
     def daily_goal(goal)
       DailyGoal.new(goal: goal, todays_accomplishment: nil)
     end
+
+    def create_excuse_for(excuse, excusable:)
+      selector = daily_goal_selector_for(excusable)
+      within(selector) do
+        find(excuse_selector_for(excusable)).click
+      end
+
+      within('#new_excuse') do
+        fill_in 'description', with: excuse.description
+        click_on 'Save'
+      end
+    end
+
+    def has_no_excuse_modal?
+      has_no_selector?('#new_excuse')
+    end
+
+    def has_excuse_for?(goal)
+      within(daily_goal_selector_for(goal)) do
+        has_selector?("i[data-excused=\"true\"]")
+      end
+    end
+
+    def excuse_selector_for(goal)
+      "#{daily_goal_selector_for(goal)}_excuse"
+    end
   end
 end
 

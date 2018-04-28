@@ -27,7 +27,8 @@ class DailyGoalsListPage extends React.Component {
 const mapStateToProps = (state) => {
   return {
     requestingGoals: !anyGoals(state) && readingApi(state),
-    dailyGoals: dailyGoals(state)
+    dailyGoals: dailyGoals(state),
+    excuseModal: state.excuseModal,
   }
 }
 
