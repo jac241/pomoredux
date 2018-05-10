@@ -2,7 +2,8 @@ const OPEN_EXCUSE_MODAL = 'OPEN_EXCUSE_MODAL'
 const CLOSE_EXCUSE_MODAL = 'CLOSE_EXCUSE_MODAL'
 
 const initialState = {
-  open: false
+  open: false,
+  excusable: null,
 }
 
 export default function reducer(state=initialState, action) {
@@ -10,17 +11,25 @@ export default function reducer(state=initialState, action) {
     case OPEN_EXCUSE_MODAL:
       return {
         ...state,
-        open: true
+        open: true,
+        excusable: action.excusable
       }
     case CLOSE_EXCUSE_MODAL:
       return {
         ...state,
-        open: false
+        open: false,
+        excusable: null
       }
 
     default: return state
   }
 }
 
-export const openExcuseModal = () => ({ type: OPEN_EXCUSE_MODAL })
+export const openExcuseModal = (excusable) => (
+  {
+    type: OPEN_EXCUSE_MODAL,
+    excusable: excusable
+  }
+)
+
 export const closeExcuseModal = () => ({ type: CLOSE_EXCUSE_MODAL })

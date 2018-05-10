@@ -8,16 +8,27 @@ describe 'Creating excuses for daily goals' do
     sign_in(user)
   end
 
-  scenario 'Creating an excuse for not accomplishing a goal' do
-    goal = create(:goal, user: user)
-    excuse = build(:excuse, goal: goal)
+  scenario 'Creating excuses for not accomplishing goals' do
+    goals = create_list(:goal, 2, user: user)
+
+    excuses = [
+      build(:excuse, goal: goals.first),
+      build(:excuse, goal: goals.second)
+    ]
 
     home_page.visit_page
-    home_page.create_excuse_for(excuse, excusable: goal)
+    home_page.create_excuse_for(excuses.first, excusable: goals.first)
 
     expect(home_page).to have_no_excuse_modal
-    expect(home_page).to have_excuse_for(goal)
-    expect(Excuse.last.goal).to eq goal
+    expect(home_page).to have_excuse_for(goals.first)
+    expect(Excuse.last.goal).to eq goals.first
+
+    home_page.create_excuse_for(excuses.second, excusable: goals.second)
+
+    expect(home_page).to have_no_excuse_modal
+    expect(home_page).to have_excuse_for(goals.second)
+    expect(Excuse.count).to eq 2
+    expect(Excuse.last.goal).to eq goals.second
   end
 
   scenario 'Editting - Clearing an excuse should delete it'

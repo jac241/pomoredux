@@ -9,7 +9,7 @@ class Api::ExcusesController < ApiController
 
     excuse.save!
 
-    render jsonapi: excuse, include: [
+    render jsonapi: excuse, status: :created, include: [
       daily_goal: [:todays_excuse]
     ]
   end

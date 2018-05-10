@@ -3,6 +3,6 @@ class Api::DailyGoalsController < ApiController
 
   def index
     render jsonapi: DailyGoal.all_for_user(current_api_user),
-      include: [:todays_accomplishment]
+      include: [:todays_accomplishment, :todays_excuse]
   end
 end

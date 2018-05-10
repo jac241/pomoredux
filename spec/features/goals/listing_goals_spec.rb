@@ -21,7 +21,6 @@ feature 'Listing goals' do
   end
 
   scenario 'only Seeing my goals on the home page' do
-    sign_in(user)
     my_goal = create(:goal, user: user)
     another_user = create(:user)
     their_goal = create(:goal, user: another_user)
@@ -32,5 +31,12 @@ feature 'Listing goals' do
     expect(home_page).to have_no_daily_goal(their_goal)
   end
 
-  scenario 'I should see if my goals have been accomplished or excused'
+  scenario 'I should see if my goals have been excused' do
+    my_goal = create(:goal, user: user)
+    excuse = create(:excuse, goal: my_goal)
+
+    home_page.visit_page
+
+    expect(home_page).to have_excuse_for(my_goal)
+  end
 end

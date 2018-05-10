@@ -3,6 +3,7 @@ require 'rails_helper'
 describe User, type: :model do
   it { should have_many(:goals).dependent(:destroy) }
   it { should have_many(:accomplishments).through(:goals) }
+  it { should have_many(:excuses).through(:goals) }
 
   describe '#create' do
     it 'should build an associated timer settings before creation' do

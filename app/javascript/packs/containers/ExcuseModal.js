@@ -11,20 +11,18 @@ import {openExcuseModal, closeExcuseModal} from '../ducks/excuseModal.js'
 
 class ExcuseModal extends React.Component {
   render() {
-    const { dispatch, excusable, excuseModal } = this.props
-
-    const excuseIcon = (
-      <ExcuseIcon
-        excusable={excusable}
-        onClick={() => {dispatch(openExcuseModal())}}
-      />
-    )
+    const { excusable, excuseModal, openExcuseModal, closeExcuseModal } = this.props
 
     return (
       <Modal
-        trigger={excuseIcon}
-        open={excuseModal.open}
-        onClose={() => {dispatch(closeExcuseModal())}}
+        trigger={
+          <ExcuseIcon
+            excusable={excusable}
+            onClick={() => openExcuseModal(excusable)}
+          />
+        }
+        open={excuseModal.open && excuseModal.excusable == excusable}
+        onClose={closeExcuseModal}
         closeIcon
       >
         <Modal.Header>
@@ -36,15 +34,19 @@ class ExcuseModal extends React.Component {
       </Modal>
     )
   }
+
+  componentWillUnmount() {
+    this.props.closeExcuseModal()
+  }
 }
 
-const ExcuseIcon = ({excusable, ...other}) => {
+const ExcuseIcon = ({excusable, onClick}) => {
   const {excused_today} = excusable.attributes
-  const iconName = excused_today ? 'file outline text' : 'file outline'
+  const iconName = excused_today ? 'file text outline' : 'file outline'
 
   return (
     <Icon
-      { ...other }
+      onClick={onClick}
       name={iconName}
       id={`${domId(excusable)}_excuse`}
       style={{ marginLeft: '.5em'}}
@@ -60,4 +62,7 @@ const mapStateToProps = (state, ownProps) => (
   { excuseModal: state.excuseModal, ...ownProps }
 )
 
-export default connect(mapStateToProps)(ExcuseModal)
+export default connect(
+  mapStateToProps,
+  { openExcuseModal, closeExcuseModal }
+)(ExcuseModal)

@@ -2,20 +2,43 @@ require 'rails_helper'
 
 describe DailyGoal do
   describe 'self.all_for_user' do
-    it 'should build daily goals for the passed user' do
-      user = create(:user)
-      goals = create_list(:goal, 2, user: user)
-      accomplishment = create(:accomplishment, goal: goals.first)
+    let(:user) { create(:user) }
+    let(:goals) { create_list(:goal, 2, user: user) }
 
-      daily_goals = described_class.all_for_user(user)
+    context 'one goal has an accomplishment' do
+      it 'should build daily goals for the passed user with accomplishments' do
+        accomplishment = create(:accomplishment, goal: goals.first)
 
-      expect(daily_goals.count).to eq 2
+        daily_goals = described_class.all_for_user(user)
 
-      expect(daily_goals.first.goal).to eq goals.first
-      expect(daily_goals.first.todays_accomplishment).to eq accomplishment
+        expect(daily_goals.count).to eq 2
 
-      expect(daily_goals.second.goal).to eq goals.second
-      expect(daily_goals.second.todays_accomplishment).to eq nil
+        expect(daily_goals.first.goal).to eq goals.first
+        expect(daily_goals.first.todays_accomplishment).to eq accomplishment
+        expect(daily_goals.first.todays_excuse).to eq nil
+
+        expect(daily_goals.second.goal).to eq goals.second
+        expect(daily_goals.second.todays_accomplishment).to eq nil
+        expect(daily_goals.second.todays_excuse).to eq nil
+      end
+    end
+
+    context 'one goal has an excuse' do
+      it 'should build daily goals for the passed user with excuse' do
+        excuse = create(:excuse, goal: goals.first)
+
+        daily_goals = described_class.all_for_user(user)
+
+        expect(daily_goals.count).to eq 2
+
+        expect(daily_goals.first.goal).to eq goals.first
+        expect(daily_goals.first.todays_excuse).to eq excuse
+        expect(daily_goals.first.todays_accomplishment).to eq nil
+
+        expect(daily_goals.second.goal).to eq goals.second
+        expect(daily_goals.second.todays_accomplishment).to eq nil
+        expect(daily_goals.second.todays_excuse).to eq nil
+      end
     end
   end
 

@@ -11,4 +11,10 @@ class SerializableDailyGoal < JSONAPI::Serializable::Resource
       @object.todays_accomplishment
     end
   end
+
+  has_one :todays_excuse do
+    data do
+      @object.todays_excuse
+    end
+  end
 end

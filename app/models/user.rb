@@ -9,6 +9,7 @@ class User < ApplicationRecord
   has_many :pomodoros, through: :tasks
   has_many :goals, dependent: :destroy
   has_many :accomplishments, through: :goals
+  has_many :excuses, through: :goals
 
   before_validation :build_associated_timer_settings
 

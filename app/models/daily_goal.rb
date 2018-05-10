@@ -9,10 +9,14 @@ class DailyGoal
     accomplishments_by_goal_id =
       user.accomplishments.created_today.group_by(&:goal_id)
 
+    excuses_by_goal_id =
+      user.excuses.created_today.group_by(&:goal_id)
+
     goals.map do |goal|
       self.new(
         goal: goal,
-        todays_accomplishment: accomplishments_by_goal_id[goal.id].try(:first)
+        todays_accomplishment: accomplishments_by_goal_id[goal.id].try(:first),
+        todays_excuse: excuses_by_goal_id[goal.id].try(:first)
       )
     end
   end
