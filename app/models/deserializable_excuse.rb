@@ -1,5 +1,5 @@
 class DeserializableExcuse < JSONAPI::Deserializable::Resource
-  attributes :description
-
-  belongs_to :daily_goal
+  type
+  id
+  has_one :daily_goal
 end

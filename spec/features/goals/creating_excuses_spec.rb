@@ -28,7 +28,7 @@ describe 'Creating excuses for daily goals' do
     expect(home_page).to have_no_excuse_modal
     expect(home_page).to have_excuse_for(goals.second)
     expect(Excuse.count).to eq 2
-    expect(Excuse.last.goal).to eq goals.second
+    expect(Excuse.where(goal: goals.second)).to_not be nil
   end
 
   scenario 'Editting - Clearing an excuse should delete it'
