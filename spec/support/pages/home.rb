@@ -87,6 +87,10 @@ module Pages
       find(excuse_selector_for(excusable)).click
     end
 
+    def has_open_excuse_modal?
+      has_selector?('#excuse_modal')
+    end
+
     def has_no_excuse_modal?
       has_no_selector?('#excuse_modal')
     end
@@ -114,6 +118,10 @@ module Pages
       open_excuse_modal_for(excusable)
 
       excuse_form.update_excuse(excuse)
+    end
+
+    def has_excuse_error?(error_text)
+      has_content?(error_text)
     end
   end
 end

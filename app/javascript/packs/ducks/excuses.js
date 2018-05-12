@@ -4,6 +4,7 @@ import {
   deleteResource,
   updateResource,
 } from 'redux-json-api'
+import {SubmissionError} from 'redux-form'
 
 import {closeExcuseModal} from './excuseModal'
 
@@ -14,7 +15,28 @@ export const excuseCreatorFor = (excusable) => (excuse) => (dispatch) => (
 export const createExcuse = (excuse, excusable) => (dispatch) => (
   dispatch(createResource(newExcuseFor(excuse, excusable)))
     .then(() => dispatch(closeExcuseModal()))
+    .catch((error) => {
+      if (error.response.status == 422) {
+        throw buildReduxFormSubmissionError(error.response)
+      }
+      else {
+        throw error
+      }
+    })
 )
+
+const buildReduxFormSubmissionError = (response) => {
+  const jsonApiErrors = response.data.errors
+
+  const errorDetailsByFieldName = {}
+  jsonApiErrors.forEach((error) => {
+    const pointerList = error.source.pointer.split('/') // data/attributes/...
+    const fieldName = pointerList[pointerList.length - 1]
+    errorDetailsByFieldName[fieldName] = error.detail
+  })
+
+  return new SubmissionError(errorDetailsByFieldName)
+}
 
 const newExcuseFor = (excuse, excusable) => {
   const excusableType = excusable.type.slice(0, -1)

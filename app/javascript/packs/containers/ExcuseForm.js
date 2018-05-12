@@ -46,10 +46,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     onSubmit: (excuseAttributes) => {
       if (excuse) {
-        dispatch(updateExcuse(excuse, excuseAttributes))
+        return dispatch(updateExcuse(excuse, excuseAttributes))
       }
       else {
-        dispatch(createExcuse(excuseAttributes))
+        return dispatch(createExcuse(excuseAttributes))
       }
     }
   }

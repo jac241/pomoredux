@@ -7,11 +7,13 @@ class Api::ExcusesController < ApiController
   def create
     excuse = @goal.excuses.new(create_params)
 
-    excuse.save!
-
-    render jsonapi: excuse, status: :created, include: [
-      daily_goal: [:todays_excuse]
-    ]
+    if excuse.save
+      render jsonapi: excuse, status: :created, include: [
+        daily_goal: [:todays_excuse]
+      ]
+    else
+      render jsonapi_errors: excuse.errors, status: :unprocessable_entity
+    end
   end
 
   def update
@@ -20,6 +22,12 @@ class Api::ExcusesController < ApiController
     excuse.update!(update_params)
 
     render jsonapi: excuse, include: [daily_goal: [:todays_excuse]]
+  end
+
+  def jsonapi_pointers
+    {
+      description: 'data/attributes/description'
+    }
   end
 
   private

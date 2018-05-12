@@ -1,8 +1,9 @@
 require 'rails_helper'
 
-describe 'Creating excuses for daily goals' do
+describe 'Creating excuses for daily goals:' do
   let(:user) { create(:user) }
   let(:home_page) { Pages::Home.new }
+  let(:goal) { create(:goal, user: user) }
 
   before(:each) do
     sign_in(user)
@@ -10,7 +11,6 @@ describe 'Creating excuses for daily goals' do
 
   scenario 'Creating excuses for not accomplishing goals' do
     goals = create_list(:goal, 2, user: user)
-
     excuses = [
       build(:excuse, goal: goals.first),
       build(:excuse, goal: goals.second)
@@ -30,6 +30,17 @@ describe 'Creating excuses for daily goals' do
     expect(Excuse.count).to eq 2
     expect(Excuse.where(goal: goals.second)).to_not be nil
   end
+
+  scenario 'Trying to create a blank excuse' do
+    excuse = build(:excuse, description: '', goal: goal)
+    home_page.visit_page
+
+    home_page.create_excuse_for(excuse, excusable: goal)
+
+    expect(home_page).to have_open_excuse_modal
+    expect(home_page).to have_excuse_error("can't be blank")
+  end
+
 
   scenario 'Editting - Clearing an excuse should delete it'
   scenario 'Trying to create an excuse for a goal that already has one'
