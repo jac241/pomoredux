@@ -1,15 +1,15 @@
 require 'rails_helper'
 
-describe 'Editting excuses for daily goals' do
+describe 'Editting excuses for daily goals:' do
   let(:user) { create(:user) }
   let(:home_page) { Pages::Home.new }
+  let(:goal) { create(:goal, user: user) }
 
   before(:each) do
     sign_in(user)
   end
 
   scenario 'Editting the excuse for an existing goal' do
-    goal = create(:goal, user: user)
     excuse = create(:excuse, goal: goal)
 
     home_page.visit_page
@@ -22,5 +22,16 @@ describe 'Editting excuses for daily goals' do
 
     expect(home_page).to have_excuse_for(excuse, goal)
     expect(Excuse.last.description).to eq excuse.description
+  end
+
+  scenario 'user tries to make description blank' do
+    excuse = create(:excuse, goal: goal)
+
+    home_page.visit_page
+
+    excuse.description = ''
+    home_page.update_excuse_for(excuse, goal)
+
+    expect(home_page).to have_excuse_error("can't be blank")
   end
 end

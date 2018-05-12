@@ -26,6 +26,7 @@ describe 'Creating excuses for daily goals:' do
     home_page.create_excuse_for(excuses.second, excusable: goals.second)
 
     expect(home_page).to have_no_excuse_modal
+    sleep 0.25 # sorry
     expect(home_page).to have_excuse_for(Excuse.last, goals.second)
     expect(Excuse.count).to eq 2
     expect(Excuse.where(goal: goals.second)).to_not be nil

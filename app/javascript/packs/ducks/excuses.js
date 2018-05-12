@@ -15,15 +15,17 @@ export const excuseCreatorFor = (excusable) => (excuse) => (dispatch) => (
 export const createExcuse = (excuse, excusable) => (dispatch) => (
   dispatch(createResource(newExcuseFor(excuse, excusable)))
     .then(() => dispatch(closeExcuseModal()))
-    .catch((error) => {
-      if (error.response.status == 422) {
-        throw buildReduxFormSubmissionError(error.response)
-      }
-      else {
-        throw error
-      }
-    })
+    .catch(handleExcuseErrors)
 )
+
+const handleExcuseErrors = (error) => {
+  if (error.response.status == 422) {
+    throw buildReduxFormSubmissionError(error.response)
+  }
+  else {
+    throw error
+  }
+}
 
 const buildReduxFormSubmissionError = (response) => {
   const jsonApiErrors = response.data.errors
@@ -82,4 +84,5 @@ export const updateExcuse = (excuse, excuseAttributes) => (dispatch) => {
   }
   return dispatch(updateResource(updatedExcuse))
     .then(() => dispatch(closeExcuseModal()))
+    .catch(handleExcuseErrors)
 }

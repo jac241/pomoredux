@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :goal do
-    title 'g'
+    sequence(:title) { |n| "g#{n}" }
     association :user
   end
 end

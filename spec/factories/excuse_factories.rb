@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :excuse do
-    description 'ex'
+    sequence(:description) { |n| "ex#{n}" }
 
     association :goal
   end

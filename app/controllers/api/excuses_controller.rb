@@ -19,9 +19,11 @@ class Api::ExcusesController < ApiController
   def update
     excuse = current_api_user.excuses.find(params[:id])
 
-    excuse.update!(update_params)
-
-    render jsonapi: excuse, include: [daily_goal: [:todays_excuse]]
+    if excuse.update(update_params)
+      render jsonapi: excuse, include: [daily_goal: [:todays_excuse]]
+    else
+      render jsonapi_errors: excuse.errors, status: :unprocessable_entity
+    end
   end
 
   def jsonapi_pointers
