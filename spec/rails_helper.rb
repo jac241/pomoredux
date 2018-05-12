@@ -6,7 +6,7 @@ require File.expand_path('../../config/environment', __FILE__)
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
-
+require 'capybara-screenshot/rspec'
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
 # run as spec files by default. This means that files in spec/support that end
@@ -27,7 +27,7 @@ Capybara.register_driver :chrome do |app|
   Capybara::Selenium::Driver.new(app, browser: :chrome)
 end
 
-Capybara.register_driver :headless_chrome do |app|
+Capybara.register_driver :selenium do |app|
   options = {}
 
   unless ENV['GUI']
@@ -43,11 +43,11 @@ Capybara.register_driver :headless_chrome do |app|
     desired_capabilities: capabilities
 end
 
-Capybara.javascript_driver = :headless_chrome
+Capybara.javascript_driver = :selenium
 
 Capybara.configure do |config|
   config.default_max_wait_time = 3
-  config.default_driver = :headless_chrome
+  config.default_driver = :selenium
 end
 
 Shoulda::Matchers.configure do |config|

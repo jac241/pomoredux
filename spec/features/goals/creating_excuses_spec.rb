@@ -20,13 +20,13 @@ describe 'Creating excuses for daily goals' do
     home_page.create_excuse_for(excuses.first, excusable: goals.first)
 
     expect(home_page).to have_no_excuse_modal
-    expect(home_page).to have_excuse_for(goals.first)
+    expect(home_page).to have_excuse_for(Excuse.last, goals.first)
     expect(Excuse.last.goal).to eq goals.first
 
     home_page.create_excuse_for(excuses.second, excusable: goals.second)
 
     expect(home_page).to have_no_excuse_modal
-    expect(home_page).to have_excuse_for(goals.second)
+    expect(home_page).to have_excuse_for(Excuse.last, goals.second)
     expect(Excuse.count).to eq 2
     expect(Excuse.where(goal: goals.second)).to_not be nil
   end

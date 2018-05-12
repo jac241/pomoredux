@@ -70,30 +70,50 @@ module Pages
       DailyGoal.new(goal: goal, todays_accomplishment: nil)
     end
 
-    def create_excuse_for(excuse, excusable:)
+    def create_excuse_for(
+        excuse,
+        excusable:,
+        excuse_form: Components::ExcuseModal.new)
       selector = daily_goal_selector_for(excusable)
+
       within(selector) do
-        find(excuse_selector_for(excusable)).click
+        open_excuse_modal_for(excusable)
       end
 
-      within('#new_excuse') do
-        fill_in 'description', with: excuse.description
-        click_on 'Save'
-      end
+      excuse_form.create_excuse_for(excuse, excusable: excusable)
+    end
+
+    def open_excuse_modal_for(excusable)
+      find(excuse_selector_for(excusable)).click
     end
 
     def has_no_excuse_modal?
-      has_no_selector?('#new_excuse')
+      has_no_selector?('#excuse_modal')
     end
 
-    def has_excuse_for?(goal)
+    def has_excuse_for?(excuse, goal)
       within(daily_goal_selector_for(goal)) do
-        has_selector?("i[data-excused=\"true\"]")
+        return false unless has_selector?("i[data-excused=\"true\"]")
+        open_excuse_modal_for(goal)
       end
+
+      modal = Components::ExcuseModal.new
+      return false unless modal.has_excuse?(excuse)
+      modal.close
     end
 
     def excuse_selector_for(goal)
       "#{daily_goal_selector_for(goal)}_excuse"
+    end
+
+    def update_excuse_for(
+      excuse,
+      excusable,
+      excuse_form: Components::ExcuseModal.new
+    )
+      open_excuse_modal_for(excusable)
+
+      excuse_form.update_excuse(excuse)
     end
   end
 end

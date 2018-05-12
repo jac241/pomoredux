@@ -1,4 +1,9 @@
-import {readEndpoint, createResource, deleteResource} from 'redux-json-api'
+import {
+  readEndpoint,
+  createResource,
+  deleteResource,
+  updateResource,
+} from 'redux-json-api'
 
 import {closeExcuseModal} from './excuseModal'
 
@@ -27,4 +32,32 @@ const newExcuseFor = (excuse, excusable) => {
       }
     }
   }
+}
+
+export const excuseForExcusable = (state, excusable) => {
+  const todaysExcuse = excusable.relationships.todays_excuse
+  if (!todaysExcuse.data) {
+    return null
+  }
+
+  const excuses = state.api[todaysExcuse.data.type]
+
+  if (!excuses) {
+    return null
+  }
+
+  return excuses.data.find((excuse) => (
+    excuse.id === todaysExcuse.data.id
+  ))
+}
+
+export const updateExcuse = (excuse, excuseAttributes) => (dispatch) => {
+  const updatedExcuse = {
+    ...excuse,
+    attributes: {
+      ...excuseAttributes
+    }
+  }
+  return dispatch(updateResource(updatedExcuse))
+    .then(() => dispatch(closeExcuseModal()))
 }

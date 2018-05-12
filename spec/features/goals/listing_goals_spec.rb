@@ -37,6 +37,6 @@ feature 'Listing goals' do
 
     home_page.visit_page
 
-    expect(home_page).to have_excuse_for(my_goal)
+    expect(home_page).to have_excuse_for(excuse, my_goal)
   end
 end

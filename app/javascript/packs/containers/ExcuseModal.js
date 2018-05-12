@@ -8,13 +8,21 @@ import {
 import {domId} from '../util'
 import ExcuseForm from '../containers/ExcuseForm'
 import {openExcuseModal, closeExcuseModal} from '../ducks/excuseModal.js'
+import {excuseForExcusable} from '../ducks/excuses.js'
 
 class ExcuseModal extends React.Component {
   render() {
-    const { excusable, excuseModal, openExcuseModal, closeExcuseModal } = this.props
+    const {
+      excuse,
+      excusable,
+      excuseModal,
+      openExcuseModal,
+      closeExcuseModal,
+    } = this.props
 
     return (
       <Modal
+        id={'excuse_modal'}
         trigger={
           <ExcuseIcon
             excusable={excusable}
@@ -29,7 +37,7 @@ class ExcuseModal extends React.Component {
           {`Excuse for not doing ${excusable.attributes.title}`}
         </Modal.Header>
         <Modal.Content>
-          <ExcuseForm excusable={excusable} />
+          <ExcuseForm excuse={excuse} excusable={excusable} />
         </Modal.Content>
       </Modal>
     )
@@ -59,7 +67,11 @@ const ExcuseIcon = ({excusable, onClick}) => {
 }
 
 const mapStateToProps = (state, ownProps) => (
-  { excuseModal: state.excuseModal, ...ownProps }
+  {
+    ...ownProps,
+    excuseModal: state.excuseModal,
+    excuse: excuseForExcusable(state, ownProps.excusable),
+  }
 )
 
 export default connect(
