@@ -106,6 +106,12 @@ module Pages
       modal.close
     end
 
+    def has_no_excuse_for?(goal)
+      within(daily_goal_selector_for(goal)) do
+        has_selector?("i[data-excused=\"false\"]")
+      end
+    end
+
     def excuse_selector_for(goal)
       "#{daily_goal_selector_for(goal)}_excuse"
     end
@@ -122,6 +128,14 @@ module Pages
 
     def has_excuse_error?(error_text)
       has_content?(error_text)
+    end
+
+    def delete_excuse_for(excusable, excuse_form: Components::ExcuseModal.new)
+      within(daily_goal_selector_for(excusable)) do
+        open_excuse_modal_for(excusable)
+      end
+
+      excuse_form.delete_excuse
     end
   end
 end

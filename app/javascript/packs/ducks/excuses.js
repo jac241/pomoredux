@@ -7,6 +7,7 @@ import {
 import {SubmissionError} from 'redux-form'
 
 import {closeExcuseModal} from './excuseModal'
+import {fetchDailyGoals} from '../actions/daily_goals'
 
 export const excuseCreatorFor = (excusable) => (excuse) => (dispatch) => (
   dispatch(createExcuse(excuse, excusable))
@@ -86,3 +87,8 @@ export const updateExcuse = (excuse, excuseAttributes) => (dispatch) => {
     .then(() => dispatch(closeExcuseModal()))
     .catch(handleExcuseErrors)
 }
+
+export const destroyExcuse = (excuse) => (dispatch) => (
+  dispatch(deleteResource(excuse))
+    .then(dispatch(fetchDailyGoals()))
+)

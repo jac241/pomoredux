@@ -8,11 +8,12 @@ import {
   excuseCreatorFor,
   createExcuse,
   updateExcuse,
+  destroyExcuse,
   excuseForExcusable,
 } from '../ducks/excuses.js'
 import {domId} from '../util'
 
-let ExcuseForm = ({ excuse, handleSubmit }) => {
+let ExcuseForm = ({ excuse, handleSubmit, destroyExcuse }) => {
   const formId = excuse ? `excuse_${excuse.id}` : 'new_excuse'
   return (
     <Form id={formId} onSubmit={handleSubmit}>
@@ -22,6 +23,15 @@ let ExcuseForm = ({ excuse, handleSubmit }) => {
         component={FormInput}
       />
       <Button type='submit' positive>Save</Button>
+      { excuse &&
+          <Button
+            onClick={(event) => {
+              event.preventDefault()
+              return destroyExcuse()
+            }}
+            negative>Remove excuse
+          </Button>
+      }
     </Form>
   )
 }
@@ -44,6 +54,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   const {excuse, excusable} = ownProps
   const createExcuse = excuseCreatorFor(excusable)
   return {
+    destroyExcuse: () => { return dispatch(destroyExcuse(excuse)) },
     onSubmit: (excuseAttributes) => {
       if (excuse) {
         return dispatch(updateExcuse(excuse, excuseAttributes))

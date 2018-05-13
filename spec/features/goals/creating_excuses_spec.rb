@@ -42,8 +42,6 @@ describe 'Creating excuses for daily goals:' do
     expect(home_page).to have_excuse_error("can't be blank")
   end
 
-
-  scenario 'Editting - Clearing an excuse should delete it'
   scenario 'Trying to create an excuse for a goal that already has one'
   scenario 'Trying to create an excuse while not logged in'
   scenario 'Trying to create an excuse when goal has already been accomplished'

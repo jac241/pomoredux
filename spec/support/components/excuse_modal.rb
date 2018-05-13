@@ -27,6 +27,10 @@ module Components
       end
     end
 
+    def delete_excuse
+      click_on 'Remove excuse'
+    end
+
     def close
       find('i.close').click
     end

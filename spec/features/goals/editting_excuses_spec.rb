@@ -34,4 +34,13 @@ describe 'Editting excuses for daily goals:' do
 
     expect(home_page).to have_excuse_error("can't be blank")
   end
+
+  scenario 'user should be able to delete an excuse' do
+    excuse = create(:excuse, goal: goal)
+    home_page.visit_page
+
+    home_page.delete_excuse_for(goal)
+
+    expect(home_page).to have_no_excuse_for(goal)
+  end
 end

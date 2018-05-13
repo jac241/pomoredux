@@ -1,6 +1,6 @@
 class Api::ExcusesController < ApiController
   before_action :authenticate_api_user!
-  deserializable_resource :excuse
+  deserializable_resource :excuse, only: [:create, :update]
 
   before_action :set_goal, only: [:create]
 
@@ -30,6 +30,12 @@ class Api::ExcusesController < ApiController
     {
       description: 'data/attributes/description'
     }
+  end
+
+  def destroy
+    excuse = current_api_user.excuses.find(params[:id]).destroy
+
+    head :no_content
   end
 
   private
