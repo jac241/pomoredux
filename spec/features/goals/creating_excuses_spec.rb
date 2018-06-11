@@ -42,7 +42,14 @@ describe 'Creating excuses for daily goals:' do
     expect(home_page).to have_excuse_error("can't be blank")
   end
 
-  scenario 'Trying to create an excuse for a goal that already has one'
+  context 'daily goal already has an excuse that day' do
+    let!(:excuse) { create(:excuse, goal: goal)}
+
+    scenario 'user should see an error about the conflict' do
+
+    end
+  end
+
   scenario 'Trying to create an excuse while not logged in'
   scenario 'Trying to create an excuse when goal has already been accomplished'
 end
