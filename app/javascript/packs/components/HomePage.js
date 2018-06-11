@@ -50,28 +50,26 @@ class HomePage extends React.Component {
           </React.Fragment>
         }
         { userLoggedIn &&
-          <Container text>
-            <Grid stackable columns='2'>
-              <Grid.Column id='daily_goals'>
-                <Header as='h1' content='Daily Goals' />
-                <Segment clearing vertical>
-                  <DailyGoalsListPage />
-                </Segment>
-              </Grid.Column>
-              <Grid.Column id="tasks">
-                <div>
-                  <Header as='h1' floated='left' content='Tasks' />
-                  <div style={{float: 'right'}}>
-                    <NewTaskModal />
-                  </div>
-                  <div style={{clear: 'both'}} />
+          <Grid container stackable columns='2'>
+            <Grid.Column id='daily_goals'>
+              <Header as='h1' content='Daily Goals' />
+              <Segment clearing vertical>
+                <DailyGoalsListPage />
+              </Segment>
+            </Grid.Column>
+            <Grid.Column id="tasks">
+              <div>
+                <Header as='h1' floated='left' content='Tasks' />
+                <div style={{float: 'right'}}>
+                  <NewTaskModal />
                 </div>
-                <Segment clearing vertical>
-                  <TaskListPage/>
-                </Segment>
-              </Grid.Column>
-            </Grid>
-          </Container>
+                <div style={{clear: 'both'}} />
+              </div>
+              <Segment clearing vertical>
+                <TaskListPage/>
+              </Segment>
+            </Grid.Column>
+          </Grid>
         }
       </div>
     )
