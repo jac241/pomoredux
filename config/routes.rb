@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   end
 
   resources :goals
+  resources :reviews
 
   root 'dashboard#index'
   get '*path', to: 'dashboard#index'
