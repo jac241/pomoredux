@@ -39,6 +39,9 @@ gem 'jquery-rails'
 gem 'semantic-ui-sass'
 gem 'sassc-rails'
 gem 'jsonapi-rails'
+gem 'simple_calendar', '~> 2.2', '>= 2.2.7'
+gem 'turbolinks', '~> 5.1', '>= 5.1.1'
+gem 'groupdate', '~> 4.0', '>= 4.0.1'
 
 group :test do
   gem 'capybara'

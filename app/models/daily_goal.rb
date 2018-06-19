@@ -21,7 +21,7 @@ class DailyGoal
     end
   end
 
-  delegate :id, :title, :persisted?, to: :goal
+  delegate :id, :title, :persisted?, :created_at, to: :goal
 
   def accomplished_today?
     todays_accomplishment.present?
