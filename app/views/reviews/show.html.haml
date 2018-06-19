@@ -1,0 +1,37 @@
+%h2
+  = "#{@review.pretty_date} in review"
+
+- if @review.tasks.present?
+  %h3 Completed Tasks:
+  .ui.large.list
+    - @review.tasks.each do |task|
+      .item
+        - if task.pomodoros.present?
+          = "#{task.title} completed in #{pluralize(task.pomodoros.count, '🍅')}"
+        - else
+          = task.title
+- else
+  %h3
+    = "No tasks completed in Pomoredux on #{@review.pretty_date}"
+
+- if @review.accomplishments.present?
+  %h3 
+    Completed daily goals
+  .ui.large.list
+    - @review.accomplishments.each do |accomplishment|
+      .item= accomplishment.goal.title
+- else
+  %h3= "No daily goals marked accomplished in Pomoredux on #{@review.pretty_date}"
+
+- if @review.excuses.present?
+  %h4
+    Excused daily goals
+  .ui.list
+    - @review.excuses.each do |excuse|
+      .item
+        .header
+          = excuse.goal.title
+        .description
+          = excuse.description
+
+

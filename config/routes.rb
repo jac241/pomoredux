@@ -18,7 +18,7 @@ Rails.application.routes.draw do
   end
 
   resources :goals
-  resources :reviews
+  resources :reviews, param: :date
 
   root 'dashboard#index'
   get '*path', to: 'dashboard#index'

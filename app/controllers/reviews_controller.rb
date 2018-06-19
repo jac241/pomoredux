@@ -9,6 +9,11 @@ class ReviewsController < ApplicationController
   end
 
   def show
-
+    @review = ReviewPresenter.new(
+      Review.find_by_date_and_user(
+        date: params[:date],
+        user: current_api_user
+      )
+    )
   end
 end
