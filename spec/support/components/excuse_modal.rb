@@ -1,3 +1,5 @@
+require_relative '../pages/helpers'
+
 module Components
   class ExcuseModal
     include Capybara::DSL

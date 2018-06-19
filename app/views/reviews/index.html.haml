@@ -1,0 +1,4 @@
+= month_calendar events: @reviews, attribute: :date do |date, reviews|
+  = date.mday
+  - reviews.each do |review|
+    = "Daily Goals: #{review.accomplishments.count} / #{review.daily_goals.count}"
