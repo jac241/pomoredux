@@ -1,10 +1,14 @@
 = month_calendar events: @reviews, attribute: :date do |date, reviews|
-  = date.mday
+  %b
+    = date.mday
+  %br
   - reviews.each do |review|
-    = "Daily Goals: #{review.accomplishments.count} / #{review.daily_goals.count}"
+    %em
+      Completed:
     %br
-    = "#{review.excuses.count} excused"
+    = "#{review.accomplishments.count} / #{review.daily_goals.count} goals"
+    = " with #{review.excuses.count} excused"
     %br
-    = "#{review.tasks.count} tasks completed"
+    = pluralize(review.tasks.count, 'tasks')
     %br
-    = "#{review.pomodoros.count} pomodoros completed"
+    = pluralize(review.pomodoros.count, "🍅")
