@@ -1,14 +1,15 @@
 = month_calendar events: @reviews, attribute: :date do |date, reviews|
   %b
     = date.mday
-  %br
-  - reviews.each do |review|
-    %em
-      Completed:
+  - if date >= current_api_user.created_at && date <= Date.today
     %br
-    = "#{review.accomplishments.count} / #{review.daily_goals.count} goals"
-    = " with #{review.excuses.count} excused"
-    %br
-    = pluralize(review.tasks.count, 'tasks')
-    %br
-    = pluralize(review.pomodoros.count, "🍅")
+    - reviews.each do |review|
+      %em
+        Completed:
+      %br
+      = "#{review.accomplishments.count} / #{review.daily_goals.count} goals"
+      = " with #{review.excuses.count} excused"
+      %br
+      = pluralize(review.tasks.count, 'tasks')
+      %br
+      = pluralize(review.pomodoros.count, "🍅")
