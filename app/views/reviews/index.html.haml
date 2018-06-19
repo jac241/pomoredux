@@ -2,3 +2,9 @@
   = date.mday
   - reviews.each do |review|
     = "Daily Goals: #{review.accomplishments.count} / #{review.daily_goals.count}"
+    %br
+    = "#{review.excuses.count} excused"
+    %br
+    = "#{review.tasks.count} tasks completed"
+    %br
+    = "#{review.pomodoros.count} pomodoros completed"
