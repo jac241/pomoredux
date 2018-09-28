@@ -16,6 +16,7 @@ class TaskForm extends React.Component {
           component={FormInput}
           label='Title'
           required
+          autoFocus
         />
         <Field
           id='task_estimated_num_pomodoros'

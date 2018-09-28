@@ -21,6 +21,7 @@ let ExcuseForm = ({ excuse, handleSubmit, destroyExcuse }) => {
         id='excuse_description'
         name='description'
         component={FormInput}
+        autoFocus
       />
       <Button type='submit' positive>Save</Button>
       { excuse &&

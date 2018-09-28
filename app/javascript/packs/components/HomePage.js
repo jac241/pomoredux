@@ -3,7 +3,8 @@ import {
   Container,
   Header,
   Segment,
-  Grid
+  Grid,
+  Button
 } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 
@@ -26,7 +27,10 @@ class HomePage extends React.Component {
           <React.Fragment>
             <Segment
               textAlign='center'
-              style={{ padding: '1em 0em'}}
+              style={{ 
+                padding: '1em 0em',
+                marginBottom: '1.5em'
+              }}
               vertical
               basic
             >
@@ -35,17 +39,41 @@ class HomePage extends React.Component {
                   as='h1'
                   content='Welcome to Pomoredux!'
                   style={{
-                    marginTop: '2em',
-                    marginBottom: '1.5em'
+                    marginTop: '1em',
                   }}
                 />
+                <p style={{ fontSize: '1.33em' }}>
+                  An app to help you create, track, and accomplish your goals!
+                </p>
+                <Button primary as='a' href='/signup'>Sign up!</Button>
               </Container>
             </Segment>
             <Segment
+              vertical
               basic
-              style={this.getTimerSegmentStyle()}
+              style={{
+                marginTop: '1.25em'
+              }}
             >
-              <PomodoroTimer />
+              <Grid divided container stackable verticalAlign='middle'>
+                <Grid.Row>
+                  <Grid.Column width={8}>
+                    <Container text>
+                      <Header
+                        as='h2'
+                        content='Use the Pomodoro Technique'
+                      />
+                      <p>
+                        Pomoredux helps you use the Pomodoro Technique to help you accomplish your tasks and minimize distractions.
+                        Sign up to use Pomoredux's task and goal tracking, or just use the Pomodoro Timer if that's all you need!
+                      </p>
+                    </Container>
+                  </Grid.Column>
+                  <Grid.Column width={6}>
+                    <PomodoroTimer />
+                  </Grid.Column>
+                </Grid.Row>
+              </Grid>
             </Segment>
           </React.Fragment>
         }
