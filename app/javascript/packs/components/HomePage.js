@@ -52,13 +52,12 @@ class HomePage extends React.Component {
               vertical
               basic
               style={{
-                marginTop: '1.25em'
+                marginTop: '1.5em'
               }}
             >
               <Grid divided container stackable verticalAlign='middle'>
                 <Grid.Row>
                   <Grid.Column width={8}>
-                    <Container text>
                       <Header
                         as='h2'
                         content='Use the Pomodoro Technique'
@@ -67,7 +66,6 @@ class HomePage extends React.Component {
                         Pomoredux helps you use the Pomodoro Technique to help you accomplish your tasks and minimize distractions.
                         Sign up to use Pomoredux's task and goal tracking, or just use the Pomodoro Timer if that's all you need!
                       </p>
-                    </Container>
                   </Grid.Column>
                   <Grid.Column width={6}>
                     <PomodoroTimer />
