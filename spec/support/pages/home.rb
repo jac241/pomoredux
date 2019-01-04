@@ -66,6 +66,12 @@ module Pages
       selector_for(daily_goal(goal))
     end
 
+    def has_helpful_add_goals_link?
+      within("#daily_goals") do
+        has_selector?('a[href="/goals"]')
+      end
+    end
+
     def daily_goal(goal)
       DailyGoal.new(goal: goal, todays_accomplishment: nil)
     end

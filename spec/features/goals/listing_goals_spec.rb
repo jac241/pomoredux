@@ -9,6 +9,12 @@ feature 'Listing goals' do
     sign_in(user)
   end
 
+  scenario 'seeing a link to create a goal if I have no goals' do
+    home_page.visit_page
+
+    expect(home_page).to have_helpful_add_goals_link
+  end
+
   scenario 'only seeing my goals on the goals page' do
     my_goal = create(:goal, user: user)
     another_user = create(:user)

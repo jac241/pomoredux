@@ -13,13 +13,17 @@ import '../css/daily_goals.scss'
 const DailyGoalsList = ({dailyGoals, toggleGoalAccomplished}) => (
   <List divided size='huge'>
     {
-      dailyGoals.map((dailyGoal) => (
-        <DailyGoal
-          key={dailyGoal.id}
-          dailyGoal={dailyGoal}
-          toggleGoalAccomplished={toggleGoalAccomplished}
-        />
-      ))
+      dailyGoals.length >= 1 ? (
+        dailyGoals.map((dailyGoal) => (
+          <DailyGoal
+            key={dailyGoal.id}
+            dailyGoal={dailyGoal}
+            toggleGoalAccomplished={toggleGoalAccomplished}
+          />
+        ))
+      ) : (
+        <HelpfulAddGoalsText />
+      )
     }
   </List>
 )
@@ -50,5 +54,12 @@ const DailyGoal = ({dailyGoal, toggleGoalAccomplished}) => {
     </List.Item>
   )
 }
+
+const HelpfulAddGoalsText = () => (
+  <div>
+    <p> You haven't created any goals yet. </p>
+    <a href='/goals'>Add a goal here!</a>
+  </div>
+)
 
 export default DailyGoalsList
