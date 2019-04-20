@@ -46,3 +46,12 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('root'),
   )
 })
+
+window.addEventListener('beforeunload', function (e) {
+  // Cancel the event
+  if (store.getState().timer.active) {
+    e.preventDefault();
+    // Chrome requires returnValue to be set
+    e.returnValue = '';
+  } 
+});
