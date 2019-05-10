@@ -3,8 +3,8 @@ class DailyGoal
 
   attr_accessor :goal, :todays_accomplishment, :todays_excuse
 
-  def self.all_for_user(user)
-    goals = user.goals
+  def self.all_for_user(user, include_destroyed: false)
+    goals = include_destroyed ? user.goals.with_deleted : user.goals
 
     accomplishments_by_goal_id =
       user.accomplishments.created_today.group_by(&:goal_id)

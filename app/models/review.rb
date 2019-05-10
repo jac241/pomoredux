@@ -9,19 +9,23 @@ class Review
     month_query_range =
       (start_date.beginning_of_month - 1.week)..(start_date.end_of_month + 1.week)
 
-    daily_goals = DailyGoal.all_for_user(user)
+    daily_goals = DailyGoal.all_for_user(user, include_destroyed: true)
 
     created_at_date = -> (record) { record.created_at.to_date }
 
     accomplishments_by_day =
-      user.accomplishments
-          .where(created_at: month_query_range)
-          .group_by(&created_at_date)
+      Goal.unscoped do
+        user.accomplishments
+            .where(created_at: month_query_range)
+            .group_by(&created_at_date)
+      end
 
     excuses_by_day =
-      user.excuses
-          .where(created_at: month_query_range)
-          .group_by(&created_at_date)
+      Goal.unscoped do
+        user.excuses
+            .where(created_at: month_query_range)
+            .group_by(&created_at_date)
+      end
 
     tasks_completed_by_day =
       user.tasks
@@ -54,10 +58,10 @@ class Review
       user.tasks.where(completed_at: day_query_range)
 
     accomplishments = 
-      user.accomplishments.includes(:goal).where(created_at: day_query_range)
+      Goal.unscoped { user.accomplishments.includes(:goal).where(created_at: day_query_range) }
 
     excuses =
-      user.excuses.includes(:goal).where(created_at: day_query_range)
+      Goal.unscoped { user.excuses.includes(:goal).where(created_at: day_query_range) }
 
     self.new(
       user: user,

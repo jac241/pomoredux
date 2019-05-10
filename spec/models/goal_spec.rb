@@ -4,6 +4,6 @@ describe Goal do
   subject { build(:goal) }
   it { should validate_presence_of(:title) }
   it { should belong_to(:user) }
-  it { should have_many(:accomplishments).dependent(:destroy) }
-  it { should have_many(:excuses).dependent(:destroy) }
+  it { should have_many(:accomplishments) }
+  it { should have_many(:excuses) }
 end

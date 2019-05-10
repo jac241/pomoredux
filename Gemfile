@@ -41,6 +41,7 @@ gem 'sassc-rails'
 gem 'jsonapi-rails'
 gem 'simple_calendar', '~> 2.2', '>= 2.2.7'
 gem 'turbolinks', '~> 5.1', '>= 5.1.1'
+gem 'paranoia', '~> 2.4', '>= 2.4.2'
 
 group :test do
   gem 'capybara'

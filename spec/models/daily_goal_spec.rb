@@ -40,6 +40,24 @@ describe DailyGoal do
         expect(daily_goals.second.todays_excuse).to eq nil
       end
     end
+
+    context 'one goal has been destroyed' do
+      before(:each) do
+        goals.last.destroy
+      end
+
+      it 'should only retrieve active goals by default' do
+        daily_goals = described_class.all_for_user(user)
+
+        expect(daily_goals.count).to eq 1
+      end
+
+      it 'should allow you to request destroyed goals too' do
+        daily_goals = described_class.all_for_user(user, include_destroyed: true)
+
+        expect(daily_goals.count).to eq 2
+      end
+    end
   end
 
   let(:goal) { build(:goal) }

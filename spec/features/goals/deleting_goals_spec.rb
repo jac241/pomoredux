@@ -17,4 +17,22 @@ describe 'Deleting goals' do
 
     expect(goals_page).to have_no_goal(goal)
   end
+
+  context 'Existing accomplishments' do
+    before(:each) do
+      create(:accomplishment, goal: goal)      
+    end
+
+    scenario 'Deleting a goal with previous accomplishments' do
+      goals_page.visit_page
+
+      goals_page.delete_goal(goal)
+
+
+      review_page = Pages::Review.new(goal.accomplishments.first.created_at) 
+      review_page.visit_page
+
+      expect(review_page).to have_goal(goal)
+    end
+  end
 end

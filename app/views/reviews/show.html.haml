@@ -17,7 +17,7 @@
 - if @review.accomplishments.present?
   %h3 
     Completed daily goals
-  .ui.large.list
+  #completed_daily_goals.ui.large.list
     - @review.accomplishments.each do |accomplishment|
       .item= accomplishment.goal.title
 - else
