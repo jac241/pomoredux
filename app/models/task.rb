@@ -6,7 +6,7 @@ class Task < ActiveRecord::Base
   validates :estimated_num_pomodoros, numericality: { only_integer: true,
                                                       greater_than: 0 }
 
-  scope :active, -> { where('completed_at IS NULL') }
+  scope :active, -> { where('tasks.completed_at IS NULL') }
 
   def completed=(was_completed)
     if was_completed
