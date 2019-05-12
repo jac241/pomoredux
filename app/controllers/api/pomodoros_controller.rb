@@ -9,7 +9,7 @@ class Api::PomodorosController < ApiController
   end
 
   def index
-    pomodoros = current_api_user.pomodoros.where(index_params)
+    pomodoros = current_api_user.pomodoros.joins(:task).where('tasks.completed_at IS NULL')
 
     render json: pomodoros
   end
