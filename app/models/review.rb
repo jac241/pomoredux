@@ -38,11 +38,19 @@ class Review
           .group_by(&created_at_date)
 
     month_query_range.map do |day|
+      goal_active_on_day = -> (dg) do
+        if dg.deleted_at.present?
+          day >= dg.created_at.to_date && day <= dg.deleted_at.to_date
+        else
+          day >= dg.created_at.to_date
+        end
+      end
+
       self.new(
         user: user,
         date: day,
         accomplishments: accomplishments_by_day[day] || [],
-        daily_goals: daily_goals.select { |dg| day >= dg.created_at.to_date },
+        daily_goals: daily_goals.select(&goal_active_on_day),
         excuses: excuses_by_day[day] || [],
         tasks: tasks_completed_by_day[day] || [],
         pomodoros: pomodoros_completed_by_day[day] || []
