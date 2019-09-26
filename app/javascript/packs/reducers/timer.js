@@ -37,7 +37,8 @@ function timer(state=initialState, action) {
     case TIMER_STOP:
       return {
         ...state,
-        active: false
+        active: false,
+        time_remaining_ms: 0
       }
     case TIMER_RESET:
       return {
