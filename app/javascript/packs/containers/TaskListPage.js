@@ -1,14 +1,14 @@
 import React from 'react'
 import TaskList from '../components/TaskList'
 import {connect} from 'react-redux'
-import {fetchTasksIfNecessary, fetchPomodorosIfNecessary} from '../actions/index'
+import {fetchTasks, fetchPomodorosIfNecessary} from '../actions/index'
 import SpinWhileLoading from '../components/SpinWhileLoading'
 
 class TaskListPage extends React.Component {
   componentDidMount() {
-    const { fetchTasksIfNecessary, fetchPomodorosIfNecessary } = this.props
+    const { fetchTasks, fetchPomodorosIfNecessary } = this.props
 
-    fetchTasksIfNecessary()
+    fetchTasks()
     fetchPomodorosIfNecessary()
   }
 
@@ -40,5 +40,5 @@ const activeTasks = (state) => state.tasks.tasks.filter(t => t.completed_at === 
 
 export default connect(
   mapStateToProps,
-  { fetchTasksIfNecessary, fetchPomodorosIfNecessary }
+  { fetchTasks, fetchPomodorosIfNecessary }
 )(TaskListPage)
