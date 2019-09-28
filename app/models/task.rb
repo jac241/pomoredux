@@ -7,6 +7,7 @@ class Task < ActiveRecord::Base
                                                       greater_than: 0 }
 
   scope :active, -> { where('tasks.completed_at IS NULL') }
+  scope :in_order_created, -> { order(created_at: :desc) }
 
   def completed=(was_completed)
     if was_completed

@@ -12,7 +12,7 @@ class Api::TasksController < ApiController
   end
 
   def index
-    tasks = current_api_user.tasks.active
+    tasks = current_api_user.tasks.active.in_order_created
 
     render json: tasks
   end
