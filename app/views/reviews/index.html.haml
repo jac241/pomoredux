@@ -1,3 +1,5 @@
+- content_for :title, 'Review'
+
 = month_calendar events: @reviews, attribute: :date do |date, reviews|
   - present(reviews.first) do |review|
     - if review.will_contain_data?

@@ -11,6 +11,10 @@ class LoginPage extends React.Component {
     redirect: false
   }
 
+  componentDidMount() {
+    document.title = 'Pomoredux | Login'
+  }
+
   createUserSession = (user_attributes) => {
     return this.props.createUserSession(user_attributes).then(
       () => { this.setState({ redirect: true })}

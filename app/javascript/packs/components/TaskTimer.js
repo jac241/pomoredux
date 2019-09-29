@@ -15,6 +15,8 @@ class TaskTimer extends React.Component {
     if (completedPomodoros === undefined) {
       fetchPomodorosForTask(task)
     }
+
+    document.title = `Pomoredux | ${task.title}`
   }
 
   completeTask = () => {

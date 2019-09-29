@@ -10,6 +10,10 @@ class RegistrationFormPage extends React.Component {
     redirect: false
   }
 
+  componentDidMount() {
+    document.title = 'Pomoredux | Sign Up'
+  }
+
   createUser = (user_attributes) => {
     return this.props.createUser(user_attributes).then(
       () => { this.setState({ redirect: true })}

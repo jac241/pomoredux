@@ -1,4 +1,8 @@
 module ApplicationHelper
+  def title(text)
+    content_for :title, text
+  end
+
   def form_classes(record)
     'ui form'
   end

@@ -9,6 +9,7 @@ import { msToMinsString } from '../util'
 
 class SettingsPage extends React.Component {
   componentDidMount = () => {
+    document.title = 'Pomoredux | Settings'
     this.props.fetchTimerSettingsIfLoggedIn()
   }
 

@@ -15,6 +15,10 @@ import PomodoroTimer from './PomodoroTimer'
 import DailyGoalsListPage from '../containers/DailyGoalsListPage'
 
 class HomePage extends React.Component {
+  componentDidMount() {
+    document.title = 'Pomoredux | Home'
+  }
+
   getTimerSegmentStyle() {
     return this.props.userLoggedIn ? { marginTop: '5em'} : {}
   }

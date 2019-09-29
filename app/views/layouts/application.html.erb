@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Pomoredux</title>
+    <title>
+      Pomoredux <%= if content_for?(:title) then " | #{yield(:title)}" end %>
+    </title>
     <%= csrf_meta_tags %>
 
     <%= stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => "reload" %>
