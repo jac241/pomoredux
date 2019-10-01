@@ -1,20 +1,24 @@
 - content_for :title, 'Review'
 
 = month_calendar events: @reviews, attribute: :date do |date, reviews|
-  - present(reviews.first) do |review|
-    - if review.will_contain_data?
-      = link_to review_path(review) do
+  - if reviews.present?
+    - present(reviews.first) do |review|
+      - if review.will_contain_data?
+        = link_to review_path(review) do
+          %b
+            = date.mday
+          %br
+          %em
+            Completed:
+          %br
+          = review.daily_goals_accomplished_message
+          %br
+          = review.tasks_completed_message
+          %br
+          = review.pomodoros_completed_message
+      - else
         %b
           = date.mday
-        %br
-        %em
-          Completed:
-        %br
-        = review.daily_goals_accomplished_message
-        %br
-        = review.tasks_completed_message
-        %br
-        = review.pomodoros_completed_message
-    - else
-      %b
-        = date.mday
+  - else
+    %b
+      = date.mday
