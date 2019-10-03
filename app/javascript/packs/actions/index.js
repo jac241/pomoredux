@@ -37,6 +37,7 @@ const TICK_INTERVAL_MS = 1000
 
 let timer = null
 let end_time = null
+let timerSound = new Howl({ src: [plucksMp3, plucksOgg] })
 
 export const startTimer = (mode) => (dispatch, getState) => {
   clearInterval(timer)
@@ -104,8 +105,7 @@ const receivePomodoro = (pomodoro) => (
 )
 
 const playFinishedAudio = () => {
-  let audio = new Howl({ src: [plucksMp3, plucksOgg] })
-  audio.play()
+  timerSound.play()
 }
 
 export const resetTimer = () => {
