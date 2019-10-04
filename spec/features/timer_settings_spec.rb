@@ -16,6 +16,7 @@ feature 'Timer settings' do
     find('a', text: 'Settings').click
 
     settings_page.save_new_settings(
+      volume: '5',
       pomodoro: '50',
       short_break: '3',
       long_break: '15'
@@ -42,6 +43,7 @@ feature 'Timer settings' do
     settings_page.visit_page
 
     expect(settings_page).to have_correct_values({
+      'volume' => '5',
       'Pomodoro Length' => '50',
       'Short Break Length' => '3',
       'Long Break Length' => '15'

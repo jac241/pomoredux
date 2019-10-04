@@ -18,7 +18,7 @@ class SettingsPage extends React.Component {
       <SettingsForm
         loading={this.props.loading}
         updateTimerSettings={this.props.updateTimerSettings}
-        timerSettingsInMin={this.props.timerSettingsInMin}
+        timerSettings={this.props.timerSettings}
       />
     );
   }
@@ -26,15 +26,16 @@ class SettingsPage extends React.Component {
 
 function mapStateToProps(state) {
   const timerSettingsInMs = state.timer.settings.lengths_by_mode_ms
-  const timerSettingsInMin = {
+  const timerSettings = {
     'pomodoro_length_in_min': msToMinsString(timerSettingsInMs['pomodoro']),
     'short_break_length_in_min': msToMinsString(timerSettingsInMs['short_break']),
-    'long_break_length_in_min': msToMinsString(timerSettingsInMs['long_break'])
+    'long_break_length_in_min': msToMinsString(timerSettingsInMs['long_break']),
+    'volume': state.timer.settings.volume,
   }
 
   return {
     loading: state.timer.requestingSettings,
-    timerSettingsInMin: timerSettingsInMin
+    timerSettings: timerSettings
   }
 }
 

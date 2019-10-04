@@ -14,8 +14,16 @@ module Pages
       end
     end
 
-    def change_settings_values(pomodoro: nil, short_break: nil, long_break: nil)
+    def change_settings_values(
+      pomodoro: nil,
+      short_break: nil,
+      long_break: nil,
+      volume: nil
+    )
       within('#edit_timer_settings') do
+        # TODO this doesn't work for some reason
+        find('input#timer_settings_volume').set(volume) if volume
+
         fill_in('Pomodoro Length', with: pomodoro) if pomodoro
         fill_in('Short Break Length', with: short_break) if short_break
         fill_in('Long Break Length', with: long_break) if long_break

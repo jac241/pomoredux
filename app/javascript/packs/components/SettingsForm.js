@@ -13,6 +13,7 @@ import pick from 'lodash/pick'
 
 class SettingsForm extends React.Component {
   state = {
+    volume: 10,
     pomodoro_length_in_min: '',
     short_break_length_in_min: '',
     long_break_length_in_min: '',
@@ -24,7 +25,7 @@ class SettingsForm extends React.Component {
 
   componentWillReceiveProps = (nextProps) => {
     if (this.props.loading) {
-      this.setState({ ...nextProps.timerSettingsInMin })
+      this.setState({ ...nextProps.timerSettings })
     }
   }
 
@@ -38,6 +39,7 @@ class SettingsForm extends React.Component {
     this.setState({ saving: true })
     this.props.updateTimerSettings(
       pick(this.state, [
+        'volume',
         'pomodoro_length_in_min',
         'short_break_length_in_min',
         'long_break_length_in_min'
@@ -75,6 +77,17 @@ class SettingsForm extends React.Component {
               success
               header='Changes saved!'
               content='Your settings have been updated.'
+            />
+            <Form.Input
+              id='timer_settings_volume'
+              label={`Volume: ${this.state.volume}`}
+              min={0}
+              max={10}
+              name='volume'
+              onChange={this.handleChange}
+              step={1}
+              type='range'
+              value={this.state.volume}
             />
             <Form.Field
               id='timer_settings_pomodoro_length_in_min'

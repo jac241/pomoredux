@@ -25,7 +25,8 @@ class Api::TimerSettingsController < ApiController
     params.require(:timer_setting).permit(
       :pomodoro_length_in_min,
       :short_break_length_in_min,
-      :long_break_length_in_min
+      :long_break_length_in_min,
+      :volume,
     )
   end
 end

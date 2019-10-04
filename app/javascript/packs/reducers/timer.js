@@ -63,7 +63,8 @@ function timer(state=initialState, action) {
         requestingSettings: false,
         settings: {
           id: action.settings.id,
-          lengths_by_mode_ms: omit(action.settings, 'id')
+          volume: action.settings.volume,
+          lengths_by_mode_ms: omit(action.settings, ['id', 'volume'])
         }
       }
 

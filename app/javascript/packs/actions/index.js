@@ -2,6 +2,10 @@ import { BUFFER_SO_THAT_59_ALWAYS_SHOWN } from '../settings'
 import plucksMp3 from '../assets/audio/plucks.mp3'
 import plucksOgg from '../assets/audio/plucks.ogg'
 
+import omit from 'lodash/omit'
+import merge from 'lodash/merge'
+import pick from 'lodash/pick'
+
 import { Howl } from 'howler'
 import {SubmissionError} from 'redux-form'
 import {setAxiosConfig} from 'redux-json-api'
@@ -34,6 +38,8 @@ export const RECEIVE_POMODOROS = 'RECEIVE_POMODOROS'
 
 
 const TICK_INTERVAL_MS = 1000
+
+const MAX_VOLUME = 10
 
 let timer = null
 let end_time = null
@@ -71,8 +77,8 @@ const tickTimer = () => {
 
 const stopTimer = () => {
   clearInterval(timer)
-  playFinishedAudio()
   return (dispatch, getState) => {
+    playFinishedAudio(getState().timer.settings)
     dispatch({type: TIMER_STOP})
     return dispatch(createPomodoroIfActiveTask(getState()))
   }
@@ -104,7 +110,8 @@ const receivePomodoro = (pomodoro) => (
   { type: RECEIVE_POMODORO, pomodoro }
 )
 
-const playFinishedAudio = () => {
+const playFinishedAudio = (timerSettings) => {
+  timerSound.volume(timerSettings.volume / MAX_VOLUME)
   timerSound.play()
 }
 
@@ -317,9 +324,12 @@ const receiveTimerSettings = (settings) => {
 
 const addTimerBuffer = (settings) => {
   const result = {}
-  Object.keys(settings)
-    .forEach((key) => result[key] = settings[key] + BUFFER_SO_THAT_59_ALWAYS_SHOWN)
-  return result
+  let keysThatDoNotNeedBuffer = ['id', 'volume']
+  Object.keys(omit(settings, keysThatDoNotNeedBuffer))
+    .forEach((key) => {
+      result[key] = settings[key] + BUFFER_SO_THAT_59_ALWAYS_SHOWN
+    })
+  return merge(result, pick(settings, keysThatDoNotNeedBuffer))
 }
 
 const userIsLoggedIn = (state) => {
