@@ -18,7 +18,8 @@ module Pages
       pomodoro: nil,
       short_break: nil,
       long_break: nil,
-      volume: nil
+      volume: nil,
+      can_notify: nil
     )
       within('#edit_timer_settings') do
         # TODO this doesn't work for some reason
@@ -27,6 +28,7 @@ module Pages
         fill_in('Pomodoro Length', with: pomodoro) if pomodoro
         fill_in('Short Break Length', with: short_break) if short_break
         fill_in('Long Break Length', with: long_break) if long_break
+        find('#timer_settings_can_notify').click if can_notify.present?
       end
     end
 
@@ -46,6 +48,10 @@ module Pages
 
     def has_settings_error_messages?
       has_text?('There were errors saving your settings.')
+    end
+
+    def has_browser_notifications_enabled?
+      has_css?('#timer_settings_can_notify.checked')
     end
   end
 end

@@ -17,6 +17,7 @@ class SettingsForm extends React.Component {
     pomodoro_length_in_min: '',
     short_break_length_in_min: '',
     long_break_length_in_min: '',
+    can_notify: false,
     changesSaved: false,
     saving: false,
     errors: {},
@@ -32,6 +33,7 @@ class SettingsForm extends React.Component {
   handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value, changesSaved: false })
   }
+  toggle = () => this.setState((prevState) => ({ can_notify: !prevState.can_notify }))
 
   handleSubmit = (e) => {
     e.preventDefault()
@@ -42,7 +44,8 @@ class SettingsForm extends React.Component {
         'volume',
         'pomodoro_length_in_min',
         'short_break_length_in_min',
-        'long_break_length_in_min'
+        'long_break_length_in_min',
+        'can_notify',
       ]))
       .then(() => this.setState({ changesSaved: true, errors: {}, full_messages: [] }))
       .catch((err) => {
@@ -118,6 +121,14 @@ class SettingsForm extends React.Component {
               value={this.state.long_break_length_in_min}
               onChange={this.handleChange}
               error={!!this.state.errors.long_break_length_ms}
+            />
+            <Form.Checkbox
+              toggle
+              id='timer_settings_can_notify'
+              label={'Enable browser notifications'}
+              name='can_notify'
+              onChange={this.toggle}
+              checked={this.state.can_notify}
             />
             <Button
               fluid

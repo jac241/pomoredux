@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20191004015519) do
+ActiveRecord::Schema.define(version: 20191011210804) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,6 +67,7 @@ ActiveRecord::Schema.define(version: 20191004015519) do
     t.integer "long_break_length_ms", default: 600000
     t.bigint "user_id"
     t.integer "volume", default: 10, null: false
+    t.boolean "can_notify", default: false, null: false
     t.index ["user_id"], name: "index_timer_settings_on_user_id", unique: true
   end
 

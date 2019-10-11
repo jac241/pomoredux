@@ -31,6 +31,7 @@ function mapStateToProps(state) {
     'short_break_length_in_min': msToMinsString(timerSettingsInMs['short_break']),
     'long_break_length_in_min': msToMinsString(timerSettingsInMs['long_break']),
     'volume': state.timer.settings.volume,
+    'can_notify': state.timer.settings.can_notify,
   }
 
   return {

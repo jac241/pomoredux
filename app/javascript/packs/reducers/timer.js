@@ -64,7 +64,10 @@ function timer(state=initialState, action) {
         settings: {
           id: action.settings.id,
           volume: action.settings.volume,
-          lengths_by_mode_ms: omit(action.settings, ['id', 'volume'])
+          lengths_by_mode_ms: omit(
+            action.settings, ['id', 'volume', 'can_notify']
+          ),
+          can_notify: action.settings.can_notify,
         }
       }
 

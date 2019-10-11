@@ -324,7 +324,7 @@ const receiveTimerSettings = (settings) => {
 
 const addTimerBuffer = (settings) => {
   const result = {}
-  let keysThatDoNotNeedBuffer = ['id', 'volume']
+  let keysThatDoNotNeedBuffer = ['id', 'volume', 'can_notify']
   Object.keys(omit(settings, keysThatDoNotNeedBuffer))
     .forEach((key) => {
       result[key] = settings[key] + BUFFER_SO_THAT_59_ALWAYS_SHOWN

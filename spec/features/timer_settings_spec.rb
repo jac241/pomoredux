@@ -19,7 +19,7 @@ feature 'Timer settings' do
       volume: '5',
       pomodoro: '50',
       short_break: '3',
-      long_break: '15'
+      long_break: '15',
     )
 
     expect(settings_page).to have_success_message

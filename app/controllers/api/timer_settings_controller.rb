@@ -27,6 +27,7 @@ class Api::TimerSettingsController < ApiController
       :short_break_length_in_min,
       :long_break_length_in_min,
       :volume,
+      :can_notify,
     )
   end
 end
