@@ -10,6 +10,8 @@ import { Howl } from 'howler'
 import {SubmissionError} from 'redux-form'
 import {setAxiosConfig} from 'redux-json-api'
 
+import humanize from 'underscore.string/humanize'
+
 export const TIMER_START = 'TIMER_START'
 export const TIMER_TICK = 'TIMER_TICK'
 export const TIMER_STOP = 'TIMER_STOP'
@@ -80,9 +82,41 @@ const stopTimer = () => {
   return (dispatch, getState) => {
     playFinishedAudio(getState().timer.settings)
     dispatch({type: TIMER_STOP})
+    dispatch(showNotificationIfEnabled())
     return dispatch(createPomodoroIfActiveTask(getState()))
   }
 }
+
+const showNotificationIfEnabled = () => {
+  return (dispatch, getState) => {
+    let state = getState()
+    if (shouldNotify(canNotify(state))) {
+      showNotification(selectTimer(state), selectVolume(state))
+    }
+  }
+}
+
+const shouldNotify = (settingsSayWeCanNotify) => {
+  return settingsSayWeCanNotify && Notification.permission === 'granted'
+}
+
+const canNotify = (state) => {
+  return state.timer.settings.can_notify
+}
+
+const selectTimer = (state) => state.timer
+const selectVolume = (state) => state.timer.settings.volume
+
+const showNotification = (timer, volume) => {
+  new Notification(
+    `${humanize(timer.mode)} finished!`,
+    {
+      silent: !shouldPlayNotificationSound(volume)
+    }
+  )
+}
+
+const shouldPlayNotificationSound = (volume) => volume == 0
 
 const createPomodoroIfActiveTask = (state) => {
   return dispatch => {
@@ -316,9 +350,12 @@ const requestTimerSettings = () => {
 }
 
 const receiveTimerSettings = (settings) => {
-  return {
-    type: RECEIVE_TIMER_SETTINGS,
-    settings: addTimerBuffer(settings)
+  return (dispatch) => {
+    dispatch({
+      type: RECEIVE_TIMER_SETTINGS,
+      settings: addTimerBuffer(settings)
+    })
+    dispatch(() => dispatch(tryToEnableDesktopNotifications()))
   }
 }
 
@@ -351,6 +388,25 @@ export const fetchTimerSettingsIfNotCached = () => {
     if (!arePersistedTimerSettingsInState(getState())) {
       return fetchTimerSettingsIfLoggedIn()(dispatch, getState)
     }
+  }
+}
+
+const tryToEnableDesktopNotifications = () => {
+  return (dispatch, getState) => {
+    if (getState().timer.settings.can_notify) {
+      enableDestopNotifications()
+    }
+  }
+}
+
+const enableDestopNotifications = () => {
+  // Let's check if the browser supports notifications
+  if (!("Notification" in window)) {
+    console.log("This browser does not support desktop notification");
+  }
+
+  if (Notification.permission !== "denied") {
+    Notification.requestPermission()
   }
 }
 

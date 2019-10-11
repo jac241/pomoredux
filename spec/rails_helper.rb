@@ -32,7 +32,7 @@ end
 Capybara.register_driver :selenium do |app|
   options = {}
 
-  unless ENV['GUI']
+  unless ENV['GUI'] == 'true'
     options.merge!({ args: %w(headless disable-gpu) })
   end
 

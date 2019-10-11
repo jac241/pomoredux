@@ -48,6 +48,7 @@
     "semantic-ui-react": "0.76.0",
     "style-loader": "^0.18.2",
     "turbolinks": "^5.1.1",
+    "underscore.string": "^3.3.5",
     "webpack": "^3.4.1",
     "webpack-manifest-plugin": "^1.2.1",
     "webpack-merge": "^4.1.0"

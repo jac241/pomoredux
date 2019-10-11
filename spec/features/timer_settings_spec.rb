@@ -121,6 +121,17 @@ feature 'Timer settings' do
     expect(settings_page).to have_no_success_message
   end
 
+  scenario 'Enabling browswer notifications' do
+    sign_in(user)
+    settings_page.visit_page
+
+    settings_page.save_new_settings(can_notify: true)
+
+    visit current_path
+
+    expect(settings_page).to have_browser_notifications_enabled
+  end
+
   def change_timer_settings(user)
     user.timer_settings.update(attributes_for(:non_default_timer_settings))
   end

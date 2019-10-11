@@ -17,6 +17,8 @@ const initialState = {
   active: false,
   settings: {
     lengths_by_mode_ms: TIMER_LENGTHS_MS,
+    volume: 10,
+    can_notify: false,
   },
   requestingSettings: false
 }
