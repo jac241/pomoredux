@@ -1,4 +1,10 @@
-import {RECEIVE_POMODORO, RECEIVE_POMODOROS, REQUEST_POMODORO, REQUESTING_POMODOROS} from '../actions/index'
+import {
+  RECEIVE_POMODORO,
+  RECEIVE_POMODOROS,
+  REQUEST_POMODORO,
+  REQUESTING_POMODOROS,
+  ERROR_REQUESTING_POMODORO } from '../actions/index'
+
 import groupBy from 'lodash/groupBy'
 
 const initialState = {
@@ -45,6 +51,11 @@ const pomodoros = (state=initialState, action) => {
           ...groupPomodorosByTaskId(action.pomodoros)
         },
         requestingPomodoros: false,
+      }
+    case ERROR_REQUESTING_POMODORO:
+      return {
+        ...state,
+        requestingPomodoro: false
       }
   }
 

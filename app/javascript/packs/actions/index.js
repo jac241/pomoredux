@@ -37,6 +37,7 @@ export const REQUEST_POMODORO = 'REQUEST_POMODORO'
 export const RECEIVE_POMODORO = 'RECEIVE_POMODORO'
 export const REQUESTING_POMODOROS = 'REQUESTING_POMODOROS'
 export const RECEIVE_POMODOROS = 'RECEIVE_POMODOROS'
+export const ERROR_REQUESTING_POMODORO = 'ERROR_REQUESTING_POMODORO'
 
 
 const TICK_INTERVAL_MS = 1000
@@ -125,9 +126,15 @@ const createPomodoroIfActiveTask = (state) => {
       dispatch(requestPomodoro())
       return fetchAuthenticatedResource(dispatch, activeTask.links.pomodoros, 'POST')
         .then((pomodoro) => dispatch(receivePomodoro(pomodoro)))
+        .catch(() => dispatch(errorRequestingPomodoro()))
     }
   }
 }
+
+const errorRequestingPomodoro = () => (
+ { type: ERROR_REQUESTING_POMODORO }
+)
+
 
 const getActiveTask = (state) => {
   const {activeTaskId} = state.tasks
