@@ -1,7 +1,3 @@
-import { BUFFER_SO_THAT_59_ALWAYS_SHOWN } from '../settings'
-import plucksMp3 from '../assets/audio/plucks.mp3'
-import plucksOgg from '../assets/audio/plucks.ogg'
-
 import omit from 'lodash/omit'
 import merge from 'lodash/merge'
 import pick from 'lodash/pick'
@@ -11,6 +7,11 @@ import {SubmissionError} from 'redux-form'
 import {setAxiosConfig} from 'redux-json-api'
 
 import humanize from 'underscore.string/humanize'
+
+import { BUFFER_SO_THAT_59_ALWAYS_SHOWN } from '../settings'
+import plucksMp3 from '../assets/audio/plucks.mp3'
+import plucksOgg from '../assets/audio/plucks.ogg'
+import { showErrorSavingPomodoroToast } from '../toasts'
 
 export const TIMER_START = 'TIMER_START'
 export const TIMER_TICK = 'TIMER_TICK'
@@ -131,9 +132,12 @@ const createPomodoroIfActiveTask = (state) => {
   }
 }
 
-const errorRequestingPomodoro = () => (
- { type: ERROR_REQUESTING_POMODORO }
-)
+const errorRequestingPomodoro = () => {
+  return (dispatch) => {
+    dispatch({ type: ERROR_REQUESTING_POMODORO })
+    showErrorSavingPomodoroToast()
+  }
+}
 
 
 const getActiveTask = (state) => {

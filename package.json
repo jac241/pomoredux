@@ -35,6 +35,7 @@
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.5",
     "react-router-dom": "^4.2.2",
+    "react-semantic-toasts": "^0.6.4",
     "react-sortable-hoc": "^0.6.8",
     "redux": "^3.7.2",
     "redux-devtools-extension": "^2.13.2",

@@ -4,6 +4,9 @@ import {Container, Loader} from 'semantic-ui-react'
 import {fetchTask} from '../actions/index'
 import TaskTimer from '../components/TaskTimer'
 
+import { SemanticToastContainer } from 'react-semantic-toasts';
+import 'react-semantic-toasts/styles/react-semantic-alert.css';
+
 
 class TaskTimerPage extends React.Component {
   componentDidMount() {
@@ -27,6 +30,7 @@ class TaskTimerPage extends React.Component {
             <Loader active={requestingTask} inline='centered' />
           )
         }
+        <SemanticToastContainer position='bottom-left'/>
       </div>
     )
   }
