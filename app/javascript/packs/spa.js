@@ -28,10 +28,16 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 import Turbolinks from 'turbolinks'
 import { setAxiosConfig, readEndpoint } from 'redux-json-api'
 import { setupReduxJSONAPI } from './boot'
+import { notificationActionMiddleware } from './middlewares/notifications'
 
 const store = createStore(
   pomoApp,
-  composeWithDevTools(applyMiddleware(thunk))
+  composeWithDevTools(
+    applyMiddleware(
+      thunk,
+      notificationActionMiddleware
+    )
+  )
 )
 
 setupReduxJSONAPI(store)
@@ -53,5 +59,5 @@ window.addEventListener('beforeunload', function (e) {
     e.preventDefault();
     // Chrome requires returnValue to be set
     e.returnValue = '';
-  } 
+  }
 });
