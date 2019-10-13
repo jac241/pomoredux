@@ -28,7 +28,7 @@ module Pages
         fill_in('Pomodoro Length', with: pomodoro) if pomodoro
         fill_in('Short Break Length', with: short_break) if short_break
         fill_in('Long Break Length', with: long_break) if long_break
-        find('#timer_settings_can_notify').click if can_notify.present?
+        find('label[for=timer_settings_can_notify]').click if can_notify.present?
       end
     end
 
@@ -51,7 +51,9 @@ module Pages
     end
 
     def has_browser_notifications_enabled?
-      has_css?('#timer_settings_can_notify.checked')
+      within('#edit_timer_settings') do
+        has_css?('.checked')
+      end
     end
   end
 end

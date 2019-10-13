@@ -22,7 +22,7 @@ module Pages
 
     def keep_user_signed_in
       within '#new_user_session' do
-        find(:css, '#user_remember_me').set(true)
+        find('label[for=user_remember_me]').set(true)
       end
     end
 

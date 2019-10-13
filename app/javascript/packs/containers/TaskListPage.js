@@ -13,13 +13,19 @@ class TaskListPage extends React.Component {
   }
 
   render() {
-    const {tasks, pomodorosByTaskId, requestingTasks} = this.props
+    const {
+      tasks,
+      pomodorosByTaskId,
+      shouldShowSpinner,
+      isRefreshingTasks
+    } = this.props
 
     return (
-      <SpinWhileLoading loading={requestingTasks}>
+      <SpinWhileLoading loading={shouldShowSpinner}>
         <TaskList
           tasks={tasks}
           pomodorosByTaskId={pomodorosByTaskId}
+          isRefreshingTasks={isRefreshingTasks}
         />
       </SpinWhileLoading>
     )
@@ -28,15 +34,17 @@ class TaskListPage extends React.Component {
 
 const mapStateToProps = (state) => {
   const { requestingTasks } = state.tasks
+  const activeTasks = selectActiveTasks(state)
 
   return {
     pomodorosByTaskId: state.pomodoros.byTaskId,
-    tasks: activeTasks(state),
-    requestingTasks
+    tasks: activeTasks,
+    shouldShowSpinner: requestingTasks && activeTasks.length == 0,
+    isRefreshingTasks: requestingTasks && activeTasks.length > 0
   }
 }
 
-const activeTasks = (state) => state.tasks.tasks.filter(t => t.completed_at === null)
+const selectActiveTasks = (state) => state.tasks.tasks.filter(t => t.completed_at === null)
 
 export default connect(
   mapStateToProps,

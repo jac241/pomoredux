@@ -1,16 +1,33 @@
 import React from 'react'
-import {Card} from 'semantic-ui-react'
+import {Card, Placeholder} from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
 
-const Task = ({task: { id, title, estimated_num_pomodoros}, pomodoros}) => {
+const Task = ({task: { id, title, estimated_num_pomodoros}, pomodoros, isRefreshingTasks}) => {
   return (
     <Card id={`task_${id}`} as={Link} to={`/tasks/${id}`}>
       <Card.Content>
-        <Card.Header content={title} />
+        { isRefreshingTasks ? (
+          <Placeholder>
+            <Placeholder.Header>
+              <Placeholder.Line />
+              <Placeholder.Line />
+            </Placeholder.Header>
+          </Placeholder>
+        ) : (
+          <Card.Header content={title} />
+        )}
       </Card.Content>
       <Card.Content extra>
-        <span className='right floated'> {`Completed: ${pomodoros ? pomodoros.length : 0}`} </span>
-        {`Estimated: ${estimated_num_pomodoros}`}
+        { isRefreshingTasks ? (
+          <Placeholder>
+            <Placeholder.Line length='short'/>
+          </Placeholder>
+        ) : (
+          <React.Fragment>
+            <span className='right floated'> {`Completed: ${pomodoros ? pomodoros.length : 0}`}</span>
+            {`Estimated: ${estimated_num_pomodoros}`}
+          </React.Fragment>
+        )}
       </Card.Content>
     </Card>
   )
@@ -20,7 +37,7 @@ Task.defaultProps = {
   creating: false
 }
 
-const TaskList = ({tasks, pomodorosByTaskId}) => (
+const TaskList = ({tasks, pomodorosByTaskId, isRefreshingTasks}) => (
   <Card.Group id='task_list' itemsPerRow={1}>
     { tasks.map((task, index) =>(
       <Task
@@ -29,6 +46,7 @@ const TaskList = ({tasks, pomodorosByTaskId}) => (
         key={index}
         index={index}
         sortIndex={index}
+        isRefreshingTasks={isRefreshingTasks}
       />
     ))}
   </Card.Group>
