@@ -50,7 +50,8 @@ class ExcuseModal extends React.Component {
 
 const ExcuseIcon = ({excusable, onClick}) => {
   const {excused_today} = excusable.attributes
-  const iconName = excused_today ? 'file text outline' : 'file outline'
+  const iconName = excused_today ? 'file' : 'file outline'
+  const title = excused_today ? 'Edit excuse' : 'Add an excuse...'
 
   return (
     <Icon
@@ -58,7 +59,7 @@ const ExcuseIcon = ({excusable, onClick}) => {
       name={iconName}
       id={`${domId(excusable)}_excuse`}
       style={{ marginLeft: '.5em'}}
-      title='Add an excuse...'
+      title={title}
       color='grey'
       link
       data-excused={excused_today}
