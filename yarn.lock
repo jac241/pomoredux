@@ -7073,8 +7073,8 @@ redux-form@^7.2.0:
     prop-types "^15.5.9"
 
 redux-json-api@^2.0.0-beta.5:
-  version "2.0.0-beta.5"
-  resolved "https://registry.yarnpkg.com/redux-json-api/-/redux-json-api-2.0.0-beta.5.tgz#eaf3a50cf7bd658ba5620fac64627b38b01f3c3b"
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/redux-json-api/-/redux-json-api-2.0.1.tgz#bf579d81af3c6285a7935430cb862ef9934d8c8d"
   dependencies:
     axios "^0.13.1"
     deep-equal "^1.0.1"
