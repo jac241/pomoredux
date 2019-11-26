@@ -9,7 +9,8 @@ export const showErrorSavingPomodoroToast = () => {
       title: 'Error Saving Pomodoro',
       description: <p>
           There was an error recording that you finished this pomodoro.
-          Likely due to being disconnected from the interent.
+          Check that you are connected to the internet. If you are and this
+          error still occurred, it may be due to a server error.
       </p>,
       time: 0,
       size: 'large',
