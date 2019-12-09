@@ -26,6 +26,7 @@ class ExcuseModal extends React.Component {
         trigger={
           <ExcuseIcon
             excusable={excusable}
+            excuse={excuse}
             onClick={() => openExcuseModal(excusable)}
           />
         }
@@ -48,10 +49,9 @@ class ExcuseModal extends React.Component {
   }
 }
 
-const ExcuseIcon = ({excusable, onClick}) => {
-  const {excused_today} = excusable.attributes
-  const iconName = excused_today ? 'file alternate outline' : 'file outline'
-  const title = excused_today ? 'Edit excuse' : 'Add an excuse...'
+const ExcuseIcon = ({excusable, excuse, onClick}) => {
+  const iconName = excuse ? 'file alternate outline' : 'file outline'
+  const title = excuse ? 'Edit excuse' : 'Add an excuse...'
 
   return (
     <Icon
@@ -62,7 +62,7 @@ const ExcuseIcon = ({excusable, onClick}) => {
       title={title}
       color='grey'
       link
-      data-excused={excused_today}
+      data-excused={!!excuse}
     />
   )
 }

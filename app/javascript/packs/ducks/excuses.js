@@ -90,5 +90,5 @@ export const updateExcuse = (excuse, excuseAttributes) => (dispatch) => {
 
 export const destroyExcuse = (excuse) => (dispatch) => (
   dispatch(deleteResource(excuse))
-    .then(dispatch(fetchDailyGoals()))
+    .then(() => dispatch(closeExcuseModal()))
 )
