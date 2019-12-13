@@ -24,8 +24,8 @@ const Task = ({task: { id, title, estimated_num_pomodoros}, pomodoros, isRefresh
           </Placeholder>
         ) : (
           <React.Fragment>
-            <span className='right floated'> {`Completed: ${pomodoros ? pomodoros.length : 0}`}</span>
-            {`Estimated: ${estimated_num_pomodoros}`}
+            {`Completed: ${pomodoros ? pomodoros.length : 0}`}
+            <span className='right floated'> {`Estimated: ${estimated_num_pomodoros}`}</span>
           </React.Fragment>
         )}
       </Card.Content>
